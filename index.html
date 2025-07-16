@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Projeto Terapêutico Singular</title>
+  <link rel="stylesheet" href="assets/styles/styles.css" />
+  <link rel="shortcut icon" href="assets/img/logo.png" type="image/x-icon">
+</head>
+<body>
+
+  <header>
+    <img src="assets/img/logob.png" alt="Logo do Projeto" />
+    <h1>Projeto Terapêutico Singular</h1>
+  </header>
+
+  <hr />
+  <nav>
+    <a href="index.html">Triagem</a>
+    <a href="comorbidades/comorbidades.html">Comorbidades e riscos</a>
+    <a href="avaliação.html">Avaliação</a>
+    <a href="internação.html">Internação</a>
+  </nav>
+
+  <section>
+    <h2>Triagem do nível de cuidado do paciente</h2>
+    <form id="triagemForm">
+
+       <!-- NOVOS CAMPOS ADICIONADOS AQUI -->
+    <div class="form-row">
+      <label class="pergunta">Nome completo:</label>
+      <input type="text" name="nome" required placeholder="Digite o nome completo">
+    </div>
+
+    <div class="form-row">
+      <label class="pergunta">Idade:</label>
+      <input type="number" name="idade" required min="0" max="120" placeholder="Idade do paciente">
+    </div>
+
+    <div class="form-row">
+      <label class="pergunta">Sexo:</label>
+      <select name="sexo" required>
+        <option value="">Selecione...</option>
+        <option value="masculino">Masculino</option>
+        <option value="feminino">Feminino</option>
+      </select>
+    </div>
+    <!-- FIM DOS NOVOS CAMPOS -->
+
+    <!-- Campos existentes abaixo (mantidos da versão original) -->
+
+      <div class="form-row">
+        <label class="pergunta"> Paciente é dependente? (ex: Caminha, Come, toma banho sozinho?).</label>
+        <div class="radio-group">
+          <label><input type="radio" name="dependente" value="sim" required /> Sim</label>
+          <label><input type="radio" name="dependente" value="nao" /> Não</label>
+        </div>
+      </div>
+
+      <div class="form-row">
+        <label class="pergunta">Suporte assistencial adequado? (ex: Familiares/cuidadores que faz mercado, farmácia, mercado, banco e etc).</label>
+        <div class="radio-group">
+          <label><input type="radio" name="suporte" value="sim" required /> Sim</label>
+          <label><input type="radio" name="suporte" value="nao" /> Não</label>
+        </div>
+      </div>
+
+      <div class="form-row">
+        <label class="pergunta">Paciente é acamado? (Ex: Não sai da cama)</label>
+        <div class="radio-group">
+          <label><input type="radio" name="acamado" value="sim" required /> Sim</label>
+          <label><input type="radio" name="acamado" value="nao" /> Não</label>
+        </div>
+      </div>
+
+      <div class="form-row">
+        <label class="pergunta">Faz uso de oxigênio domiciliar?</label>
+        <div class="radio-group">
+          <label><input type="radio" name="oxigenio" value="sim" required /> Sim</label>
+          <label><input type="radio" name="oxigenio" value="nao" /> Não</label>
+        </div>
+      </div>
+
+      <div class="form-row">
+        <label class="pergunta">Possui problemas psicológicos? (Ex: Problemas Familiares/Escolares, Diagnósticos psiquiátricos).</label>
+        <div class="radio-group">
+          <label><input type="radio" name="problema_psicologico" value="sim" required /> Sim</label>
+          <label><input type="radio" name="problema_psicologico" value="nao" /> Não</label>
+        </div>
+      </div>
+
+      <label for="observacoes">Observações:</label>
+      <textarea id="observacoes" name="observacoes" rows="4"></textarea>
+
+      <button type="submit">Enviar</button>
+    </form>
+
+    <div id="resultado" style="display:none;"></div>
+
+    <div class="button-group">
+        <button id="btnPdf">
+          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" viewBox="0 0 16 16">
+            <path d="M.5 9.9a.5.5 0 0 1 .5.5v2.5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-2.5a.5.5 0 0 1 1 0v2.5a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2v-2.5a.5.5 0 0 1 .5-.5z"/>
+            <path d="M7.646 11.854a.5.5 0 0 0 .708 0l3-3a.5.5 0 0 0-.708-.708L8.5 10.293V1.5a.5.5 0 0 0-1 0v8.793L5.354 8.146a.5.5 0 1 0-.708.708l3 3z"/>
+          </svg>
+          Baixar Respostas em PDF
+        </button>
+      </div>
+  </section>
+
+  
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script>
+  // Para a versão mais recente do jsPDF
+  const { jsPDF } = window.jspdf;
+</script>
+  <script src="pdfindex.js"></script>
+  <script src="script/script.js"></script>
+
+</body>
+</html>
