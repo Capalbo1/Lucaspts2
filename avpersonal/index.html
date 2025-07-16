@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Formulário Completo de Anamnese</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="stylepersonal.css">
+  <link rel="shortcut icon" href="assets/img/logo.png" type="image/x-icon">
+  <!-- Adicione estas bibliotecas -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1>Projeto Terapêutico Singular</h1>
+    </header>
+    
+    <nav>
+      <a href="../index.html">Triagem</a>
+      <a href="/comorbidades/comorbidades.html">Comorbidades e riscos</a>
+      <a href="../avaliação.html" >Avaliação</a>
+      <a href="avaliação.html" class="active"> Avaliação Singular</a>
+      <a href="../internação.html">Internação</a>
+    </nav>
+    
+    
+    <nav class="area-profissionais">
+  <ul class="menu-profissionais">
+    <li id="li-enfermagem" style="display: none;"><a href="#enfermagem">Enfermeiro(a)</a></li>
+    <li id="li-medico" style="display: none;"><a href="#medico-especialista">Médico(a) Especialista</a></li>
+    <li id="li-fisio" style="display: none;"><a href="#fisioterapia">Fisioterapeuta</a></li>
+    <li id="li-nutricao" style="display: none;"><a href="#nutricao">Nutricionista</a></li>
+    <li id="li-psicologo" style="display: none;"><a href="#psicologia">Psicólogo(a)</a></li>
+    <li id="li-assistente" style="display: none;"><a href="#assistente-social">Assistente Social</a></li>
+    <li id="li-farmaceutico" style="display: none;"><a href="#farmacia">Farmacêutico(a)</a></li>
+    <li id="li-to" style="display: none;"><a href="#terapia-ocupacional">Terapeuta Ocupacional</a></li>
+    <li id="li-fono" style="display: none;"><a href="#fonoaudiologia">Fonoaudiólogo(a)</a></li>
+  </ul>
+</nav>
+
+
+<main>
+    <article id="bloco-deambulacao" class="bloco-deambulacao" style="display: none;">
+    <h2>Não deambula</h2>
+
+    <div class="campo-observacao">
+        <label for="obs-deambulacao">Observação:</label>
+        <input type="text" id="obs-deambulacao" name="obs-deambulacao" placeholder="Descreva a observação aqui...">
+    </div>
+    </article>
+</main>
+
+   <div class="form-container">
+  
+    </div>
+
+
+<script src="navcontrol.js"></script>
+
+
+</body>
+
+
+</html>

@@ -1,0 +1,29 @@
+.bloco-deambulacao {
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  padding: 16px;
+  margin: 20px 0;
+  background-color: #f9f9f9;
+}
+
+.bloco-deambulacao h2 {
+  margin-top: 0;
+  font-size: 1.4rem;
+}
+
+.campo-observacao {
+  margin-top: 12px;
+  display: flex;
+  flex-direction: column;
+}
+
+.campo-observacao label {
+  font-weight: bold;
+  margin-bottom: 6px;
+}
+
+.campo-observacao input {
+  padding: 8px;
+  border: 1px solid #999;
+  border-radius: 4px;
+}

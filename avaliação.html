@@ -20,10 +20,12 @@
       <a href="index.html">Triagem</a>
       <a href="comorbidades/comorbidades.html">Comorbidades e riscos</a>
       <a href="avaliação.html" class="active">Avaliação</a>
+      <a href="avpersonal/index.html" >Avaliação personalizada</a>
       <a href="internação.html">Internação</a>
     </nav>
     
     <h1 class="form-title">Anamnese</h1>
+    
     
     <div class="form-container">
     <form id="formulario">
@@ -93,10 +95,12 @@
             <div class="question-text">3.  Deambula sozinho ?</div>
             <div class="answer-options">
               <label class="option-label">
-                <input type="radio" name="deambulacao" value="sim" onclick="toggleSubquestion('deambulacao-details', true)"> Sim
+                <input type="radio" name="deambulacao" value="sim"
+  onclick="toggleSubquestion('deambulacao-details', true); salvarRespostaDeambulacao('sim')"> Sim
               </label>
               <label class="option-label">
-                <input type="radio" name="deambulacao" value="nao" onclick="toggleSubquestion('deambulacao-details', false)"> Não
+                <input type="radio" name="deambulacao" value="nao"
+  onclick="toggleSubquestion('deambulacao-details', false); salvarRespostaDeambulacao('nao')"> Não
               </label>
             </div>
           </div>
@@ -105,7 +109,7 @@
             <label>Tipo de deambulação:</label>
             <div class="option-group">
               <label class="option-label">
-                <input type="radio" name="tipo_deambulacao" value="sem_auxilio"> Sem auxílio
+                <input type="radio" name="tipo_deambulacao" value="sem_auxilio" > Sem auxílio
               </label>
               <label class="option-label">
                 <input type="radio" name="tipo_deambulacao" value="com_auxilio"> Com auxílio
@@ -2242,7 +2246,13 @@ function toggleOutrosEspecialidade(checkbox) {
   }
 }
 </script>
+
+
+
+<script src="script/formulario.js"></script>
+
 <script src="script/script2.js"></script>
 <script src="script/generatePDF.js"></script> 
 <script src="script/metaspdf.js"></script> 
+<script src="script/gerametaespecifica.js"></script> 
 </html>
