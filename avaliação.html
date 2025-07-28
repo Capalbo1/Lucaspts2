@@ -32,28 +32,28 @@
         <!-- Pergunta 1 Modificada -->
     <!-- Exemplo para a Pergunta 1 (faça o mesmo para as outras) -->
     <div class="question-group">
-      <div class="main-question">
-      <div class="question-text">1. Paciente é dependente?</div>
+  <div class="main-question">
+    <div class="question-text">1. Paciente é dependente?</div>
     <div class="answer-options">
       <label class="option-label">
-        <input type="radio" name="dependente" value="sim" onclick="toggleSubquestion('dependencia-details', true)"> Sim
+        <input type="radio" name="dependente" value="sim"
+          onclick="toggleSubquestion('dependencia-details', true); salvarRespostaDependencia('sim')"> Sim
       </label>
       <label class="option-label">
-        <input type="radio" name="dependente" value="nao" onclick="toggleSubquestion('dependencia-details', false)"> Não
+        <input type="radio" name="dependente" value="nao"
+          onclick="toggleSubquestion('dependencia-details', false); salvarRespostaDependencia('nao')"> Não
       </label>
     </div>
   </div>
-  <!-- ... -->
-</div>
   
   <div id="dependencia-details" class="subquestion" style="display: none;">
     <label>Grau de dependência:</label>
     <div class="option-group">
       <label class="option-label">
-        <input type="radio" name="grau_dependencia" value="parcial"> Dependente Parcial
+        <input type="radio" name="grau_dependencia" value="parcial" onchange="salvarGrauDependencia('parcial')"> Dependente Parcial
       </label>
       <label class="option-label">
-        <input type="radio" name="grau_dependencia" value="total"> Dependente Total
+        <input type="radio" name="grau_dependencia" value="total" onchange="salvarGrauDependencia('total')"> Dependente Total
       </label>
     </div>
   </div>
@@ -422,10 +422,10 @@
     <div class="question-text">11. Suporte nutricional adequado?</div>
     <div class="answer-options">
       <label class="option-label">
-        <input type="radio" name="suporte_nutricional" value="sim" onclick="toggleSuporteNutricionalDetails(true)"> Sim
+        <input type="radio" name="suporte_nutricional" value="sim"> Sim
       </label>
       <label class="option-label">
-        <input type="radio" name="suporte_nutricional" value="nao" onclick="toggleSuporteNutricionalDetails(false)"> Não
+        <input type="radio" name="suporte_nutricional" value="nao"> Não
       </label>
     </div>
   </div>
@@ -732,21 +732,21 @@
       </div>
     </div>
   </div>
-</div>
 
-<!-- Pergunta 19 se não meta  -->
-<div class="question-group">
-  <div class="main-question">
-    <div class="question-text">19. Recebe benefício do governo?</div>
-    <div class="answer-options">
-      <label class="option-label">
-        <input type="radio" name="beneficio" value="sim" onclick="toggleBeneficioDetails(true)"> Sim
-      </label>
-      <label class="option-label">
-        <input type="radio" name="beneficio" value="nao" onclick="toggleBeneficioDetails(false)"> Não
-      </label>
+
+  <!-- Pergunta 19 se não meta  -->
+  <div class="question-group">
+    <div class="main-question">
+      <div class="question-text">19. Recebe benefício do governo?</div>
+      <div class="answer-options">
+        <label class="option-label">
+          <input type="radio" name="beneficio" value="sim" onclick="toggleBeneficioDetails(true)"> Sim
+        </label>
+        <label class="option-label">
+          <input type="radio" name="beneficio" value="nao" onclick="toggleBeneficioDetails(false)"> Não
+        </label>
+      </div>
     </div>
-  </div>
   
   <!-- Seção para resposta SIM -->
   <div id="beneficio-sim-details" class="subquestion" style="display: none;">
@@ -836,7 +836,7 @@
 
 <hr>     
 
-
+</div>
         
 
 <div class="submit-container">
