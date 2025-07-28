@@ -65,14 +65,65 @@
       <input type="text" id="obs-nutricao" name="obs-nutricao" placeholder="Descreva a observação aqui...">
     </div>
   </article>
+  <article id="bloco-psicologico" class="bloco-psicologico" style="display: none;">
+  <h2>Necessita de Suporte psicológico</h2>
+  <div class="campo-observacao">
+    <label for="obs-psicologico">Observação:</label>
+    <input type="text" id="obs-psicologico" name="obs-psicologico" placeholder="Descreva a observação aqui...">
+  </div>
+</article>
+  <article id="bloco-assistente" class="bloco-assistente" style="display: none;">
+  <h2>Orientação de benefícios assistenciais</h2>
+  <div class="campo-observacao">
+    <label for="obs-assistente">Observação:</label>
+    <input type="text" id="obs-assistente" name="obs-assistente" placeholder="Descreva a observação aqui...">
+  </div>
+</article>
 </main>
 
    <div class="form-container">
-  
+      <!-- Abas de Especialidades -->
+      <div class="especialidades-tabs">
+        <button class="tab-btn active" data-tab="todas">Todas</button>
+        <button class="tab-btn" data-tab="enfermagem">Enfermagem</button>
+        <button class="tab-btn" data-tab="fisioterapia">Fisioterapia</button>
+        <button class="tab-btn" data-tab="nutricao">Nutrição</button>
+        <button class="tab-btn" data-tab="terapia-ocupacional">Terapia Ocupacional</button>
+        <!-- Adicione outras especialidades conforme necessário -->
+      </div>
+
+      <!-- Conteúdo das Abas -->
+      <div id="todas" class="especialidade-section active">
+        <!-- Todas as perguntas serão colocadas aqui -->
+        <h3>Todas as Perguntas</h3>
+        <!-- Suas perguntas existentes ficarão aqui -->
+      </div>
+
+      <div id="enfermagem" class="especialidade-section">
+        <h3>Enfermagem</h3>
+        <!-- Perguntas específicas de Enfermagem -->
+      </div>
+
+      <div id="fisioterapia" class="especialidade-section">
+        <h3>Fisioterapia</h3>
+        <!-- Perguntas específicas de Fisioterapia -->
+      </div>
+
+      <div id="nutricao" class="especialidade-section">
+        <h3>Nutrição</h3>
+        <!-- Perguntas específicas de Nutrição -->
+      </div>
+
+      <div id="terapia-ocupacional" class="especialidade-section">
+        <h3>Terapia Ocupacional</h3>
+        <!-- Perguntas específicas de Terapia Ocupacional -->
+      </div>
     </div>
+  </div>
 
 
 <script src="navcontrol.js"></script>
+<script src="abas.js"></script>
 
 
 </body>

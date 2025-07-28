@@ -60,6 +60,78 @@ function salvarRespostaNutricional(resposta) {
   }
 }
 
+// Salvar resposta principal
+function salvarRespostaPsicologico(resposta) {
+  try {
+    localStorage.setItem('resposta-psicologico', resposta);
+  } catch (e) {
+    console.error("Erro ao salvar resposta psicológico:", e);
+  }
+}
+
+// Salvar frequência
+function salvarFrequenciaPsicologico(frequencia) {
+  try {
+    localStorage.setItem('frequencia-psicologico', frequencia);
+  } catch (e) {
+    console.error("Erro ao salvar frequência psicológico:", e);
+  }
+}
+
+// Salvar motivo
+function salvarMotivoPsicologico(motivo) {
+  try {
+    localStorage.setItem('motivo-psicologico', motivo);
+  } catch (e) {
+    console.error("Erro ao salvar motivo psicológico:", e);
+  }
+}
+
+// Salvar outros motivos
+function salvarOutrosMotivosPsicologico(outros) {
+  try {
+    localStorage.setItem('outros-motivos-psicologico', outros);
+  } catch (e) {
+    console.error("Erro ao salvar outros motivos psicológico:", e);
+  }
+}
+
+function toggleAcompanhamentoPsicologico(temAcompanhamento) {
+  document.getElementById('psicologico-sim-details').style.display = temAcompanhamento ? 'block' : 'none';
+  document.getElementById('psicologico-nao-details').style.display = temAcompanhamento ? 'none' : 'block';
+  
+  // Limpa os campos quando escondidos
+  if (!temAcompanhamento) {
+    document.getElementById('psicologico-sim-details').querySelectorAll('input').forEach(input => {
+      input.checked = false;
+    });
+    localStorage.removeItem('frequencia-psicologico');
+  } else {
+    document.getElementById('psicologico-nao-details').querySelectorAll('input').forEach(input => {
+      if (input.type !== 'radio') {
+        input.value = '';
+      } else {
+        input.checked = false;
+      }
+    });
+    document.getElementById('outros-motivos-psicologico').style.display = 'none';
+    localStorage.removeItem('motivo-psicologico');
+    localStorage.removeItem('outros-motivos-psicologico');
+  }
+  
+  // Atualiza o resumo
+  atualizarResumoPsicologico();
+}
+
+function toggleOutrosMotivosPsicologico(mostrar) {
+  const outrosMotivos = document.getElementById('outros-motivos-psicologico');
+  outrosMotivos.style.display = mostrar ? 'block' : 'none';
+  if (!mostrar) {
+    document.querySelector('input[name="outros_motivos_psicologico"]').value = '';
+    localStorage.removeItem('outros-motivos-psicologico');
+  }
+}
+
 
 
 

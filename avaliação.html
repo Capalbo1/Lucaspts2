@@ -261,16 +261,16 @@
     <label>Local:</label>
     <div class="option-group">
       <label class="option-label">
-        <input type="checkbox" name="local_lesao" value="sacral" onclick="selecionarLocalLesao()"> Sacral
+        <input type="checkbox" name="local_lesao" value="sacral" > Sacral
       </label>
       <label class="option-label">
-        <input type="checkbox" name="local_lesao" value="calcaneo" onclick="selecionarLocalLesao()"> Calcâneo
+        <input type="checkbox" name="local_lesao" value="calcaneo" > Calcâneo
       </label>
       <label class="option-label">
-        <input type="checkbox" name="local_lesao" value="trocater" onclick="selecionarLocalLesao()"> Trocânter
+        <input type="checkbox" name="local_lesao" value="trocater" > Trocânter
       </label>
       <label class="option-label">
-        <input type="checkbox" name="local_lesao" value="outros" onclick="selecionarLocalLesao()"> Outros
+        <input type="checkbox" name="local_lesao" value="outros"> Outros
       </label>
     </div>
     
@@ -551,10 +551,12 @@
     <div class="question-text">15. Acompanhamento psicológico?</div>
     <div class="answer-options">
       <label class="option-label">
-        <input type="radio" name="acompanhamento_psicologico" value="sim" onclick="toggleAcompanhamentoPsicologico(true)"> Sim
+        <input type="radio" name="acompanhamento_psicologico" value="sim" 
+               onclick="toggleAcompanhamentoPsicologico(true); salvarRespostaPsicologico('sim')"> Sim
       </label>
       <label class="option-label">
-        <input type="radio" name="acompanhamento_psicologico" value="nao" onclick="toggleAcompanhamentoPsicologico(false)"> Não
+        <input type="radio" name="acompanhamento_psicologico" value="nao" 
+               onclick="toggleAcompanhamentoPsicologico(false); salvarRespostaPsicologico('nao')"> Não
       </label>
     </div>
   </div>
@@ -564,16 +566,16 @@
     <label>Quantas vezes ao mês:</label>
     <div class="option-group">
       <label class="option-label">
-        <input type="radio" name="frequencia_psicologico" value="menos_1"> Menos de 1
+        <input type="radio" name="frequencia_psicologico" value="menos_1" onchange="salvarFrequenciaPsicologico('menos_1')"> Menos de 1
       </label>
       <label class="option-label">
-        <input type="radio" name="frequencia_psicologico" value="1_a_2"> 1 à 2
+        <input type="radio" name="frequencia_psicologico" value="1_a_2" onchange="salvarFrequenciaPsicologico('1_a_2')"> 1 à 2
       </label>
       <label class="option-label">
-        <input type="radio" name="frequencia_psicologico" value="2_a_4"> 2 à 4
+        <input type="radio" name="frequencia_psicologico" value="2_a_4" onchange="salvarFrequenciaPsicologico('2_a_4')"> 2 à 4
       </label>
       <label class="option-label">
-        <input type="radio" name="frequencia_psicologico" value="mais_4"> Mais de 4
+        <input type="radio" name="frequencia_psicologico" value="mais_4" onchange="salvarFrequenciaPsicologico('mais_4')"> Mais de 4
       </label>
     </div>
   </div>
@@ -583,23 +585,23 @@
     <label>Motivo:</label>
     <div class="option-group">
       <label class="option-label">
-        <input type="radio" name="motivo_sem_psicologico" value="rede_sobrecarregada"> Rede sobrecarregada
+        <input type="radio" name="motivo_sem_psicologico" value="rede_sobrecarregada" onchange="salvarMotivoPsicologico('rede_sobrecarregada')"> Rede sobrecarregada
       </label>
       <label class="option-label">
-        <input type="radio" name="motivo_sem_psicologico" value="nao_procurou"> Não procurou atendimento
+        <input type="radio" name="motivo_sem_psicologico" value="nao_procurou" onchange="salvarMotivoPsicologico('nao_procurou')"> Não procurou atendimento
       </label>
       <label class="option-label">
-        <input type="radio" name="motivo_sem_psicologico" value="outros" onclick="toggleOutrosMotivosPsicologico(true)"> Não necessita de Acompanhamento
+        <input type="radio" name="motivo_sem_psicologico" value="nao_necessita" onchange="salvarMotivoPsicologico('nao_necessita')"> Não necessita de Acompanhamento
       </label>
       <label class="option-label">
-        <input type="radio" name="motivo_sem_psicologico" value="outros" onclick="toggleOutrosMotivosPsicologico(true)"> Outros
+        <input type="radio" name="motivo_sem_psicologico" value="outros" onchange="salvarMotivoPsicologico('outros'); toggleOutrosMotivosPsicologico(true)"> Outros
       </label>
     </div>
     
     <!-- Campo para especificar outros motivos -->
     <div id="outros-motivos-psicologico" class="subdetalhe" style="display: none; margin-top: 10px;">
       <label>Especifique:</label>
-      <input type="text" name="outros_motivos_psicologico">
+      <input type="text" name="outros_motivos_psicologico" onchange="salvarOutrosMotivosPsicologico(this.value)">
     </div>
   </div>
 </div>
@@ -1453,6 +1455,27 @@ function atualizarResumoAcamado() {
 }
 
 
+
+
+function atualizarResumoDeambulacao() {
+  const container = document.getElementById('resumo-deambulacao');
+  const deambula = document.querySelector('input[name="deambulacao"]:checked');
+  
+  if (!deambula || deambula.value === 'sim') {
+    container.innerHTML = '';
+    return;
+  }
+  
+  const tipo = document.querySelector('input[name="tipo_deambulacao"]:checked');
+  let texto = '';
+  let meta = 'Realizar  reabilitações motoras e  ';
+  
+  if (tipo) {
+    texto += ` (${tipo.value === 'com_auxilio' ? 'Precisa de auxílio' : 'Não deambula'})`;
+  }
+  
+}
+
 function atualizarResumoInterconsulta() {
   const container = document.getElementById('resumo-interconsulta');
   const interconsulta = document.querySelector('input[name="interconsulta"]:checked');
@@ -1802,7 +1825,7 @@ document.addEventListener('DOMContentLoaded', function() {
       toggleOutrosDispositivos(this.checked);
     });
 });
-// Funções para controle da pergunta 15
+
 function toggleAcompanhamentoPsicologico(temAcompanhamento) {
   document.getElementById('psicologico-sim-details').style.display = temAcompanhamento ? 'block' : 'none';
   document.getElementById('psicologico-nao-details').style.display = temAcompanhamento ? 'none' : 'block';
@@ -1812,6 +1835,7 @@ function toggleAcompanhamentoPsicologico(temAcompanhamento) {
     document.getElementById('psicologico-sim-details').querySelectorAll('input').forEach(input => {
       input.checked = false;
     });
+    localStorage.removeItem('frequencia-psicologico');
   } else {
     document.getElementById('psicologico-nao-details').querySelectorAll('input').forEach(input => {
       if (input.type !== 'radio') {
@@ -1821,6 +1845,20 @@ function toggleAcompanhamentoPsicologico(temAcompanhamento) {
       }
     });
     document.getElementById('outros-motivos-psicologico').style.display = 'none';
+    localStorage.removeItem('motivo-psicologico');
+    localStorage.removeItem('outros-motivos-psicologico');
+  }
+  
+  // Atualiza o resumo
+  atualizarResumoPsicologico();
+}
+
+function toggleOutrosMotivosPsicologico(mostrar) {
+  const outrosMotivos = document.getElementById('outros-motivos-psicologico');
+  outrosMotivos.style.display = mostrar ? 'block' : 'none';
+  if (!mostrar) {
+    document.querySelector('input[name="outros_motivos_psicologico"]').value = '';
+    localStorage.removeItem('outros-motivos-psicologico');
   }
 }
 

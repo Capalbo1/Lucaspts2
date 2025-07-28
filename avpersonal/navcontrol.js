@@ -105,3 +105,67 @@ window.addEventListener('DOMContentLoaded', () => {
     console.error("Erro ao ler localStorage:", e.message);
   }
 });
+
+
+// Adicione esta seção ao seu navcontrol.js
+window.addEventListener('DOMContentLoaded', () => {
+  try {
+    // ... código existente ...
+    
+    // Verificar psicólogo
+    const respostaPsicologico = localStorage.getItem('resposta-psicologico');
+    if (respostaPsicologico) {
+      const liPsicologo = document.getElementById('li-psicologo');
+      const blocoPsicologico = document.getElementById('bloco-psicologico');
+      
+      // Mostrar psicólogo se:
+      // - Resposta for "não" e motivo não for "não necessita"
+      // - Ou se resposta for "sim" (e talvez alguma condição adicional)
+      if (respostaPsicologico === 'nao') {
+        const motivo = localStorage.getItem('motivo-psicologico');
+        if (motivo !== 'nao_necessita') {
+          if (liPsicologo) liPsicologo.style.display = 'list-item';
+          if (blocoPsicologico) blocoPsicologico.style.display = 'block';
+        }
+      } else if (respostaPsicologico === 'sim') {
+        // Aqui você pode adicionar condições adicionais se necessário
+        if (liPsicologo) liPsicologo.style.display = 'list-item';
+        if (blocoPsicologico) blocoPsicologico.style.display = 'block';
+      }
+    }
+  } catch (e) {
+    console.error("Erro ao ler localStorage:", e.message);
+  }
+});
+
+
+// Adicione isso ao seu navcontrol.js
+window.addEventListener('DOMContentLoaded', () => {
+  try {
+    // ... código existente ...
+    
+    // Verificar assistente social
+    const respostaBeneficio = localStorage.getItem('resposta-beneficio');
+    if (respostaBeneficio === 'nao') {
+      const liAssistente = document.getElementById('li-assistente');
+      const blocoAssistente = document.getElementById('bloco-assistente');
+      
+      if (liAssistente) {
+        liAssistente.style.display = 'list-item';
+        console.log("Aba Assistente Social ativada!");
+      }
+      
+      if (blocoAssistente) {
+        blocoAssistente.style.display = 'block';
+        console.log("Bloco Assistente Social exibido!");
+      }
+      
+      // Ativar a aba de assistente social se a função existir
+      if (typeof ativarAba === 'function') {
+        ativarAba('assistente-social');
+      }
+    }
+  } catch (e) {
+    console.error("Erro ao validar benefícios:", e.message);
+  }
+});
