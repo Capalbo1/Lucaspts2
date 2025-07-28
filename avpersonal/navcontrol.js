@@ -75,3 +75,33 @@ window.addEventListener('DOMContentLoaded', () => {
     console.error("Erro ao ler localStorage:", e.message);
   }
 });
+
+
+window.addEventListener('DOMContentLoaded', () => {
+  try {
+    // Verifica a resposta nutricional
+    const respostaNutricional = localStorage.getItem('resposta-nutricional');
+    console.log("Resposta nutricional:", respostaNutricional);
+
+    if (respostaNutricional === 'nao') {
+      const liNutricao = document.getElementById('li-nutricao');
+      const blocoNutricao = document.getElementById('bloco-nutricao');
+
+      if (liNutricao) {
+        liNutricao.style.display = 'list-item';
+        console.log("Aba Nutricionista ativada!");
+      } else {
+        console.error("Elemento #li-nutricao não encontrado.");
+      }
+
+      if (blocoNutricao) {
+        blocoNutricao.style.display = 'block';
+        console.log("Article 'Suporte nutricional adequado' exibido com sucesso!");
+      } else {
+        console.error("Elemento #bloco-nutricao não encontrado.");
+      }
+    }
+  } catch (e) {
+    console.error("Erro ao ler localStorage:", e.message);
+  }
+});

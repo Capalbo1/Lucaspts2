@@ -48,3 +48,18 @@ function toggleSubquestion(id, isSim) {
     sub.style.display = isSim ? 'none' : 'block';
   }
 }
+
+
+// Salvar resposta nutricional
+function salvarRespostaNutricional(resposta) {
+  try {
+    localStorage.setItem('resposta-nutricional', resposta);
+    console.log("LocalStorage salva (nutricional):", resposta);
+  } catch (e) {
+    alert("Erro ao salvar no localStorage: " + e.message);
+  }
+}
+
+
+
+

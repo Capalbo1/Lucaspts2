@@ -422,16 +422,17 @@
     <div class="question-text">11. Suporte nutricional adequado?</div>
     <div class="answer-options">
       <label class="option-label">
-        <input type="radio" name="suporte_nutricional" value="sim"> Sim
+        <input type="radio" name="suporte_nutricional" value="sim"
+          onclick="salvarRespostaNutricional('sim')"> Sim
       </label>
       <label class="option-label">
-        <input type="radio" name="suporte_nutricional" value="nao"> Não
+        <input type="radio" name="suporte_nutricional" value="nao"
+          onclick="salvarRespostaNutricional('nao')"> Não
       </label>
     </div>
   </div>
-  
-  <!-- Seção para resposta NÃO -->
 </div>
+  
 
 <!-- Pergunta 12 se sim e sim OU TALVEZ  meta: Promover  ensino adequado pela Equipe de nutri -->
 <div class="question-group">
@@ -1451,28 +1452,6 @@ function atualizarResumoAcamado() {
   `;
 }
 
-
-
-
-function atualizarResumoDeambulacao() {
-  const container = document.getElementById('resumo-deambulacao');
-  const deambula = document.querySelector('input[name="deambulacao"]:checked');
-  
-  if (!deambula || deambula.value === 'sim') {
-    container.innerHTML = '';
-    return;
-  }
-  
-  const tipo = document.querySelector('input[name="tipo_deambulacao"]:checked');
-  let texto = '';
-  let meta = 'Realizar  reabilitações motoras e  ';
-  
-  if (tipo) {
-    texto += ` (${tipo.value === 'com_auxilio' ? 'Precisa de auxílio' : 'Não deambula'})`;
-  }
-  
-  container.innerHTML = criarItemResumo(meta);
-}
 
 function atualizarResumoInterconsulta() {
   const container = document.getElementById('resumo-interconsulta');
