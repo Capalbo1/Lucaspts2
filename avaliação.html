@@ -896,7 +896,7 @@ function atualizarResumoVinculoSaude() {
   }
 
   // Texto e meta quando for "Não"
-  const texto = 'Paciente não possui vínculo com a rede de saúde';
+  const texto = '';
   const meta = 'Orientar consulta anual com médico de família e comunidade pela UBS pertencente';
 
   container.innerHTML = `
@@ -917,7 +917,7 @@ function toggleVinculoSaudeDetails(mostrar) {
   atualizarResumoVinculoSaude();
 }
 
-  function atualizarResumoBeneficio() {
+ function atualizarResumoBeneficio() {
   const container = document.getElementById('resumo-beneficio');
   const resposta = document.querySelector('input[name="beneficio"]:checked');
   
@@ -927,18 +927,12 @@ function toggleVinculoSaudeDetails(mostrar) {
     return;
   }
 
-  // Texto e meta quando for "Não"
-  const texto = 'Paciente não recebe benefício do governo';
-  const meta = 'Avaliar se tem direitos/Orientar sobre benefícios disponíveis';
+  // Duas metas separadas
+  const meta1 = 'Meta singular para assistente social';
+  
 
   container.innerHTML = `
-    <div class="resumo-item">
-      <input type="checkbox" class="resumo-checkbox">
-      <div class="resumo-texto">
-        ${texto}
-        <div class="meta-tag">${meta}</div>
-      </div>
-    </div>
+    ${criarItemResumo(meta1)}
   `;
 }
 
@@ -960,7 +954,7 @@ function toggleBeneficioDetails(mostrar) {
   }
 
   // Texto e meta quando for "Não"
-  const texto = 'Paciente não possui lar/residência';
+  const texto = '';
   const meta = 'Acionar rede de apoio/autoridade pertinente';
 
   container.innerHTML = `
@@ -991,8 +985,8 @@ function atualizarResumoRedeApoio() {
   }
 
   // Texto e meta quando for "Não"
-  const texto = 'Paciente não possui rede de apoio';
-  const meta = 'Acionar autoridade pertinente/ajuda';
+  const texto = '';
+  const meta = 'Se necessário rede de apoio, acionar autoridade pertinente/ajuda ';
 
   container.innerHTML = `
     <div class="resumo-item">
@@ -1009,32 +1003,18 @@ function atualizarResumoRedeApoio() {
   const container = document.getElementById('resumo-sad');
   const respostaSAD = document.querySelector('input[name="sad"]:checked');
   
-  // Limpa se não selecionado ou for "Não"
   if (!respostaSAD || respostaSAD.value === 'nao') {
     container.innerHTML = '';
     return;
   }
 
-  // Texto base
-  const texto = 'Paciente necessita do SAD';
-  
-  // Metas solicitadas (duas metas separadas)
-  const metas = [
-    'Preparar documentação completa',
-    'Entrar em contato com o SAD para agendamento'
-  ];
+  // Metas separadas
+  const meta1 = 'Preparar documentação completa para acompanhamento com o SAD';
+  const meta2 = 'Entrar em contato com o SAD para agendamento';
 
-  // HTML final
   container.innerHTML = `
-    <div class="resumo-item">
-      <input type="checkbox" class="resumo-checkbox">
-      <div class="resumo-texto">
-        ${texto}
-        <div class="metas-container">
-          ${metas.map(meta => `<div class="meta-tag">${meta}</div>`).join('')}
-        </div>
-      </div>
-    </div>
+    ${criarItemResumo(meta1)}
+    ${criarItemResumo(meta2)}
   `;
 }
 function atualizarResumoAspiracao() {
@@ -1054,7 +1034,7 @@ function atualizarResumoAspiracao() {
     texto += ` (Possibilidade pós alta: ${possibilidade.value === 'sim' ? 'Sim' : possibilidade.value === 'nao' ? 'Não' : 'Talvez'})`;
     
     if (possibilidade.value === 'sim' || possibilidade.value === 'talvez') {
-      meta = 'Promover ensino qualificado pela equipe de fisioterapia';
+      meta = 'Oferecer, por meio da equipe de Fisioterapia, ensino qualificado aos familiares quanto à prática da aspiração.';
     }
   }
   
@@ -1071,47 +1051,34 @@ function atualizarResumoRespiratorio() {
   }
   
   const dispositivos = document.querySelectorAll('input[name="tipo_cuidado"]:checked');
-  let texto = 'Cuidados respiratórios: ';
   let metas = [];
   
-  const dispositivosSelecionados = Array.from(dispositivos).map(el => el.value);
-  
-  if (dispositivosSelecionados.length > 0) {
-    texto += dispositivosSelecionados.map(d => {
-      switch(d) {
-        case 'oxigenio': return 'Oxigênio';
-        case 'cpap': return 'CPAP';
-        case 'tqt': return 'TQT';
-        case 'outros': return document.querySelector('input[name="outros_cuidados"]').value || 'Outros';
-        default: return d;
-      }
-    }).join(', ');
-    
-    // Verifica cada dispositivo e adiciona metas específicas
-    if (dispositivosSelecionados.includes('oxigenio') || dispositivosSelecionados.includes('cpap')) {
-      metas.push('Realizar documentação');
+  // Verifica cada dispositivo e adiciona metas específicas
+  dispositivos.forEach(dispositivo => {
+    switch(dispositivo.value) {
+      case 'oxigenio':
+        metas.push('Realizar documentação para oxigênio domiciliar');
+        break;
+      case 'cpap':
+        metas.push('Realizar documentação para cpap domiciliar');
+        break;
+      case 'tqt':
+        metas.push('Meta singular para Fisio');
+        break;
+      case 'outros':
+        const outros = document.querySelector('input[name="outros_cuidados"]').value;
+        if (outros) {
+          metas.push('Meta singular fisio');
+        }
+        break;
     }
-    
-    if (dispositivosSelecionados.includes('tqt')) {
-      metas.push('Avaliar possibilidade de troca, oclusão ou decanular');
-    }
-    
-    // Meta para outros dispositivos se especificado
-    if (dispositivosSelecionados.includes('outros')) {
-      const outros = document.querySelector('input[name="outros_cuidados"]').value;
-      if (outros) {
-        metas.push(`Avaliar dispositivo: ${outros}`);
-      }
-    }
-  } else {
-    texto += 'não especificados';
-  }
-  
-  // Remove metas duplicadas e cria o HTML
+  });
+
+  // Remove metas duplicadas
   const metasUnicas = [...new Set(metas)];
-  const metasHTML = metasUnicas.map(meta => `<span class="meta-tag">${meta}</span>`).join('');
   
-  container.innerHTML = criarItemResumo(metasHTML);
+  // Gera HTML separado para cada meta
+  container.innerHTML = metasUnicas.map(meta => criarItemResumo(meta)).join('');
 }
 
   function atualizarResumoDietaSNE() {
@@ -1132,7 +1099,7 @@ function atualizarResumoRespiratorio() {
               altaDieta.value === 'nao' ? 'Não' : 'Talvez'})`;
     
     if (altaDieta.value === 'sim' || altaDieta.value === 'talvez') {
-      meta = 'Promover ensino qualificado para esse cuidado pela equipe de nutrição';
+      meta = 'Oferecer, por meio da equipe de Nutrição, orientação qualificada aos familiares quanto ao manuseio da dieta enteral.';
     }
     else if (altaDieta.value === 'nao') {
       meta = 'Proporcionar intervenção nutricional adequada';
@@ -1169,8 +1136,8 @@ function toggleEnsinoNutricao(mostrar) {
   }
   
   const solicitacaoNutricional = document.querySelector('input[name="solicitacao_nutricional"]:checked');
-  let texto = 'Suporte nutricional inadequado';
-  let meta = 'Prover intervenção nutricional adequada.';
+  let texto = '';
+  let meta = '';
   
   if (solicitacaoNutricional) {
     if (solicitacaoNutricional.value === 'sim') {
@@ -1227,7 +1194,7 @@ function toggleDataSolicitacao(mostrar) {
     texto += ` (Possibilidade pós alta: ${possibilidadeBanho.value === 'sim' ? 'Sim' : possibilidadeBanho.value === 'nao' ? 'Não' : 'Talvez'})`;
     
     if (possibilidadeBanho.value === 'sim' || possibilidadeBanho.value === 'talvez') {
-      meta = 'Promover ensino qualificado para este cuidado pela equipe de enfermagem';
+      meta = 'Oferecer, por meio da equipe de enfermagem, orientação qualificada aos familiares quanto à prática do banho no leito.';
     }
   }
   
@@ -1248,7 +1215,7 @@ function atualizarResumoMedicacaoSNE() {
   
   if (altaSNE) {
     if (altaSNE.value === 'sim' || altaSNE.value === 'talvez') {
-      meta = 'Promover ensino qualificado para este cuidado pela equipe de enfermagem';
+      meta = 'Oferecer, por meio da equipe de enfermagem, orientação qualificada aos familiares quanto à prática de medicação na sonda.';
     }
     
     // Adiciona a informação sobre a possibilidade de alta

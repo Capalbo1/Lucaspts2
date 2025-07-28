@@ -72,6 +72,7 @@
         if (formData.problema_psicologico === 'sim') {
           sugestao += "A presença de problemas psicológicos indica a necessidade de acompanhamento especializado em saúde mental. ";
         }
+        // abrir metas singular psicologia . 
         
         sugestaoTexto.textContent = sugestao;
         
