@@ -103,9 +103,4 @@ else {
   resultadoDiv.innerHTML = mensagem;
   resultadoDiv.style.display = 'block';
 
-  // Atualiza o campo do select
-  if (nivel.includes('Equipe 1')) form.nivel_cuidado.value = 'baixo';
-  else if (nivel.includes('Equipe 2')) form.nivel_cuidado.value = 'moderado';
-  else if (nivel.includes('Equipe 3')) form.nivel_cuidado.value = 'alto';
-  else form.nivel_cuidado.value = 'intensivo';
 });

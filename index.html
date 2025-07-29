@@ -27,69 +27,66 @@
 
        <!-- NOVOS CAMPOS ADICIONADOS AQUI -->
     <div class="form-row">
-      <label class="pergunta">Nome completo:</label>
-      <input type="text" name="nome" required placeholder="Digite o nome completo">
+      <label class="pergunta" for="nome">Nome completo:</label>
+      <input type="text" name="nome" id="nome" required placeholder="Digite o nome completo">
     </div>
 
     <div class="form-row">
-      <label class="pergunta">Idade:</label>
-      <input type="number" name="idade" required min="0" max="120" placeholder="Idade do paciente">
+      <label class="pergunta" for="idade">Idade:</label>
+      <input type="number" name="idade" id="idade" required min="0" max="120" placeholder="Idade do paciente">
     </div>
 
     <div class="form-row">
-      <label class="pergunta">Sexo:</label>
-      <select name="sexo" required>
+      <label class="pergunta" for="sexo">Sexo:</label>
+      <select name="sexo" id="sexo" required>
         <option value="">Selecione...</option>
         <option value="masculino">Masculino</option>
         <option value="feminino">Feminino</option>
       </select>
     </div>
-    <!-- FIM DOS NOVOS CAMPOS -->
 
-    <!-- Campos existentes abaixo (mantidos da versão original) -->
-
-      <div class="form-row">
-        <label class="pergunta"> Paciente é dependente? (ex: Caminha, Come, toma banho sozinho?).</label>
-        <div class="radio-group">
-          <label><input type="radio" name="dependente" value="sim" required /> Sim</label>
-          <label><input type="radio" name="dependente" value="nao" /> Não</label>
-        </div>
+    <div class="form-row">
+      <span class="pergunta" id="pergunta_dependente">Paciente é dependente? (ex: Caminha, Come, toma banho sozinho?).</span>
+      <div class="radio-group" aria-labelledby="pergunta_dependente">
+        <label for="dependente_sim"><input type="radio" name="dependente" id="dependente_sim" value="sim" required /> Sim</label>
+        <label for="dependente_nao"><input type="radio" name="dependente" id="dependente_nao" value="nao" /> Não</label>
       </div>
+    </div>
 
-      <div class="form-row">
-        <label class="pergunta">Suporte assistencial adequado? (ex: Familiares/cuidadores que faz mercado, farmácia, mercado, banco e etc).</label>
-        <div class="radio-group">
-          <label><input type="radio" name="suporte" value="sim" required /> Sim</label>
-          <label><input type="radio" name="suporte" value="nao" /> Não</label>
-        </div>
+    <div class="form-row">
+      <span class="pergunta" id="pergunta_suporte">Suporte assistencial adequado? (ex: Familiares/cuidadores que faz mercado, farmácia, mercado, banco e etc).</span>
+      <div class="radio-group" aria-labelledby="pergunta_suporte">
+        <label for="suporte_sim"><input type="radio" name="suporte" id="suporte_sim" value="sim" required /> Sim</label>
+        <label for="suporte_nao"><input type="radio" name="suporte" id="suporte_nao" value="nao" /> Não</label>
       </div>
+    </div>
 
-      <div class="form-row">
-        <label class="pergunta">Paciente é acamado? (Ex: Não sai da cama)</label>
-        <div class="radio-group">
-          <label><input type="radio" name="acamado" value="sim" required /> Sim</label>
-          <label><input type="radio" name="acamado" value="nao" /> Não</label>
-        </div>
+    <div class="form-row">
+      <span class="pergunta" id="pergunta_acamado">Paciente é acamado? (Ex: Não sai da cama)</span>
+      <div class="radio-group" aria-labelledby="pergunta_acamado">
+        <label for="acamado_sim"><input type="radio" name="acamado" id="acamado_sim" value="sim" required /> Sim</label>
+        <label for="acamado_nao"><input type="radio" name="acamado" id="acamado_nao" value="nao" /> Não</label>
       </div>
+    </div>
 
-      <div class="form-row">
-        <label class="pergunta">Faz uso de oxigênio domiciliar?</label>
-        <div class="radio-group">
-          <label><input type="radio" name="oxigenio" value="sim" required /> Sim</label>
-          <label><input type="radio" name="oxigenio" value="nao" /> Não</label>
-        </div>
+    <div class="form-row">
+      <span class="pergunta" id="pergunta_oxigenio">Faz uso de oxigênio domiciliar?</span>
+      <div class="radio-group" aria-labelledby="pergunta_oxigenio">
+        <label for="oxigenio_sim"><input type="radio" name="oxigenio" id="oxigenio_sim" value="sim" required /> Sim</label>
+        <label for="oxigenio_nao"><input type="radio" name="oxigenio" id="oxigenio_nao" value="nao" /> Não</label>
       </div>
+    </div>
 
-      <div class="form-row">
-        <label class="pergunta">Possui problemas psicológicos? (Ex: Problemas Familiares/Escolares, Diagnósticos psiquiátricos).</label>
-        <div class="radio-group">
-          <label><input type="radio" name="problema_psicologico" value="sim" required /> Sim</label>
-          <label><input type="radio" name="problema_psicologico" value="nao" /> Não</label>
-        </div>
+    <div class="form-row">
+      <span class="pergunta" id="pergunta_psicologico">Possui problemas psicológicos? (Ex: Problemas Familiares/Escolares, Diagnósticos psiquiátricos).</span>
+      <div class="radio-group" aria-labelledby="pergunta_psicologico">
+        <label for="problema_psicologico_sim"><input type="radio" name="problema_psicologico" id="problema_psicologico_sim" value="sim" required /> Sim</label>
+        <label for="problema_psicologico_nao"><input type="radio" name="problema_psicologico" id="problema_psicologico_nao" value="nao" /> Não</label>
       </div>
+    </div>
 
-      <label for="observacoes">Observações:</label>
-      <textarea id="observacoes" name="observacoes" rows="4"></textarea>
+    <label for="observacoes">Observações:</label>
+    <textarea id="observacoes" name="observacoes" rows="4"></textarea>
 
       <button type="submit">Enviar</button>
     </form>
@@ -109,10 +106,8 @@
 
   
       <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-<script>
-  // Para a versão mais recente do jsPDF
-  const { jsPDF } = window.jspdf;
-</script>
+<script src="https://unpkg.com/pdf-lib/dist/pdf-lib.min.js"></script>
+  
   <script src="pdfindex.js"></script>
   <script src="script/script.js"></script>
 
