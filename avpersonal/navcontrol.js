@@ -269,3 +269,115 @@ window.addEventListener('DOMContentLoaded', () => {
     console.error("Erro ao validar psicologia:", e.message);
   }
 });
+
+// ========== VALIDAÇÃO PARA fisio dispositivos ==========
+  function atualizarBlocoRespiratorio() {
+    const resposta = localStorage.getItem('resposta-respiratorio');
+    const tqt = localStorage.getItem('cuidados-tqt');
+    const outros = localStorage.getItem('cuidados-outros');
+    const outrosDetalhes = localStorage.getItem('outros-detalhes');
+    const blocoResp = document.getElementById('bloco-dispositivos');
+    const liFisio = document.getElementById('li-fisio');
+
+    let mostrarBloco = false;
+    let titulo = 'Metas para dispositivos respiratórios';
+
+    if (resposta === 'sim' && (tqt === 'sim' || outros === 'sim')) {
+      mostrarBloco = true;
+
+      // Pode incluir mais lógica aqui se quiser personalizar o título com base em TQT ou outros
+    }
+
+    if (blocoResp) {
+      blocoResp.style.display = mostrarBloco ? 'block' : 'none';
+    }
+
+    if (liFisio) {
+      liFisio.style.display = mostrarBloco ? 'list-item' : 'none';
+    }
+
+    if (mostrarBloco && typeof ativarAba === 'function') {
+      ativarAba('fisioterapia');
+    }
+  }
+
+  // Inicializar ao carregar
+  window.addEventListener('DOMContentLoaded', () => {
+    try {
+      atualizarBlocoRespiratorio();
+    } catch (e) {
+      console.error("Erro ao validar respiratório:", e.message);
+    }
+  });
+
+
+  // script-atualizacao-dispositivos.js
+
+// Função para atualizar o bloco de enfermagem
+// ========== VALIDAÇÃO PARA DISPOSITIVOS DE ENFERMAGEM ==========
+function atualizarBlocoDispositivosEnf() {
+  const resposta = localStorage.getItem('resposta-dispositivos');
+  const dispositivosSelecionados = JSON.parse(localStorage.getItem('dispositivos-selecionados') || '[]');
+  const temOutros = localStorage.getItem('dispositivos-outros') === 'sim';
+  const outrosDetalhes = localStorage.getItem('outros-dispositivos-detalhe');
+  
+  const blocoDispositivosEnf = document.getElementById('bloco-dispositivos-enf');
+  const liEnfermagem = document.getElementById('li-enfermagem'); // Elemento da aba de enfermagem
+  
+  // Verificar se precisa mostrar o bloco
+  const mostrarBloco = resposta === 'sim' && 
+                      (dispositivosSelecionados.length > 0 || 
+                       (temOutros && outrosDetalhes && outrosDetalhes.trim() !== ''));
+  
+  if(blocoDispositivosEnf) {
+    blocoDispositivosEnf.style.display = mostrarBloco ? 'block' : 'none';
+  }
+  
+  if(liEnfermagem) {
+    liEnfermagem.style.display = mostrarBloco ? 'list-item' : 'none';
+  }
+  
+  // Preencher observação se necessário
+  if(mostrarBloco) {
+    const obsInput = document.getElementById('obs-dispositivos-enf');
+    if(obsInput) {
+      // Criar texto com dispositivos selecionados
+      let dispositivosTexto = dispositivosSelecionados.join(', ');
+      
+      // Adicionar outros dispositivos se existirem
+      if(temOutros && outrosDetalhes) {
+        if(dispositivosTexto) dispositivosTexto += ', ';
+        dispositivosTexto += `Outros: ${outrosDetalhes}`;
+      }
+      
+      // Atualizar campo de observação
+      obsInput.value = dispositivosTexto;
+    }
+  }
+  
+  // Ativar aba se necessário
+  if(mostrarBloco && typeof ativarAba === 'function') {
+    ativarAba('enfermagem');
+  }
+}
+
+// Inicializar ao carregar
+window.addEventListener('DOMContentLoaded', () => {
+  try {
+    atualizarBlocoDispositivosEnf();
+    
+    // Adicionar listener para salvar observação
+    const obsInput = document.getElementById('obs-dispositivos-enf');
+    if(obsInput) {
+      obsInput.addEventListener('input', function() {
+        localStorage.setItem('obs-dispositivos-enf', this.value);
+      });
+      
+      // Restaurar valor salvo
+      const obsSalva = localStorage.getItem('obs-dispositivos-enf');
+      if(obsSalva) obsInput.value = obsSalva;
+    }
+  } catch(e) {
+    console.error("Erro ao validar dispositivos:", e);
+  }
+});

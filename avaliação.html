@@ -317,17 +317,17 @@
   </div>
 </div>
 
-
-<!-- Pergunta 8 se sim gerar meta de acompanhamento de dispositvo -->
 <div class="question-group">
   <div class="main-question">
     <div class="question-text">8. Dispositivos?</div>
     <div class="answer-options">
       <label class="option-label">
-        <input type="radio" name="dispositivos" value="sim" onclick="toggleDispositivos(true)"> Sim
+        <input type="radio" name="dispositivos" value="sim" 
+               onclick="toggleDispositivos(true); salvarRespostaDispositivos('sim')"> Sim
       </label>
       <label class="option-label">
-        <input type="radio" name="dispositivos" value="nao" onclick="toggleDispositivos(false)"> Não
+        <input type="radio" name="dispositivos" value="nao" 
+               onclick="toggleDispositivos(false); salvarRespostaDispositivos('nao')"> Não
       </label>
     </div>
   </div>
@@ -337,29 +337,35 @@
     <label>Quais dispositivos:</label>
     <div class="option-group">
       <label class="option-label">
-        <input type="checkbox" name="dispositivos_tipo" value="SNE/SNG"> SNE/SNG
+        <input type="checkbox" name="dispositivos_tipo" value="SNE/SNG" 
+               onchange="salvarDispositivosSelecionados()"> SNE/SNG
       </label>
       <label class="option-label">
-        <input type="checkbox" name="dispositivos_tipo" value="GTT"> GTT
+        <input type="checkbox" name="dispositivos_tipo" value="GTT" 
+               onchange="salvarDispositivosSelecionados()"> GTT
       </label>
       <label class="option-label">
-        <input type="checkbox" name="dispositivos_tipo" value="SVD/SVA"> SVD/SVA
+        <input type="checkbox" name="dispositivos_tipo" value="SVD/SVA" 
+               onchange="salvarDispositivosSelecionados()"> SVD/SVA
       </label>
       <label class="option-label">
-        <input type="checkbox" name="dispositivos_tipo" value="AVC"> AVC
+        <input type="checkbox" name="dispositivos_tipo" value="AVC" 
+               onchange="salvarDispositivosSelecionados()"> AVC
       </label>
       <label class="option-label">
-        <input type="checkbox" name="dispositivos_tipo" value="AVP"> AVP
+        <input type="checkbox" name="dispositivos_tipo" value="AVP" 
+               onchange="salvarDispositivosSelecionados()"> AVP
       </label>
       <label class="option-label">
-        <input type="checkbox" name="dispositivos_tipo" value="outros" onclick="toggleOutrosDispositivos(this.checked)"> Outros
+        <input type="checkbox" name="dispositivos_tipo" value="outros" 
+               onchange="toggleOutrosDispositivos(this.checked);"> Outros
       </label>
     </div>
     
     <!-- Campo para especificar outros dispositivos -->
     <div id="outros-dispositivos-detalhe" class="subdetalhe" style="display: none; margin-top: 10px;">
       <label>Especifique outros dispositivos:</label>
-      <input type="text" name="outros_dispositivos">
+      <input type="text" name="outros_dispositivos" oninput="salvarDispositivosSelecionados()">
     </div>
   </div>
 </div>
@@ -2258,5 +2264,4 @@ function toggleOutrosEspecialidade(checkbox) {
 <script src="script/script2.js"></script>
 <script src="script/generatePDF.js"></script> 
 <script src="script/metaspdf.js"></script> 
-<script src="script/gerametaespecifica.js"></script> 
 </html>

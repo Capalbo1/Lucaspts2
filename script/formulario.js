@@ -509,3 +509,158 @@ document.addEventListener('DOMContentLoaded', function() {
   }
   atualizarBlocoPsicologia();
 });
+
+  function toggleCuidadosRespiratorios(show) {
+    const detalhes = document.getElementById("cuidados-respiratorios-details");
+    detalhes.style.display = show ? "block" : "none";
+
+    if (!show) {
+      // Limpa se marcar "Não"
+      localStorage.removeItem('resposta-respiratorio');
+      localStorage.removeItem('cuidados-tqt');
+      localStorage.removeItem('cuidados-outros');
+      localStorage.removeItem('outros-detalhes');
+    } else {
+      localStorage.setItem('resposta-respiratorio', 'sim');
+    }
+  }
+
+  function toggleOutrosCuidados(checkbox) {
+    const outrosDetalhes = document.getElementById("outros-cuidados-detalhes");
+    outrosDetalhes.style.display = checkbox.checked ? "block" : "none";
+    localStorage.setItem('cuidados-outros', checkbox.checked ? 'sim' : 'nao');
+
+    if (!checkbox.checked) {
+      localStorage.removeItem('outros-detalhes');
+    }
+  }
+
+  document.addEventListener('DOMContentLoaded', () => {
+    const checkboxes = document.querySelectorAll('input[name="tipo_cuidado"]');
+    checkboxes.forEach(cb => {
+      cb.addEventListener('change', () => {
+        if (cb.value === 'tqt') {
+          localStorage.setItem('cuidados-tqt', cb.checked ? 'sim' : 'nao');
+        }
+        if (cb.value === 'outros') {
+          toggleOutrosCuidados(cb);
+        }
+
+        // Armazena o valor de outros cuidados se preenchido
+        const outrosInput = document.querySelector('input[name="outros_cuidados"]');
+        if (outrosInput) {
+          outrosInput.addEventListener('input', () => {
+            localStorage.setItem('outros-detalhes', outrosInput.value);
+          });
+        }
+      });
+    });
+  });
+
+  // script-dispositivos.js
+
+
+
+// Funções para manipulação de dispositivos
+// Funções para manipulação de dispositivos
+// Funções para manipulação de dispositivos
+// Funções para manipulação de dispositivos
+// Funções para manipulação de dispositivos
+// Funções para gerenciar dispositivos
+function toggleDispositivos(show) {
+  const detalhes = document.getElementById("dispositivos-sim-details");
+  detalhes.style.display = show ? "block" : "none";
+  
+  if (!show) {
+    // Limpa todos os dados ao selecionar "Não"
+    localStorage.removeItem('resposta-dispositivos');
+    localStorage.removeItem('dispositivos-selecionados');
+    localStorage.removeItem('dispositivos-outros');
+    localStorage.removeItem('outros-dispositivos-detalhe');
+  } else {
+    localStorage.setItem('resposta-dispositivos', 'sim');
+  }
+}
+
+function toggleOutrosDispositivos(checked) {
+  const outrosDetalhes = document.getElementById("outros-dispositivos-detalhe");
+  outrosDetalhes.style.display = checked ? "block" : "none";
+  localStorage.setItem('dispositivos-outros', checked ? 'sim' : 'nao');
+  
+  if (!checked) {
+    localStorage.removeItem('outros-dispositivos-detalhe');
+  }
+}
+
+function salvarRespostaDispositivos(resposta) {
+  localStorage.setItem('resposta-dispositivos', resposta);
+}
+
+function salvarDispositivosSelecionados() {
+  // Salvar checkboxes principais
+  const selecionados = [];
+  document.querySelectorAll('input[name="dispositivos_tipo"]:checked').forEach(checkbox => {
+    if(checkbox.value !== 'outros') {
+      selecionados.push(checkbox.value);
+    }
+  });
+  localStorage.setItem('dispositivos-selecionados', JSON.stringify(selecionados));
+  
+  // Salvar campo "Outros"
+  const outrosInput = document.querySelector('input[name="outros_dispositivos"]');
+  if(outrosInput) {
+    localStorage.setItem('outros-dispositivos-detalhe', outrosInput.value);
+  }
+}
+
+// Inicialização ao carregar a página
+document.addEventListener('DOMContentLoaded', () => {
+  // Restaurar estado principal
+  const respostaSalva = localStorage.getItem('resposta-dispositivos');
+  if(respostaSalva) {
+    const radio = document.querySelector(`input[name="dispositivos"][value="${respostaSalva}"]`);
+    if(radio) {
+      radio.checked = true;
+      toggleDispositivos(respostaSalva === 'sim');
+    }
+  }
+  
+  // Restaurar checkboxes
+  const selecionadosSalvos = JSON.parse(localStorage.getItem('dispositivos-selecionados') || '[]');
+  selecionadosSalvos.forEach(valor => {
+    const checkbox = document.querySelector(`input[name="dispositivos_tipo"][value="${valor}"]`);
+    if(checkbox) checkbox.checked = true;
+  });
+  
+  // Restaurar campo "Outros"
+  const outrosSalvo = localStorage.getItem('dispositivos-outros');
+  if(outrosSalvo === 'sim') {
+    const outrosCheckbox = document.querySelector('input[name="dispositivos_tipo"][value="outros"]');
+    if(outrosCheckbox) {
+      outrosCheckbox.checked = true;
+      toggleOutrosDispositivos(true);
+    }
+    
+    const detalhesSalvos = localStorage.getItem('outros-dispositivos-detalhe');
+    if(detalhesSalvos) {
+      const outrosInput = document.querySelector('input[name="outros_dispositivos"]');
+      if(outrosInput) outrosInput.value = detalhesSalvos;
+    }
+  }
+  
+  // Adicionar listeners
+  document.querySelectorAll('input[name="dispositivos_tipo"]').forEach(checkbox => {
+    checkbox.addEventListener('change', function() {
+      if(this.value === 'outros') {
+        toggleOutrosDispositivos(this.checked);
+      }
+      salvarDispositivosSelecionados();
+    });
+  });
+  
+  // Listener para input de outros dispositivos
+  const outrosInput = document.querySelector('input[name="outros_dispositivos"]');
+  if(outrosInput) {
+    outrosInput.addEventListener('input', salvarDispositivosSelecionados);
+  }
+});
