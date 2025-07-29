@@ -1,4 +1,4 @@
-.bloco-deambulacao {
+.bloco {
   border: 1px solid #ccc;
   border-radius: 8px;
   padding: 16px;
@@ -6,7 +6,7 @@
   background-color: #f9f9f9;
 }
 
-.bloco-deambulacao h2 {
+.bloco h2 {
   margin-top: 0;
   font-size: 1.4rem;
 }
