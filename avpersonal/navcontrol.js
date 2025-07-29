@@ -107,36 +107,6 @@ window.addEventListener('DOMContentLoaded', () => {
 });
 
 
-// Adicione esta seção ao seu navcontrol.js
-window.addEventListener('DOMContentLoaded', () => {
-  try {
-    // ... código existente ...
-    
-    // Verificar psicólogo
-    const respostaPsicologico = localStorage.getItem('resposta-psicologico');
-    if (respostaPsicologico) {
-      const liPsicologo = document.getElementById('li-psicologo');
-      const blocoPsicologico = document.getElementById('bloco-psicologico');
-      
-      // Mostrar psicólogo se:
-      // - Resposta for "não" e motivo não for "não necessita"
-      // - Ou se resposta for "sim" (e talvez alguma condição adicional)
-      if (respostaPsicologico === 'nao') {
-        const motivo = localStorage.getItem('motivo-psicologico');
-        if (motivo !== 'nao_necessita') {
-          if (liPsicologo) liPsicologo.style.display = 'list-item';
-          if (blocoPsicologico) blocoPsicologico.style.display = 'block';
-        }
-      } else if (respostaPsicologico === 'sim') {
-        // Aqui você pode adicionar condições adicionais se necessário
-        if (liPsicologo) liPsicologo.style.display = 'list-item';
-        if (blocoPsicologico) blocoPsicologico.style.display = 'block';
-      }
-    }
-  } catch (e) {
-    console.error("Erro ao ler localStorage:", e.message);
-  }
-});
 
 
 // Adicione isso ao seu navcontrol.js
@@ -167,5 +137,135 @@ window.addEventListener('DOMContentLoaded', () => {
     }
   } catch (e) {
     console.error("Erro ao validar benefícios:", e.message);
+  }
+});
+
+window.addEventListener('DOMContentLoaded', () => {
+  try {
+    // ... seu código existente ...
+    
+    // ========== VALIDAÇÃO PARA ASSISTENTE SOCIAL ==========
+    const respostaAuxilio = localStorage.getItem('resposta-auxilio-governo');
+    console.log("Resposta auxílio governo:", respostaAuxilio);
+    
+    if (respostaAuxilio === 'nao') {
+      const liAssistente = document.getElementById('li-assistente');
+      const blocoAssistente = document.getElementById('bloco-assistente');
+      
+      if (liAssistente) {
+        liAssistente.style.display = 'list-item';
+        console.log("Item Assistente Social ativado!");
+      }
+      
+      if (blocoAssistente) {
+        blocoAssistente.style.display = 'block';
+        console.log("Bloco Assistente Social exibido!");
+      }
+      
+      // Ativar aba de assistente social
+      if (typeof ativarAba === 'function') {
+        ativarAba('assistente-social');
+      }
+    }
+  } catch (e) {
+    console.error("Erro ao validar auxílio governo:", e.message);
+  }
+});
+
+
+window.addEventListener('DOMContentLoaded', () => {
+  try {
+    // ... código existente ...
+    
+    // ========== VALIDAÇÃO PARA ENFERMAGEM (AVP) ==========
+    const respostaAVP = localStorage.getItem('resposta-avp');
+    const dificuldadeAVP = localStorage.getItem('dificuldade-avp');
+    
+    if (respostaAVP === 'sim' && (dificuldadeAVP === 'medio' || dificuldadeAVP === 'dificil')) {
+      const liEnfermagem = document.getElementById('li-enfermagem');
+      const blocoEnfermagem = document.getElementById('bloco-enfermagem');
+      
+      if (liEnfermagem) {
+        liEnfermagem.style.display = 'list-item';
+        console.log("Item Enfermagem ativado!");
+      }
+      
+      if (blocoEnfermagem) {
+        blocoEnfermagem.style.display = 'block';
+        console.log("Bloco Enfermagem exibido!");
+      }
+      
+      // Ativar aba de enfermagem
+      if (typeof ativarAba === 'function') {
+        ativarAba('enfermagem');
+      }
+    }
+  } catch (e) {
+    console.error("Erro ao validar AVP:", e.message);
+  }
+});
+
+window.addEventListener('DOMContentLoaded', () => {
+  try {
+    // ... código existente ...
+    
+    // ========== VALIDAÇÃO PARA PSICOLOGIA ==========
+    const respostaPsicologico = localStorage.getItem('resposta-psicologico');
+    const motivoPsicologico = localStorage.getItem('motivo-psicologico');
+    const outrosMotivos = localStorage.getItem('outros-motivos-psicologico');
+    
+    // Determinar se deve mostrar
+    let mostrarPsicologia = false;
+    
+    if (respostaPsicologico === 'sim') {
+      mostrarPsicologia = true;
+    } else if (respostaPsicologico === 'nao' && motivoPsicologico !== 'nao_necessita') {
+      mostrarPsicologia = true;
+    }
+    
+    if (mostrarPsicologia) {
+      const liPsicologo = document.getElementById('li-psicologo');
+      const blocoPsicologico = document.getElementById('bloco-psicologico');
+      
+      if (liPsicologo) {
+        liPsicologo.style.display = 'list-item';
+        console.log("Item Psicólogo ativado!");
+      }
+      
+      if (blocoPsicologico) {
+        blocoPsicologico.style.display = 'block';
+        
+        // Atualizar título com motivo se necessário
+        if (respostaPsicologico === 'nao') {
+          let motivoTexto = '';
+          switch (motivoPsicologico) {
+            case 'rede_sobrecarregada':
+              motivoTexto = 'Rede sobrecarregada';
+              break;
+            case 'nao_procurou':
+              motivoTexto = 'Não procurou atendimento';
+              break;
+            case 'outros':
+              motivoTexto = outrosMotivos || 'Outros motivos';
+              break;
+          }
+          
+          if (motivoTexto) {
+            const titulo = `Necessita de Suporte psicológico (${motivoTexto})`;
+            const tituloElement = blocoPsicologico.querySelector('h2');
+            if (tituloElement) tituloElement.textContent = titulo;
+          }
+        }
+        
+        console.log("Bloco Psicologia exibido!");
+      }
+      
+      // Ativar aba de psicologia
+      if (typeof ativarAba === 'function') {
+        ativarAba('psicologia');
+      }
+    }
+  } catch (e) {
+    console.error("Erro ao validar psicologia:", e.message);
   }
 });

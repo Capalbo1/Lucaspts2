@@ -218,29 +218,45 @@
 </div>
 <hr>
         <!-- Pergunta 6 se dificil gerar meta  (passagem de pic) -->
-        <div class="question-group">
-          <div class="main-question">
-            <div class="question-text">6. Acesso Venoso Periférico?</div>
-            <div class="answer-options">
-              <label class="option-label">
-                <input type="radio" name="avp" value="sim" onclick="toggleSubquestion('avp-details', true)"> Sim
-              </label>
-              <label class="option-label">
-                <input type="radio" name="avp" value="nao" onclick="toggleSubquestion('avp-details', false)"> Não
-              </label>
-            </div>
-          </div>
-          
-          <div id="avp-details" class="subquestion" style="display: none;">
-            <label>Dificuldade:</label>
-            <select name="dificuldade_avp" onchange="togglePICC(this)">
-              <option value="">Selecione</option>
-              <option value="facil">Fácil</option>
-              <option value="medio">Médio</option>
-              <option value="dificil">Difícil</option>
-            </select>
-          </div>
-        </div>
+  <!-- Pergunta 6: Acesso Venoso Periférico -->
+<div class="question-group">
+  <div class="main-question">
+    <div class="question-text">6. Acesso Venoso Periférico?</div>
+    <div class="answer-options">
+      <label class="option-label">
+        <input type="radio" name="avp" value="sim" 
+               onclick="toggleSubquestion('avp-details', true); salvarRespostaAVP('sim')"> Sim
+      </label>
+      <label class="option-label">
+        <input type="radio" name="avp" value="nao" 
+               onclick="toggleSubquestion('avp-details', false); salvarRespostaAVP('nao')"> Não
+      </label>
+    </div>
+  </div>
+  
+  <div id="avp-details" class="subquestion" style="display: none;">
+    <label>Dificuldade:</label>
+    <select name="dificuldade_avp" onchange="togglePICC(this); salvarDificuldadeAVP(this.value)">
+      <option value="">Selecione</option>
+      <option value="facil">Fácil</option>
+      <option value="medio">Médio</option>
+      <option value="dificil">Difícil</option>
+    </select>
+    
+    <!-- Pergunta adicional para dificuldade média ou difícil -->
+    <div id="picc-details" class="subdetalhe" style="display: none; margin-top: 10px;">
+      <label>Considerar PICC?</label>
+      <div class="option-group">
+        <label class="option-label">
+          <input type="radio" name="considerar_picc" value="sim" onchange="salvarConsiderarPICC('sim')"> Sim
+        </label>
+        <label class="option-label">
+          <input type="radio" name="considerar_picc" value="nao" onchange="salvarConsiderarPICC('nao')"> Não
+        </label>
+      </div>
+    </div>
+  </div>
+</div>
         
         <!-- Pergunta 7 - Lesão por Pressão -->
 <!-- Pergunta 7 - Lesão por Pressão os campos de grau para cada check de lesão se sim para ferida meta DE Comissão feridas-->
@@ -738,34 +754,37 @@
 
 
   <!-- Pergunta 19 se não meta  -->
-  <div class="question-group">
-    <div class="main-question">
-      <div class="question-text">19. Recebe benefício do governo?</div>
-      <div class="answer-options">
-        <label class="option-label">
-          <input type="radio" name="beneficio" value="sim" onclick="toggleBeneficioDetails(true)"> Sim
-        </label>
-        <label class="option-label">
-          <input type="radio" name="beneficio" value="nao" onclick="toggleBeneficioDetails(false)"> Não
-        </label>
-      </div>
+  <!-- Pergunta 19: Auxílio do Governo -->
+<div class="question-group">
+  <div class="main-question">
+    <div class="question-text">19. Recebe benefício do governo?</div>
+    <div class="answer-options">
+      <label class="option-label">
+        <input type="radio" name="beneficio" value="sim" 
+               onclick="toggleBeneficioDetails(true); salvarRespostaAuxilioGoverno('sim')"> Sim
+      </label>
+      <label class="option-label">
+        <input type="radio" name="beneficio" value="nao" 
+               onclick="toggleBeneficioDetails(false); salvarRespostaAuxilioGoverno('nao')"> Não
+      </label>
     </div>
+  </div>
   
   <!-- Seção para resposta SIM -->
   <div id="beneficio-sim-details" class="subquestion" style="display: none;">
     <label>Tipo de benefício:</label>
     <div class="option-group">
       <label class="option-label">
-        <input type="radio" name="tipo_beneficio" value="bolsa_familia"> Bolsa Família
+        <input type="radio" name="tipo_beneficio" value="bolsa_familia" onchange="salvarTipoBeneficio('bolsa_familia')"> Bolsa Família
       </label>
       <label class="option-label">
-        <input type="radio" name="tipo_beneficio" value="aposentadoria"> Aposentadoria
+        <input type="radio" name="tipo_beneficio" value="aposentadoria" onchange="salvarTipoBeneficio('aposentadoria')"> Aposentadoria
       </label>
       <label class="option-label">
-        <input type="radio" name="tipo_beneficio" value="inss"> INSS
+        <input type="radio" name="tipo_beneficio" value="inss" onchange="salvarTipoBeneficio('inss')"> INSS
       </label>
       <label class="option-label">
-        <input type="radio" name="tipo_beneficio" value="bpc" onclick="toggleBPCDetails(true)"> BPC (LOAS)
+        <input type="radio" name="tipo_beneficio" value="bpc" onchange="salvarTipoBeneficio('bpc'); toggleBPCDetails(true)"> BPC (LOAS)
       </label>
     </div>
     
@@ -774,15 +793,14 @@
       <label>Tipo de BPC:</label>
       <div class="option-group">
         <label class="option-label">
-          <input type="radio" name="tipo_bpc" value="por_idade"> Por idade
+          <input type="radio" name="tipo_bpc" value="por_idade" onchange="salvarTipoBPC('por_idade')"> Por idade
         </label>
         <label class="option-label">
-          <input type="radio" name="tipo_bpc" value="por_deficiencia"> Por deficiência
+          <input type="radio" name="tipo_bpc" value="por_deficiencia" onchange="salvarTipoBPC('por_deficiencia')"> Por deficiência
         </label>
       </div>
     </div>
   </div>
-  
 </div>
         
        <!-- Pergunta 20  add campo outros texto se não  meta-->
@@ -1294,14 +1312,7 @@ function atualizarResumoMedicacaoSNE() {
     texto += 'Fácil';
     meta = 'Manter acesso';
   } 
-  else if (dificuldade === 'medio') {
-    texto += 'Médio';
-    meta = 'Avaliar necessidade de cateter';
-  } 
-  else if (dificuldade === 'dificil') {
-    texto += 'Difícil';
-    meta = 'Passar PICC';
-  } 
+ 
   else {
     texto += 'Dificuldade não especificada';
   }
