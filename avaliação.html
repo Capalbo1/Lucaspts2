@@ -1175,8 +1175,6 @@ function toggleEnsinoNutricao(mostrar) {
       texto += ' (Não solicitado)';
     }
   }
-  
-  container.innerHTML = criarItemResumo(meta);
 }
 
 // Funções auxiliares (já existentes no seu código)
@@ -1318,6 +1316,14 @@ function atualizarResumoMedicacaoSNE() {
     texto += 'Fácil';
     meta = 'Manter acesso';
   } 
+  if (dificuldade === 'medio') {
+    texto += 'Médio';
+    meta = 'Meta singular de acesso para enfermagem';
+  } 
+  if (dificuldade === 'dificil') {
+    texto += 'Difícil';
+    meta = 'Meta singular de acesso para enfermagem';
+  } 
  
   else {
     texto += 'Dificuldade não especificada';
@@ -1442,7 +1448,6 @@ function atualizarResumoDependencia() {
     meta = '';
   }
   
-  container.innerHTML = criarItemResumo(meta);
 }
 
 function atualizarResumoAcamado() {
