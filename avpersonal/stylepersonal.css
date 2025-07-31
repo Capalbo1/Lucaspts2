@@ -107,9 +107,9 @@
 
 
     .btn-nova-meta {
-        background-color: #407fb3;
+        background: linear-gradient(to bottom, #007bd4, #0057a3);
         color: white;
-        padding: 8px 16px;
+        padding: 13px 16px;
         border: none;
         border-radius: 5px;
         font-size: 0.9rem;
@@ -170,3 +170,113 @@
     .campo-meta {
         margin-bottom: 20px;
     }
+.metas-padrao-container{
+    margin: 20px 0;
+    padding: 15px;
+    background-color: #f8f9fa;
+    border-radius: 8px;
+    border-left: 4px solid #007bff;
+}
+
+.meta {
+    margin-bottom: 10px;
+    padding: 10px;
+    background-color: white;
+    border-radius: 5px;
+   box-shadow: 0 2px 4px rgb(0 0 0 / 70%);
+    display: flex;
+}
+.meta input{
+  margin-right: 15px;
+}
+
+ .meta {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        padding: 12px 15px;
+        background-color: white;
+        border-radius: 6px;
+        box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+        transition: transform 0.2s, box-shadow 0.2s;
+        flex-wrap: wrap;
+    }
+
+    .meta:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    }
+
+    .meta input[type="checkbox"] {
+        order: 1; /* Checkbox primeiro */
+        width: 20px;
+        height: 20px;
+        accent-color: #407fb3;
+        cursor: pointer;
+        flex-shrink: 0;
+    }
+
+    .meta .categoria-badge {
+        order: 2; /* Span segundo */
+        font-size: 1rem;
+        background: #e3f2fd;
+        color: #1976d2;
+        font-weight: bolder;
+        padding: 2px 8px;
+        border-radius: 12px;
+        margin-right: 10px;
+        flex-shrink: 0;
+    }
+
+    .meta p {
+        order: 3; /* Parágrafo por último */
+        margin: 0;
+        color: #34495e;
+        font-size: 1rem;
+        flex-grow: 1;
+        min-width: 60%; /* Garante que o texto ocupe boa parte da linha */
+    }
+
+    /* Ajuste para dispositivos móveis */
+    @media (max-width: 600px) {
+        .meta {
+            gap: 8px;
+            padding: 10px;
+        }
+        
+        .meta p {
+            order: 4;
+            width: 100%;
+            margin-top: 8px;
+            padding-left: 28px; /* Alinhamento com o checkbox */
+        }
+    }
+
+
+    .button-metas{
+      display: flex;
+      justify-content: space-between;
+    }
+
+    /* Adicione ao seu stylepersonal.css */
+.menu-profissionais a.active {
+    background-color: #407fb3;
+    color: white;
+    border-radius: 4px;
+}
+
+.menu-profissionais a {
+    padding: 5px 10px;
+    transition: all 0.3s ease;
+    display: block;
+}
+
+.menu-profissionais a:hover {
+    background-color: #e3f2fd;
+    border-radius: 4px;
+}
+
+.button-metas {
+    margin-top: 20px;
+    text-align: center;
+}

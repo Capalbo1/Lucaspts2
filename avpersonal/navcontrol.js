@@ -96,7 +96,7 @@ window.addEventListener('DOMContentLoaded', () => {
 
       if (blocoNutricao) {
         blocoNutricao.style.display = 'block';
-        console.log("Article 'Suporte nutricional adequado' exibido com sucesso!");
+        console.log("Article 'Suporte nutricional' exibido com sucesso!");
       } else {
         console.error("Elemento #bloco-nutricao não encontrado.");
       }

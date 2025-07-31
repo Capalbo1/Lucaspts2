@@ -108,6 +108,7 @@
       color: #003d6a;
       font-size: 18px;
       text-align: right;
+      margin-left: 14px;
     }
     
     .answer-options {
@@ -134,6 +135,7 @@
       width: 20px;
       height: 20px;
       accent-color: #3498db;
+      margin-right: 15px;
     }
     
     /* Subperguntas */
@@ -199,23 +201,28 @@
     
     /* Botão de envio */
     .submit-container {
-      text-align: center;
       padding: 30px;
       border-top: 2px solid #cce4f7;
       margin-top: 20px;
     }
     
+    div .resumo-button{
+      text-align: start;
+      margin-right: 15px;
+    }
+
     button[type="submit"] {
       background: linear-gradient(to bottom, #007bd4, #0057a3);
-      color: white;
-      padding: 15px 50px;
-      border: none;
-      border-radius: 30px;
-      cursor: pointer;
-      font-weight: bold;
-      font-size: 18px;
-      transition: all 0.3s ease;
-      box-shadow: 0 4px 12px rgba(0, 87, 163, 0.25);
+    color: white;
+    padding: 13px 16px;
+    border: none;
+    border-radius: 5px;
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    margin: 10px 0 20px 0;
+    display: inline-block;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
     }
     
     button[type="submit"]:hover {
@@ -321,7 +328,8 @@
   padding: 10px;
   background-color: white;
   border-radius: 5px;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  box-shadow: 0 2px 4px rgb(0 0 0 / 70%);
+  display: flex;
 }
 
 .resumo-item{
@@ -329,21 +337,26 @@
     padding: 10px;
     background-color: white;
     border-radius: 5px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 2px 4px rgb(0 0 0 / 70%);
+    display: flex;
 }
 
+
 button {
-    background: linear-gradient(to bottom, #007bd4, #0057a3);
+        background: linear-gradient(to bottom, #007bd4, #0057a3);
     color: white;
-    padding: 15px 50px;
+    padding: 13px 16px;
     border: none;
-    border-radius: 30px;
+    border-radius: 5px;
+    font-size: 0.9rem;
     cursor: pointer;
-    font-weight: bold;
-    font-size: 18px;
     transition: all 0.3s ease;
-    box-shadow: 0 4px 12px rgba(0, 87, 163, 0.25);
+    margin: 10px 0 20px 0;
+    display: inline-block;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    margin-left: 30px;
 }
+
 
 button:hover {
     transform: translateY(-3px);
