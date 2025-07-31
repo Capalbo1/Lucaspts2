@@ -44,67 +44,100 @@
 
 <main>
   <article id="bloco-deambulacao" class="bloco-deambulacao bloco" style="display: none;">
-    <h2>Não deambula</h2>
-
-  <div class="campo-observacao">
-      <label for="obs-deambulacao">Observação:</label>
-      <input type="text" id="obs-deambulacao" name="obs-deambulacao" placeholder="Descreva a observação aqui...">
-  </div>
-  </article>
+    <h2>Não deambula</h2> 
+    <button class="btn-nova-meta">Gerar nova meta</button>
+    <div class="campo-observacao">
+        
+    </div>
+</article>
   <article id="bloco-dependencia" class="bloco-dependencia bloco" style="display: none;">
     <h2>Dependência</h2>
+    <button class="btn-nova-meta">Gerar nova meta</button>
     <div class="campo-observacao">
-      <label for="obs-dependencia">Observação:</label>
-      <input type="text" id="obs-dependencia" name="obs-dependencia" placeholder="Descreva a observação aqui...">
+      
     </div>
   </article>
   <article id="bloco-nutricao" class="bloco-nutricao bloco" style="display: none;">
     <h2>Suporte nutricional adequado</h2>
+    <button class="btn-nova-meta">Gerar nova meta</button>
     <div class="campo-observacao">
-      <label for="obs-nutricao">Observação:</label>
-      <input type="text" id="obs-nutricao" name="obs-nutricao" placeholder="Descreva a observação aqui...">
+      
     </div>
   </article>
   <article id="bloco-psicologico" class="bloco-psicologico bloco" style="display: none;">
     <h2>Necessita de Suporte psicológico</h2>
+    <button class="btn-nova-meta">Gerar nova meta</button>
     <div class="campo-observacao">
-      <label for="obs-psicologico">Observação:</label>
-      <input type="text" id="obs-psicologico" name="obs-psicologico" placeholder="Descreva a observação aqui...">
+      
     </div>
   </article>
   <article id="bloco-assistente" class="bloco-assistente bloco" style="display: none;">
     <h2>Orientar sobre benefícios assistenciais</h2>
+    <button class="btn-nova-meta">Gerar nova meta</button>
     <div class="campo-observacao">
-      <label for="obs-assistente">Observação:</label>
-      <input type="text" id="obs-assistente" name="obs-assistente" placeholder="Descreva a observação aqui...">
+      
     </div>
   </article>
   <article id="bloco-enfermagem" class="bloco-enfermagem bloco" style="display: none;">
     <h2>Metas para acesso venoso</h2>
+    <button class="btn-nova-meta">Gerar nova meta</button>
     <div class="campo-observacao">
-      <label for="obs-avp">Observação:</label>
-      <input type="text" id="obs-avp" name="obs-avp" placeholder="Descreva a observação aqui...">
+      
     </div>
   </article>
   <article id="bloco-dispositivos" class="bloco-dispositivos bloco" style="display: none;">
     <h2>Metas para dispositivos respiratórios</h2>
+    <button class="btn-nova-meta">Gerar nova meta</button>
     <div class="campo-observacao">
-      <label for="obs-dispositivos">Observação:</label>
-      <input type="text" id="obs-dispositivos" name="obs-dispositivos" placeholder="Descreva a observação aqui...">
+      
     </div>
   </article>
   <article id="bloco-dispositivos-enf" class="bloco-dispositivos-enf bloco" style="display: none;">
   <h2>Dispositivos de enfermagem</h2>
+  <button class="btn-nova-meta">Gerar nova meta</button>
   <div class="campo-observacao">
-    <label for="obs-dispositivos-enf">Observação:</label>
-    <input type="text" id="obs-dispositivos-enf" name="obs-dispositivos-enf" placeholder="Descreva a observação aqui...">
+    
   </div>
 </article>
+
+<div class="resumo-container">
+  <div class="metas-padrao-container">
+  <h2>Metas</h2>
+  <div class="resumo-container">
+  <!-- ... o restante do seu código existente ... -->
+  <div id="metas-padrao"></div>
+  
+  <div id="resumo-dependencia"></div>
+  <div id="resumo-acamado"></div>
+  <div id="resumo-deambulacao"></div>
+  <div id="resumo-interconsulta"></div>
+  <div id="resumo-encaminhamento"></div>
+  <div id="resumo-avp"></div>
+  <div id="resumo-lesao"></div>
+  <div id="resumo-dispositivos"></div>
+  <div id="resumo-medicacao-sne"></div>
+  <div id="resumo-banho-leito"></div>
+  <div id="resumo-nutricional"></div>
+  <div id="resumo-dieta-sne"></div>
+  <div id="resumo-respiratorio"></div>
+  <div id="resumo-aspiracao"></div>
+  <div id="resumo-psicologico"></div>
+  <div id="resumo-sad"></div>
+  <div id="resumo-rede-apoio"></div>
+  <div id="resumo-residencia"></div>
+  <div id="resumo-beneficio"></div>
+  <div id="resumo-vinculo-saude"></div>
+</div>
+  
+</div>
+
+
+
 </main>
 
 
 <script src="navcontrol.js"></script>
-<script src="abas.js"></script>
+<script src="novaMeta.js"></script>
 
 
 </body>

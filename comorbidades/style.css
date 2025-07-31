@@ -1,37 +1,58 @@
 body {
-    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+    background: #f4f8fb;
+    color: #333;
+    line-height: 1.6;
+    padding: 20px;
+}
+* {
     margin: 0;
     padding: 0;
-    background-color: #f4f4f4;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.container {
+    max-width: 1000px;
+    margin: 0 auto;
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 0 20px rgba(0, 87, 163, 0.15);
+    overflow: hidden;
 }
 
 header {
-    background-color: #0baad1;
+    background-color: #407fb3;
     color: white;
-    display: flex;
-    justify-content: space-around;
-    
+    padding: 25px;
+    text-align: center;
+    border-bottom: 3px solid #2c5d8a;
 }
+
   
 header img {
     width: 10%;
     height: auto;
 }
-h1 {
-    font-family: 'Arial', sans-serif;
-    font-size: 1.3em;
-    color: #ffffff;
+header h1 {
+    font-size: 28px;
+    margin-top: 15px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.form-title {
     text-align: center;
-    letter-spacing: 2px; /* espaçamento entre letras */
-    text-transform: uppercase; /* transforma o texto em maiúsculas */
-    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3); /* sombra leve */
+    padding: 30px 20px 20px;
+    color: #0057a3;
+    font-size: 28px;
+    border-bottom: 2px solid #cce4f7;
+    margin: 0 30px;
 }
 
 
 main {
     display: flex;
-    flex-direction: row;
-    justify-content: space-between;
+    flex-direction: column;
     min-height: 70vh;
     padding: 10px;
 }
@@ -105,29 +126,17 @@ input[type="number"]:focus {
 }
 
 button {
-    
-    border: none;
-    border-radius: 4px;
+    background-color: #407fb3;
     color: white;
-    background-color: #000000;
+    padding: 12px 20px;
+    border: none;
+    border-radius: 5px;
+    font-size: 1rem;
     cursor: pointer;
-    transition: background-color 0.2s;
-    margin: 5px;
-    font-size: 1.2em;
-    font-weight: bolder;
+    transition: background-color 0.3s ease;
 }
 
 
-#enviar {
-    background-color: #0aca54;
-    padding: 10px 15px; /* Adicione padding aos botões */
-    width: 400px;
-}
-#reset {
-    background-color: #cf411d;
-    padding: 6px 4px; /* Adicione padding aos botões */
-
-}
 
 .cadastro-enviar {
     margin-top: 10px;
@@ -161,7 +170,7 @@ fieldset {
     padding: 10px; /* Menor padding para o grid */
     border: 1px solid #ccc;
     border-radius: 8px;
-    width: 90%;
+    width: 100%;
 }
 
 div.porte{
@@ -174,11 +183,8 @@ footer{
     align-items: center;
     height: 6vh;
     padding: 6px;
-    background-color: #0baad1;
-}
-main {
-    display: flex;
-    flex-direction: row; /* Padrão para telas grandes */
+    background-color: #ffffff;
+    padding: 50px;
 }
 
 @media (max-width: 1000px) {
@@ -272,9 +278,6 @@ main {
     display: none;
 }
 
-.cadastro-paciente{
-    min-width: 40%;
-}
 .sinais-vitais{
     min-width: 56%;
 
@@ -393,4 +396,49 @@ main {
       background-color: #2980b9;
       font-weight: 600;
       box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    }
+
+      /* Estilo aprimorado para os containers de meta */
+    .campo-observacao {
+        margin-bottom: 25px;
+        width: 100%;
+    }
+
+    /* Estilo bonito para os inputs de texto */
+    .campo-observacao input[type="text"] {
+        width: 100%;
+        max-width: 800px; /* Largura máxima generosa */
+        padding: 12px 15px;
+        margin: 10px 0;
+        border: 1px solid #d1d5db;
+        border-radius: 6px;
+        font-size: 1rem;
+        color: #374151;
+        background-color: #f9fafb;
+        transition: all 0.3s ease;
+        box-sizing: border-box;
+        display: block;
+        box-shadow: inset 0 1px 3px rgba(0,0,0,0.05);
+    }
+
+    /* Estilo para o foco (quando clicamos no input) */
+    .campo-observacao input[type="text"]:focus {
+        outline: none;
+        border-color: #407fb3;
+        background-color: #fff;
+        box-shadow: 0 0 0 3px rgba(66, 153, 225, 0.2);
+    }
+
+    /* Estilo para os labels (caso queira usar) */
+    .campo-observacao label {
+        display: block;
+        margin-bottom: 6px;
+        font-weight: 500;
+        color: #374151;
+        font-size: 0.95rem;
+    }
+
+    /* Espaçamento entre os grupos de inputs */
+    .campo-meta {
+        margin-bottom: 20px;
     }

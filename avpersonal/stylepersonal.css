@@ -79,3 +79,94 @@
   border-bottom: 1px solid #eee;
   color: #2c3e50;
 }
+
+ .btn-nova-meta {
+        background-color: #407fb3;
+        color: white;
+        padding: 8px 16px; /* Mais compacto que o original */
+        border: none;
+        border-radius: 5px;
+        font-size: 0.9rem; /* Um pouco menor */
+        cursor: pointer;
+        transition: all 0.3s ease;
+        margin: 10px 0; /* Margem ajustada */
+        display: inline-block;
+        box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    }
+
+    .btn-nova-meta:hover {
+        background-color: #346a99; /* Tom mais escuro no hover */
+        transform: translateY(-1px); /* Efeito sutil de levantar */
+        box-shadow: 0 3px 8px rgba(0,0,0,0.15);
+    }
+
+    .btn-nova-meta:active {
+        transform: translateY(0);
+        box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+    }
+
+
+    .btn-nova-meta {
+        background-color: #407fb3;
+        color: white;
+        padding: 8px 16px;
+        border: none;
+        border-radius: 5px;
+        font-size: 0.9rem;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        margin: 10px 0 20px 0;
+        display: inline-block;
+        box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    }
+
+    .btn-nova-meta:hover {
+        background-color: #346a99;
+        transform: translateY(-1px);
+        box-shadow: 0 3px 8px rgba(0,0,0,0.15);
+    }
+
+    /* Estilo aprimorado para os containers de meta */
+    .campo-observacao {
+        margin-bottom: 25px;
+        width: 100%;
+    }
+
+    /* Estilo bonito para os inputs de texto */
+    .campo-observacao input[type="text"] {
+        width: 100%;
+        max-width: 800px; /* Largura máxima generosa */
+        padding: 12px 15px;
+        margin: 10px 0;
+        border: 1px solid #d1d5db;
+        border-radius: 6px;
+        font-size: 1rem;
+        color: #374151;
+        background-color: #f9fafb;
+        transition: all 0.3s ease;
+        box-sizing: border-box;
+        display: block;
+        box-shadow: inset 0 1px 3px rgba(0,0,0,0.05);
+    }
+
+    /* Estilo para o foco (quando clicamos no input) */
+    .campo-observacao input[type="text"]:focus {
+        outline: none;
+        border-color: #407fb3;
+        background-color: #fff;
+        box-shadow: 0 0 0 3px rgba(66, 153, 225, 0.2);
+    }
+
+    /* Estilo para os labels (caso queira usar) */
+    .campo-observacao label {
+        display: block;
+        margin-bottom: 6px;
+        font-weight: 500;
+        color: #374151;
+        font-size: 0.95rem;
+    }
+
+    /* Espaçamento entre os grupos de inputs */
+    .campo-meta {
+        margin-bottom: 20px;
+    }
