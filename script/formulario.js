@@ -664,3 +664,75 @@ document.addEventListener('DOMContentLoaded', () => {
     outrosInput.addEventListener('input', salvarDispositivosSelecionados);
   }
 });
+
+// ========== FUNÇÕES PARA LESÃO POR PRESSÃO ==========
+
+// Salvar resposta principal (sim/não)
+function salvarRespostaLesaoPressao(resposta) {
+  try {
+    localStorage.setItem('resposta-lesao-pressao', resposta);
+    console.log("Resposta lesão por pressão salva:", resposta);
+
+    // Atualiza exibição do campo de local
+    toggleLocalLesaoPressao(resposta === 'sim');
+    // Se for "não", limpa o local salvo
+    if (resposta !== 'sim') {
+      localStorage.removeItem('local-lesao-pressao');
+    }
+  } catch (e) {
+    alert("Erro ao salvar lesão por pressão: " + e.message);
+  }
+}
+
+// Salvar local da lesão
+function salvarLocalLesaoPressao(local) {
+  try {
+    localStorage.setItem('local-lesao-pressao', local);
+    console.log("Local da lesão por pressão salvo:", local);
+  } catch (e) {
+    alert("Erro ao salvar local da lesão: " + e.message);
+  }
+}
+
+// Mostrar/ocultar campo de local da lesão
+function toggleLocalLesaoPressao(mostrar) {
+  const campoLocal = document.getElementById('local-lesao-pressao-details');
+  if (campoLocal) {
+    campoLocal.style.display = mostrar ? 'block' : 'none';
+    if (!mostrar) {
+      campoLocal.querySelector('input').value = '';
+    }
+  }
+}
+
+// Inicializar estado ao carregar a página
+document.addEventListener('DOMContentLoaded', function() {
+  const resposta = localStorage.getItem('resposta-lesao-pressao');
+  if (resposta) {
+    const radio = document.querySelector(`input[name="lesao_pressao"][value="${resposta}"]`);
+    if (radio) radio.checked = true;
+    toggleLocalLesaoPressao(resposta === 'sim');
+  }
+
+  const local = localStorage.getItem('local-lesao-pressao');
+  if (local) {
+    const inputLocal = document.querySelector('input[name="local_lesao_pressao"]');
+    if (inputLocal) inputLocal.value = local;
+  }
+
+  // Adicionar listeners
+  document.querySelectorAll('input[name="lesao_pressao"]').forEach(radio => {
+    radio.addEventListener('change', function() {
+      salvarRespostaLesaoPressao(this.value);
+    });
+  });
+
+  const inputLocal = document.querySelector('input[name="local_lesao_pressao"]');
+  if (inputLocal) {
+    inputLocal.addEventListener('input', function() {
+      salvarLocalLesaoPressao(this.value);
+    });
+  }
+});
+
+
