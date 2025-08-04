@@ -23,8 +23,6 @@ document.addEventListener('DOMContentLoaded', function() {
             // Obtém o ID da seção do profissional (remove o # do href)
             const profissionalId = this.getAttribute('href').substring(1);
             
-            console.log('Filtro.js: Exibindo blocos para', profissionalId);
-            
             // Esconde todos os blocos primeiro
             document.querySelectorAll('.bloco').forEach(bloco => {
                 bloco.style.display = 'none';
@@ -62,12 +60,4 @@ document.addEventListener('DOMContentLoaded', function() {
     // Insere o botão no container de profissionais
     const areaProfissionais = document.querySelector('.area-profissionais');
     areaProfissionais.appendChild(btnMostrarTodos);
-    
-    const liEnfermagem = document.getElementById('li-enfermagem');
-    const observer = new MutationObserver(mutations => {
-      mutations.forEach(mutation => {
-        console.log('li-enfermagem style alterado:', liEnfermagem.style.display);
-      });
-    });
-    observer.observe(liEnfermagem, { attributes: true, attributeFilter: ['style'] });
 });

@@ -1,4 +1,80 @@
+// Não deambula
+window.addEventListener('DOMContentLoaded', () => {
+  try {
+    const resposta = localStorage.getItem('resposta-deambulacao');
+    console.log("Resposta recebida do localStorage:", resposta);
 
+    if (!resposta) {
+      console.warn("Nenhuma resposta encontrada no localStorage.");
+      return;
+    }
+
+    if (resposta === 'nao') {
+      const liFisio = document.getElementById('li-fisio');
+      const blocoDeambulacao = document.getElementById('bloco-deambulacao');
+
+      if (liFisio) {
+        liFisio.style.display = 'list-item';
+        console.log("Aba Fisioterapia ativada com sucesso!");
+      } else {
+        console.error("Elemento #li-fisio não encontrado.");
+      }
+
+      if (blocoDeambulacao) {
+        blocoDeambulacao.style.display = 'block';
+        console.log("Article 'Não deambula' exibido com sucesso!");
+      } else {
+        console.error("Elemento #bloco-deambulacao não encontrado.");
+      }
+
+    } else {
+      console.log("Resposta foi 'sim', nenhum bloco extra necessário.");
+    }
+
+  } catch (e) {
+    console.error("Erro ao ler localStorage:", e.message);
+  }
+});
+
+
+// Dependencia parcial ou total 
+
+window.addEventListener('DOMContentLoaded', () => {
+  try {
+    // Verifica a resposta de dependência
+    const respostaDependencia = localStorage.getItem('resposta-dependencia');
+    console.log("Resposta dependencia:", respostaDependencia);
+
+    if (respostaDependencia === 'sim') {
+      const liFisio = document.getElementById('li-fisio');
+      const blocoDependencia = document.getElementById('bloco-dependencia');
+
+      if (liFisio) {
+        liFisio.style.display = 'list-item';
+        console.log("Aba fisio ativada!");
+      } else {
+        console.error("Elemento Fisio não encontrado.");
+      }
+
+      if (blocoDependencia) {
+        blocoDependencia.style.display = 'block';
+        console.log("Article 'Dependência' exibido com sucesso!");
+        
+        // Atualiza o título com o grau salvo
+        const grau = localStorage.getItem('grau-dependencia');
+        const titulo = document.querySelector('#bloco-dependencia h2');
+        
+        if (grau) {
+          titulo.textContent = `Dependência ${grau === 'parcial' ? 'Parcial' : 'Total'}`;
+        }
+      } else {
+        console.error("Elemento #bloco-dependencia não encontrado.");
+      }
+    }
+  } catch (e) {
+    console.error("Erro ao ler localStorage:", e.message);
+  }
+});
 
 
 window.addEventListener('DOMContentLoaded', () => {
@@ -194,6 +270,36 @@ window.addEventListener('DOMContentLoaded', () => {
   }
 });
 
+// ========== VALIDAÇÃO PARA fisio dispositivos ==========
+  function atualizarBlocoRespiratorio() {
+    const resposta = localStorage.getItem('resposta-respiratorio');
+    const tqt = localStorage.getItem('cuidados-tqt');
+    const outros = localStorage.getItem('cuidados-outros');
+    const outrosDetalhes = localStorage.getItem('outros-detalhes');
+    const blocoResp = document.getElementById('bloco-dispositivos');
+    const liFisio = document.getElementById('li-fisio');
+
+    let mostrarBloco = false;
+    let titulo = 'Metas para dispositivos respiratórios';
+
+    if (resposta === 'sim' && (tqt === 'sim' || outros === 'sim')) {
+      mostrarBloco = true;
+
+      // Pode incluir mais lógica aqui se quiser personalizar o título com base em TQT ou outros
+    }
+
+    if (blocoResp) {
+      blocoResp.style.display = mostrarBloco ? 'block' : 'none';
+    }
+
+    if (liFisio) {
+      liFisio.style.display = mostrarBloco ? 'list-item' : 'none';
+    }
+
+    if (mostrarBloco && typeof ativarAba === 'function') {
+      ativarAba('fisioterapia');
+    }
+  }
 
   // Inicializar ao carregar
   window.addEventListener('DOMContentLoaded', () => {
@@ -274,137 +380,4 @@ window.addEventListener('DOMContentLoaded', () => {
   } catch(e) {
     console.error("Erro ao validar dispositivos:", e);
   }
-});
-
-function atualizarBlocoLesaoPressao() {
-  const resposta = localStorage.getItem('resposta-lesao-pressao');
-  const local = localStorage.getItem('local-lesao-pressao');
-  const blocoLesao = document.getElementById('bloco-lesao-pressao');
-  const liEnfermagem = document.getElementById('li-enfermagem'); // ou li-fisio, conforme sua aba
-
-  // Só mostra se respondeu "sim" e informou o local
-  const mostrarBloco = resposta === 'sim' && local && local.trim() !== '';
-
-  if (blocoLesao) {
-    blocoLesao.style.display = mostrarBloco ? 'block' : 'none';
-  }
-
-  if (liEnfermagem) {
-    liEnfermagem.style.display = mostrarBloco ? 'list-item' : 'none';
-  }
-
-  // Atualiza título ou observação, se desejar
-  if (mostrarBloco) {
-    const titulo = blocoLesao.querySelector('h2');
-    if (titulo) {
-      titulo.textContent = `Lesão por pressão: ${local}`;
-    }
-  }
-
-  // Ativar aba se necessário
-  if (mostrarBloco && typeof ativarAba === 'function') {
-    ativarAba('enfermagem'); // ou 'fisioterapia', conforme sua lógica
-  }
-}
-
-// Inicializar ao carregar
-window.addEventListener('DOMContentLoaded', () => {
-  try {
-    atualizarBlocoLesaoPressao();
-  } catch (e) {
-    console.error("Erro ao validar lesão por pressão:", e);
-  }
-});
-
-function atualizarLiEnfermagem() {
-  const mostrarDispositivos = localStorage.getItem('resposta-dispositivos') === 'sim';
-  const mostrarLesao = localStorage.getItem('resposta-lesao-pressao') === 'sim';
-  const liEnfermagem =  document.getElementById('li-enfermagem'); // ou li-fisio, conforme sua aba
-  const mostrarAVP = localStorage.getItem('resposta-avp') === 'sim, ' &&
-                      (localStorage.getItem('dificuldade-avp') === 'medio' ||
-                       localStorage.getItem('dificuldade-avp') === 'dificil');
-  // Verifica se deve mostrar a aba de enfermagem
-  if (mostrarDispositivos || mostrarLesao || mostrarAVP) {
-  if (liEnfermagem) {
-    liEnfermagem.style.display = (mostrarDispositivos || mostrarLesao || mostrarAVP) ? 'list-item' : 'none';
-  }
-}
-}
-
-
-// TUDO DE FISIO 
-
-// Não deambula (Fisioterapia)
-window.addEventListener('DOMContentLoaded', () => {
-  try {
-    const resposta = localStorage.getItem('resposta-deambulacao');
-    if (resposta === 'nao') {
-      const blocoDeambulacao = document.getElementById('bloco-deambulacao');
-      if (blocoDeambulacao) blocoDeambulacao.style.display = 'block';
-    }
-  } catch (e) {
-    console.error("Erro ao ler localStorage:", e.message);
-  }
-});
-
-// Dependência (Fisioterapia)
-window.addEventListener('DOMContentLoaded', () => {
-  try {
-    const respostaDependencia = localStorage.getItem('resposta-dependencia');
-    if (respostaDependencia === 'sim') {
-      const blocoDependencia = document.getElementById('bloco-dependencia');
-      if (blocoDependencia) {
-        blocoDependencia.style.display = 'block';
-        const grau = localStorage.getItem('grau-dependencia');
-        const titulo = blocoDependencia.querySelector('h2');
-        if (grau && titulo) {
-          titulo.textContent = `Dependência ${grau === 'parcial' ? 'Parcial' : 'Total'}`;
-        }
-      }
-    }
-  } catch (e) {
-    console.error("Erro ao ler localStorage:", e.message);
-  }
-});
-
-// Dispositivos Respiratórios (Fisioterapia)
-window.addEventListener('DOMContentLoaded', () => {
-  try {
-    const resposta = localStorage.getItem('resposta-respiratorio');
-    const tqt = localStorage.getItem('cuidados-tqt');
-    const outros = localStorage.getItem('cuidados-outros');
-    
-    if (resposta === 'sim' && (tqt === 'sim' || outros === 'sim')) {
-      const blocoResp = document.getElementById('bloco-dispositivos');
-      if (blocoResp) blocoResp.style.display = 'block';
-    }
-  } catch (e) {
-    console.error("Erro ao validar respiratório:", e.message);
-  }
-});
-
-// ===== CONTROLE UNIFICADO DA ABA FISIOTERAPIA =====
-function atualizarAbaFisioterapia() {
-  const liFisio = document.getElementById('li-fisio');
-  if (!liFisio) return;
-
-  // Verificar todas as condições que exigem fisioterapia
-  const condicoes = [
-    localStorage.getItem('resposta-deambulacao') === 'nao',
-    localStorage.getItem('resposta-dependencia') === 'sim',
-    localStorage.getItem('resposta-respiratorio') === 'sim' && 
-      (localStorage.getItem('cuidados-tqt') === 'sim' || 
-       localStorage.getItem('cuidados-outros') === 'sim')
-  ];
-
-  // Mostrar aba se pelo menos uma condição for verdadeira
-  liFisio.style.display = condicoes.some(cond => cond) ? 'list-item' : 'none';
-}
-
-// Inicialização
-window.addEventListener('DOMContentLoaded', () => {
-  atualizarAbaFisioterapia();
-  
-  // Adicione esta chamada sempre que atualizar dados relacionados
-  // Exemplo: ao final de cada bloco que afeta fisioterapia
 });
