@@ -292,9 +292,10 @@ window.addEventListener('DOMContentLoaded', () => {
       blocoResp.style.display = mostrarBloco ? 'block' : 'none';
     }
 
-    if (liFisio) {
-      liFisio.style.display = mostrarBloco ? 'list-item' : 'none';
+    if (liFisio && mostrarBloco) {
+    liFisio.style.display = 'list-item';
     }
+
 
     if (mostrarBloco && typeof ativarAba === 'function') {
       ativarAba('fisioterapia');
@@ -311,73 +312,107 @@ window.addEventListener('DOMContentLoaded', () => {
   });
 
 
-  // script-atualizacao-dispositivos.js
+ function criarArticlesParaDispositivos() {
+  const container = document.getElementById('container-dispositivos');
+  if (!container) return;
 
-// Função para atualizar o bloco de enfermagem
-// ========== VALIDAÇÃO PARA DISPOSITIVOS DE ENFERMAGEM ==========
-function atualizarBlocoDispositivosEnf() {
+  // Limpa o container antes de recriar
+  container.innerHTML = '';
+
+  // Recupera dados salvos
   const resposta = localStorage.getItem('resposta-dispositivos');
-  const dispositivosSelecionados = JSON.parse(localStorage.getItem('dispositivos-selecionados') || '[]');
+  const dispositivos = JSON.parse(localStorage.getItem('dispositivos-selecionados') || []);
   const temOutros = localStorage.getItem('dispositivos-outros') === 'sim';
   const outrosDetalhes = localStorage.getItem('outros-dispositivos-detalhe');
-  
-  const blocoDispositivosEnf = document.getElementById('bloco-dispositivos-enf');
-  const liEnfermagem = document.getElementById('li-enfermagem'); // Elemento da aba de enfermagem
-  
-  // Verificar se precisa mostrar o bloco
-  const mostrarBloco = resposta === 'sim' && 
-                      (dispositivosSelecionados.length > 0 || 
-                       (temOutros && outrosDetalhes && outrosDetalhes.trim() !== ''));
-  
-  if(blocoDispositivosEnf) {
-    blocoDispositivosEnf.style.display = mostrarBloco ? 'block' : 'none';
-  }
-  
-  if(liEnfermagem) {
-    liEnfermagem.style.display = mostrarBloco ? 'list-item' : 'none';
-  }
-  
-  // Preencher observação se necessário
-  if(mostrarBloco) {
-    const obsInput = document.getElementById('obs-dispositivos-enf');
-    if(obsInput) {
-      // Criar texto com dispositivos selecionados
-      let dispositivosTexto = dispositivosSelecionados.join(', ');
-      
-      // Adicionar outros dispositivos se existirem
-      if(temOutros && outrosDetalhes) {
-        if(dispositivosTexto) dispositivosTexto += ', ';
-        dispositivosTexto += `Outros: ${outrosDetalhes}`;
-      }
-      
-      // Atualizar campo de observação
-      obsInput.value = dispositivosTexto;
+
+  // Verifica se deve mostrar algo
+  const deveMostrar = resposta === 'sim' && 
+                     (dispositivos.length > 0 || (temOutros && outrosDetalhes));
+
+  if (deveMostrar) {
+    // Cria um article para cada dispositivo principal
+    dispositivos.forEach(dispositivo => {
+      const article = document.createElement('article');
+      article.className = 'bloco-dispositivo';
+      article.innerHTML = `
+        <h2>${dispositivo}</h2>
+        <button class="btn-nova-meta">Gerar meta para ${dispositivo}</button>
+        <div class="campo-observacao"></div>
+      `;
+      container.appendChild(article);
+    });
+
+    // Cria article para "Outros" se existir
+    if (temOutros && outrosDetalhes) {
+      const article = document.createElement('article');
+      article.className = 'bloco-dispositivo';
+      article.innerHTML = `
+        <h2>${outrosDetalhes}</h2>
+        <button class="btn-nova-meta">Gerar meta para ${outrosDetalhes}</button>
+        <div class="campo-observacao"></div>
+      `;
+      container.appendChild(article);
     }
-  }
-  
-  // Ativar aba se necessário
-  if(mostrarBloco && typeof ativarAba === 'function') {
-    ativarAba('enfermagem');
+
+    // Ativa a aba de enfermagem
+    const liEnfermagem = document.getElementById('li-enfermagem');
+    if (liEnfermagem) {
+      liEnfermagem.style.display = 'list-item';
+    }
   }
 }
 
-// Inicializar ao carregar
-window.addEventListener('DOMContentLoaded', () => {
-  try {
-    atualizarBlocoDispositivosEnf();
-    
-    // Adicionar listener para salvar observação
-    const obsInput = document.getElementById('obs-dispositivos-enf');
-    if(obsInput) {
-      obsInput.addEventListener('input', function() {
-        localStorage.setItem('obs-dispositivos-enf', this.value);
-      });
-      
-      // Restaurar valor salvo
-      const obsSalva = localStorage.getItem('obs-dispositivos-enf');
-      if(obsSalva) obsInput.value = obsSalva;
-    }
-  } catch(e) {
-    console.error("Erro ao validar dispositivos:", e);
+// Inicializa quando a página carrega
+document.addEventListener('DOMContentLoaded', criarArticlesParaDispositivos);
+
+
+function criarArticlesParaLocais() {
+  const container = document.getElementById('container-lesoes');
+  if (!container) return;
+  
+  container.innerHTML = '';
+  
+  const locaisSalvos = JSON.parse(localStorage.getItem('locaisLesao') || '[]');
+  
+  if (locaisSalvos.length > 0) {
+    locaisSalvos.forEach((local, index) => {
+      const article = document.createElement('article');
+      article.className = 'bloco-lesao';
+      article.innerHTML = `
+        <h2>LPP - ${local}</h2>
+        <div class="linha-controles">
+          <div class="grupo-infeccao">
+            <label>Infectado:</label>
+            <label class="option-label">
+              <input type="radio" name="infeccao_${index}" value="sim" 
+                     onchange="atualizarDadosLesao('${local}')"> Sim
+            </label>
+            <label class="option-label">
+              <input type="radio" name="infeccao_${index}" value="nao" 
+                     onchange="atualizarDadosLesao('${local}')"> Não
+            </label>
+          </div>
+          
+          <div class="grupo-grau">
+            <label>Grau:</label>
+            <select class="select-grau" onchange="atualizarDadosLesao('${local}')">
+              <option value="1">Grau 1</option>
+              <option value="2">Grau 2</option>
+              <option value="3">Grau 3</option>
+              <option value="4">Grau 4</option>
+            </select>
+          </div>
+        </div>
+        
+        <button class="btn-nova-meta">Gerar meta para ${local}</button>
+        <div class="campo-observacao"></div>
+      `;
+      container.appendChild(article);
+    });
+    console.log(`Criados ${locaisSalvos.length} articles para os locais:`, locaisSalvos);
+  } else {
+    console.log("Nenhum local salvo - nenhum article criado");
   }
-});
+}
+
+document.addEventListener('DOMContentLoaded', criarArticlesParaLocais);

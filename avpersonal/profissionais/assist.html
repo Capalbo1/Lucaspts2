@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Formulário Completo de Anamnese</title>
+  <link rel="stylesheet" href="../style.css">
+  <link rel="stylesheet" href="../stylepersonal.css">
+  <link rel="shortcut icon" href="..../assets/img/favicion.png" type="image/x-icon">
+  <!-- Adicione estas bibliotecas -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1>Projeto Terapêutico Singular</h1>
+    </header>
+    
+    <nav>
+      <a href="../../index.html">Triagem</a>
+      <a href="../../comorbidades/comorbidades.html">Comorbidades e riscos</a>
+      <a href="../../avaliação.html" >Avaliação</a>
+      <a href="../../avpersonal/index.html" class="active"> Avaliação Singular</a>
+    </nav>
+    
+    
+    <nav class="area-profissionais">
+        <ul class="menu-profissionais">
+            <li id="li-enfermagem" ><a href="enfermagem.html">Enfermagem</a></li>
+            <li id="li-fisio"  ><a href="fisio.html"  >Fisioterapia</a></li>
+            <li id="li-nutricao"><a href="nutri.html">Nutrição</a></li>
+            <li id="li-psicologo" ><a href="psico.html">Psicologia</a></li>
+            <li id="li-assistente" ><a href="assist.html" class="active">Assistente Social</a></li>
+            <li id="li-farmaceutico" ><a href="farma.html">Farmácia clínica </a></li>
+            <li id="li-to"><a href="to.html">Terapia Ocupacional</a></li>
+            <li id="li-fono"><a href="fono.html">Fonoaudiologia</a></li>
+        </ul>
+    </nav>
+
+
+<main>
+   <article id="bloco-psicologico" class="bloco-psicologico bloco" style="display: none;">
+    <h2>Suporte Psicológico</h2>
+    <button class="btn-nova-meta">Gerar nova meta</button>
+    <div class="campo-observacao">
+    </div>
+  </article>
+</main>
+
+<main class="metas-padrao-container">
+  <h2>Metas Singulares</h2>
+  <section class="metas">
+    <article class="meta">
+      <input type="checkbox" name="" id="">
+      <p></p>
+    </article>
+   
+  </section>
+  <div class="button-metas"><button class="btn-nova-meta">Gerar PDF de Metas Singulares</button></div>
+</main>
+
+
+<script src="../navcontrol.js"></script>
+<script src="../novaMeta.js"></script>
+<script src="../metassingulares.js"></script>
+
+</body>
+
+
+</html>

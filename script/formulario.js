@@ -557,110 +557,123 @@ document.addEventListener('DOMContentLoaded', function() {
     });
   });
 
-  // script-dispositivos.js
+  // Função principal para salvar todos os dados
+function salvarDispositivos() {
+  // Salvar resposta Sim/Não
+  const resposta = document.querySelector('input[name="dispositivos"]:checked')?.value;
+  localStorage.setItem('resposta-dispositivos', resposta || '');
 
-
-
-// Funções para manipulação de dispositivos
-// Funções para manipulação de dispositivos
-// Funções para manipulação de dispositivos
-// Funções para manipulação de dispositivos
-// Funções para manipulação de dispositivos
-// Funções para gerenciar dispositivos
-function toggleDispositivos(show) {
-  const detalhes = document.getElementById("dispositivos-sim-details");
-  detalhes.style.display = show ? "block" : "none";
-  
-  if (!show) {
-    // Limpa todos os dados ao selecionar "Não"
-    localStorage.removeItem('resposta-dispositivos');
-    localStorage.removeItem('dispositivos-selecionados');
-    localStorage.removeItem('dispositivos-outros');
-    localStorage.removeItem('outros-dispositivos-detalhe');
-  } else {
-    localStorage.setItem('resposta-dispositivos', 'sim');
-  }
-}
-
-function toggleOutrosDispositivos(checked) {
-  const outrosDetalhes = document.getElementById("outros-dispositivos-detalhe");
-  outrosDetalhes.style.display = checked ? "block" : "none";
-  localStorage.setItem('dispositivos-outros', checked ? 'sim' : 'nao');
-  
-  if (!checked) {
-    localStorage.removeItem('outros-dispositivos-detalhe');
-  }
-}
-
-function salvarRespostaDispositivos(resposta) {
-  localStorage.setItem('resposta-dispositivos', resposta);
-}
-
-function salvarDispositivosSelecionados() {
-  // Salvar checkboxes principais
-  const selecionados = [];
+  // Salvar dispositivos selecionados
+  const dispositivos = [];
   document.querySelectorAll('input[name="dispositivos_tipo"]:checked').forEach(checkbox => {
-    if(checkbox.value !== 'outros') {
-      selecionados.push(checkbox.value);
+    if (checkbox.value !== 'outros') {
+      dispositivos.push(checkbox.value);
     }
   });
-  localStorage.setItem('dispositivos-selecionados', JSON.stringify(selecionados));
+  localStorage.setItem('dispositivos-selecionados', JSON.stringify(dispositivos));
+
+  // Salvar detalhes de "Outros"
+  const outrosCheckbox = document.querySelector('input[name="dispositivos_tipo"][value="outros"]');
+  const outrosDetalhes = document.querySelector('input[name="outros_dispositivos"]')?.value;
   
-  // Salvar campo "Outros"
-  const outrosInput = document.querySelector('input[name="outros_dispositivos"]');
-  if(outrosInput) {
-    localStorage.setItem('outros-dispositivos-detalhe', outrosInput.value);
+  localStorage.setItem('dispositivos-outros', outrosCheckbox?.checked ? 'sim' : 'nao');
+  if (outrosDetalhes) {
+    localStorage.setItem('outros-dispositivos-detalhe', outrosDetalhes);
+  }
+
+  console.log("Dados salvos:", {
+    resposta,
+    dispositivos,
+    outros: outrosCheckbox?.checked ? outrosDetalhes : null
+  });
+}
+
+// Configuração inicial
+document.addEventListener('DOMContentLoaded', function() {
+  // Eventos para checkboxes/radios
+  document.querySelectorAll(
+    'input[name="dispositivos"], input[name="dispositivos_tipo"]'
+  ).forEach(input => {
+    input.addEventListener('change', salvarDispositivos);
+  });
+
+  // Evento para campo "Outros"
+  document.querySelector('input[name="outros_dispositivos"]')?.addEventListener(
+    'input', salvarDispositivos
+  );
+});
+
+// Mostrar/ocultar campos da lesão
+function mostrarCamposLesao(mostrar) {
+  const detalhesLesao = document.getElementById('lesao-details');
+  detalhesLesao.style.display = mostrar ? 'block' : 'none';
+  
+  // Mostrar campo "Outros" se já estiver marcado
+  if (mostrar) {
+    const outrosCheckbox = document.getElementById('outros-lesao');
+    const outrosDetalhes = document.getElementById('outros-lesao-detalhes');
+    outrosDetalhes.style.display = outrosCheckbox.checked ? 'block' : 'none';
   }
 }
 
-// Inicialização ao carregar a página
-document.addEventListener('DOMContentLoaded', () => {
-  // Restaurar estado principal
-  const respostaSalva = localStorage.getItem('resposta-dispositivos');
-  if(respostaSalva) {
-    const radio = document.querySelector(`input[name="dispositivos"][value="${respostaSalva}"]`);
-    if(radio) {
-      radio.checked = true;
-      toggleDispositivos(respostaSalva === 'sim');
-    }
-  }
+// Mostrar/ocultar campos da lesão
+function mostrarCamposLesao(mostrar) {
+  const detalhesLesao = document.getElementById('lesao-details');
+  detalhesLesao.style.display = mostrar ? 'block' : 'none';
   
-  // Restaurar checkboxes
-  const selecionadosSalvos = JSON.parse(localStorage.getItem('dispositivos-selecionados') || '[]');
-  selecionadosSalvos.forEach(valor => {
-    const checkbox = document.querySelector(`input[name="dispositivos_tipo"][value="${valor}"]`);
-    if(checkbox) checkbox.checked = true;
+  if (mostrar) {
+    const outrosCheckbox = document.getElementById('outros-lesao');
+    const outrosDetalhes = document.getElementById('outros-lesao-detalhes');
+    outrosDetalhes.style.display = outrosCheckbox.checked ? 'block' : 'none';
+  } else {
+    // Se selecionar "Não", limpa os locais salvos
+    localStorage.removeItem('locaisLesao');
+    console.log("Lesão por pressão: Não - Dados removidos");
+  }
+}
+
+// Salvar automaticamente quando mudar qualquer checkbox
+function salvarAutomatico() {
+  const locais = [];
+  
+  document.querySelectorAll('input[name="local_lesao"]:checked').forEach(checkbox => {
+    if (checkbox.value === 'Outros') {
+      const outroLocal = document.getElementById('outro-local-texto').value;
+      if (outroLocal) locais.push(outroLocal);
+    } else {
+      locais.push(checkbox.value);
+    }
   });
   
-  // Restaurar campo "Outros"
-  const outrosSalvo = localStorage.getItem('dispositivos-outros');
-  if(outrosSalvo === 'sim') {
-    const outrosCheckbox = document.querySelector('input[name="dispositivos_tipo"][value="outros"]');
-    if(outrosCheckbox) {
-      outrosCheckbox.checked = true;
-      toggleOutrosDispositivos(true);
-    }
-    
-    const detalhesSalvos = localStorage.getItem('outros-dispositivos-detalhe');
-    if(detalhesSalvos) {
-      const outrosInput = document.querySelector('input[name="outros_dispositivos"]');
-      if(outrosInput) outrosInput.value = detalhesSalvos;
-    }
-  }
-  
-  // Adicionar listeners
-  document.querySelectorAll('input[name="dispositivos_tipo"]').forEach(checkbox => {
-    checkbox.addEventListener('change', function() {
-      if(this.value === 'outros') {
-        toggleOutrosDispositivos(this.checked);
-      }
-      salvarDispositivosSelecionados();
+  localStorage.setItem('locaisLesao', JSON.stringify(locais));
+  console.log("Locais salvos:", locais);
+}
+
+// Configura eventos
+document.addEventListener('DOMContentLoaded', function() {
+  // Evento para radio "Sim/Não"
+  document.querySelectorAll('input[name="lesao"]').forEach(radio => {
+    radio.addEventListener('change', function() {
+      mostrarCamposLesao(this.value === 'sim');
+      if (this.value === 'nao') salvarAutomatico();
     });
   });
   
-  // Listener para input de outros dispositivos
-  const outrosInput = document.querySelector('input[name="outros_dispositivos"]');
-  if(outrosInput) {
-    outrosInput.addEventListener('input', salvarDispositivosSelecionados);
-  }
+  // Evento para checkboxes de local
+  document.querySelectorAll('input[name="local_lesao"]').forEach(checkbox => {
+    checkbox.addEventListener('change', function() {
+      if (this.id === 'outros-lesao') {
+        document.getElementById('outros-lesao-detalhes').style.display = 
+          this.checked ? 'block' : 'none';
+      }
+      salvarAutomatico();
+    });
+  });
+  
+  // Evento para campo "Outros"
+  document.getElementById('outro-local-texto')?.addEventListener('input', salvarAutomatico);
+  
+  // Inicialização
+  const respostaLesao = document.querySelector('input[name="lesao"]:checked');
+  if (respostaLesao) mostrarCamposLesao(respostaLesao.value === 'sim');
 });

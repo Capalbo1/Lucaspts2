@@ -259,62 +259,41 @@
   </div>
 </div>
         
-        <!-- Pergunta 7 - Lesão por Pressão -->
-<!-- Pergunta 7 - Lesão por Pressão os campos de grau para cada check de lesão se sim para ferida meta DE Comissão feridas-->
+
 <div class="question-group">
   <div class="main-question">
     <div class="question-text">7. Lesão por pressão?</div>
     <div class="answer-options">
       <label class="option-label">
-        <input type="radio" name="lesao" value="sim" onclick="toggleSubquestion('lesao-details', true)"> Sim
+        <input type="radio" name="lesao" value="sim" onclick="mostrarCamposLesao(true)"> Sim
       </label>
       <label class="option-label">
-        <input type="radio" name="lesao" value="nao" onclick="toggleSubquestion('lesao-details', false)"> Não
+        <input type="radio" name="lesao" value="nao" onclick="mostrarCamposLesao(false)"> Não
       </label>
     </div>
   </div>
   
   <div id="lesao-details" class="subquestion" style="display: none;">
-    <label>Local:</label>
+    <label>Local da lesão:</label>
     <div class="option-group">
       <label class="option-label">
-        <input type="checkbox" name="local_lesao" value="sacral" > Sacral
+        <input type="checkbox" name="local_lesao" value="Sacral"> Sacral
       </label>
       <label class="option-label">
-        <input type="checkbox" name="local_lesao" value="calcaneo" > Calcâneo
+        <input type="checkbox" name="local_lesao" value="Calcâneo"> Calcâneo
       </label>
       <label class="option-label">
-        <input type="checkbox" name="local_lesao" value="trocater" > Trocânter
+        <input type="checkbox" name="local_lesao" value="Trocânter"> Trocânter
       </label>
       <label class="option-label">
-        <input type="checkbox" name="local_lesao" value="outros"> Outros
+        <input type="checkbox" name="local_lesao" value="Outros" id="outros-lesao"> Outros
       </label>
     </div>
     
-    <!-- Campo para especificar quando selecionar "Outros" -->
-    <div id="outros-lesao-detalhes" class="subdetalhe" style="display: none; margin-top: 10px;">
-      <label>Especifique o local:</label>
-      <input type="text" name="outro_local_lesao">
+    <div id="outros-lesao-detalhes" style="display: none; margin-top: 10px;">
+      <input type="text" id="outro-local-texto" placeholder="Especifique o local">
     </div>
     
-    <!-- Campo para selecionar o grau (aparece quando qualquer local é selecionado) -->
-    <div id="grau-lesao-container" style="display: none; margin-top: 15px;">
-      <label>Grau:</label>
-      <div class="option-group">
-        <label class="option-label">
-          <input type="radio" name="grau_lesao" value="1"> 1
-        </label>
-        <label class="option-label">
-          <input type="radio" name="grau_lesao" value="2"> 2
-        </label>
-        <label class="option-label">
-          <input type="radio" name="grau_lesao" value="3"> 3
-        </label>
-        <label class="option-label">
-          <input type="radio" name="grau_lesao" value="4"> 4
-        </label>
-      </div>
-    </div>
   </div>
 </div>
 
