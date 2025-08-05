@@ -205,71 +205,6 @@ window.addEventListener('DOMContentLoaded', () => {
   }
 });
 
-window.addEventListener('DOMContentLoaded', () => {
-  try {
-    // ... código existente ...
-    
-    // ========== VALIDAÇÃO PARA PSICOLOGIA ==========
-    const respostaPsicologico = localStorage.getItem('resposta-psicologico');
-    const motivoPsicologico = localStorage.getItem('motivo-psicologico');
-    const outrosMotivos = localStorage.getItem('outros-motivos-psicologico');
-    
-    // Determinar se deve mostrar
-    let mostrarPsicologia = false;
-    
-    if (respostaPsicologico === 'sim') {
-      mostrarPsicologia = true;
-    } else if (respostaPsicologico === 'nao' && motivoPsicologico !== 'nao_necessita') {
-      mostrarPsicologia = true;
-    }
-    
-    if (mostrarPsicologia) {
-      const liPsicologo = document.getElementById('li-psicologo');
-      const blocoPsicologico = document.getElementById('bloco-psicologico');
-      
-      if (liPsicologo) {
-        liPsicologo.style.display = 'list-item';
-        console.log("Item Psicólogo ativado!");
-      }
-      
-      if (blocoPsicologico) {
-        blocoPsicologico.style.display = 'block';
-        
-        // Atualizar título com motivo se necessário
-        if (respostaPsicologico === 'nao') {
-          let motivoTexto = '';
-          switch (motivoPsicologico) {
-            case 'rede_sobrecarregada':
-              motivoTexto = 'Rede sobrecarregada';
-              break;
-            case 'nao_procurou':
-              motivoTexto = 'Não procurou atendimento';
-              break;
-            case 'outros':
-              motivoTexto = outrosMotivos || 'Outros motivos';
-              break;
-          }
-          
-          if (motivoTexto) {
-            const titulo = `Necessita de Suporte psicológico (${motivoTexto})`;
-            const tituloElement = blocoPsicologico.querySelector('h2');
-            if (tituloElement) tituloElement.textContent = titulo;
-          }
-        }
-        
-        console.log("Bloco Psicologia exibido!");
-      }
-      
-      // Ativar aba de psicologia
-      if (typeof ativarAba === 'function') {
-        ativarAba('psicologia');
-      }
-    }
-  } catch (e) {
-    console.error("Erro ao validar psicologia:", e.message);
-  }
-});
-
 // ========== VALIDAÇÃO PARA fisio dispositivos ==========
   function atualizarBlocoRespiratorio() {
     const resposta = localStorage.getItem('resposta-respiratorio');
@@ -416,3 +351,131 @@ function criarArticlesParaLocais() {
 }
 
 document.addEventListener('DOMContentLoaded', criarArticlesParaLocais);
+
+
+
+function gerarMetaPsicologia() {
+  // 1. Encontrar o container principal
+  const metasContainer = document.querySelector('.metas-padrao-container');
+  if (!metasContainer) {
+    console.error('Container principal não encontrado (.metas-padrao-container)');
+    return;
+  }
+  
+  // 2. Encontrar a seção de metas dentro do container
+  const sectionMetas = metasContainer.querySelector('.metas');
+  if (!sectionMetas) {
+    console.error('Seção de metas não encontrada (.metas)');
+    return;
+  }
+  
+  // 3. Remover meta existente se já existir
+  const metaExistente = sectionMetas.querySelector('#meta-psicologia');
+  if (metaExistente) {
+    metaExistente.remove();
+    console.log('Meta existente removida');
+  }
+  
+  // 4. Obter dados do localStorage
+  const resposta = localStorage.getItem('resposta-psicologico');
+  const frequencia = localStorage.getItem('frequencia-psicologico');
+  const motivo = localStorage.getItem('motivo-psicologico');
+  const outrosMotivos = localStorage.getItem('outros-motivos-psicologico');
+  
+  console.log('Dados recuperados:', {
+    resposta,
+    frequencia,
+    motivo,
+    outrosMotivos
+  });
+  
+  // 5. Verificar se deve gerar meta
+  const deveGerar = resposta === 'sim' || 
+                   (resposta === 'nao' && motivo && motivo !== 'nao_necessita');
+  
+  if (!deveGerar) {
+    console.log('Não deve gerar meta de psicologia');
+    return;
+  }
+  
+  // 6. Criar elemento da meta
+  const meta = document.createElement('article');
+  meta.className = 'meta';
+  meta.id = 'meta-psicologia';
+  
+  let textoMeta = '';
+  
+  if (resposta === 'sim') {
+    textoMeta = 'Acompanhamento psicológico em andamento';
+    if (frequencia) {
+      textoMeta += ` (${formatarFrequencia(frequencia)})`;
+    }
+  } else {
+    textoMeta = 'Necessita de acompanhamento psicológico';
+    if (motivo) {
+      textoMeta += ` - ${formatarMotivo(motivo, outrosMotivos)}`;
+    }
+  }
+  
+  meta.innerHTML = `
+    <input type="checkbox" name="meta-psicologia">
+    <p>${textoMeta}</p>
+  `;
+  
+  // 7. Adicionar antes do botão
+  sectionMetas.appendChild(meta);
+  console.log('Meta de psicologia adicionada com sucesso!');
+}
+
+function formatarFrequencia(frequencia) {
+  const formatos = {
+    'menos_1': 'menos de 1x/mês',
+    '1_a_2': '1-2x/mês',
+    '2_a_4': '2-4x/mês',
+    'mais_4': 'mais de 4x/mês'
+  };
+  return formatos[frequencia] || frequencia;
+}
+
+function formatarMotivo(motivo, outros) {
+  const formatos = {
+    'rede_sobrecarregada': 'Rede sobrecarregada',
+    'nao_procurou': 'Não procurou atendimento',
+    'outros': outros || 'Outros motivos'
+  };
+  return formatos[motivo] || motivo;
+}
+
+// 8. Verificar quando os dados mudam
+function verificarMudancas() {
+  // Estado inicial
+  let estadoAnterior = JSON.stringify({
+    resposta: localStorage.getItem('resposta-psicologico'),
+    frequencia: localStorage.getItem('frequencia-psicologico'),
+    motivo: localStorage.getItem('motivo-psicologico'),
+    outros: localStorage.getItem('outros-motivos-psicologico')
+  });
+  
+  // Verificar a cada 500ms
+  setInterval(() => {
+    const estadoAtual = JSON.stringify({
+      resposta: localStorage.getItem('resposta-psicologico'),
+      frequencia: localStorage.getItem('frequencia-psicologico'),
+      motivo: localStorage.getItem('motivo-psicologico'),
+      outros: localStorage.getItem('outros-motivos-psicologico')
+    });
+    
+    if (estadoAtual !== estadoAnterior) {
+      console.log('Dados mudaram - gerando nova meta');
+      gerarMetaPsicologia();
+      estadoAnterior = estadoAtual;
+    }
+  }, 500);
+}
+
+// 9. Inicialização
+document.addEventListener('DOMContentLoaded', () => {
+  console.log('DOM carregado - iniciando geração de meta');
+  gerarMetaPsicologia();
+  verificarMudancas();
+});

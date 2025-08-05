@@ -92,7 +92,6 @@ button{
 /* Conteúdo da seção */
 section {
   padding: 20px;
-  max-width: 800px;
   margin: 0 auto;
   background-color: white;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
@@ -272,4 +271,93 @@ nav {
 /* Efeito de clique */
 nav a:active {
   transform: translateY(1px);
+}
+/* Container para agrupar input e ícone (opcional) */
+.date-container {
+  position: relative;
+  display: inline-block;
+  width: 220px;
+}
+
+/* Estilo base do input */
+.meu-datepicker {
+  width: 100%;
+  padding: 12px 16px;
+  padding-right: 40px; /* Espaço para o ícone */
+  font-family: 'Segoe UI', system-ui, sans-serif;
+  font-size: 1rem;
+  color: #333;
+  background: #f8f9fa;
+  border: 2px solid #ced4da;
+  border-radius: 8px;
+  outline: none;
+  transition: all 0.3s ease;
+  box-shadow: inset 0 1px 2px rgba(0,0,0,0.05);
+  cursor: pointer;
+}
+
+/* Placeholder estilizado */
+.meu-datepicker::placeholder {
+  color: #6c757d;
+  opacity: 0.8;
+}
+
+/* Foco e estados ativos */
+.meu-datepicker:focus {
+  border-color: #3b82f6;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.25);
+  background: #fff;
+}
+
+.meu-datepicker:hover:not(:focus) {
+  border-color: #94a3b8;
+  background: #e9ecef;
+}
+
+/* Ícone personalizado (usando pseudo-elemento) */
+.date-container::after {
+  content: "📅";
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  pointer-events: none;
+  font-size: 1.2em;
+}
+
+/* Estilização interna do datepicker (funciona em navegadores WebKit) */
+.meu-datepicker::-webkit-calendar-picker-indicator {
+  position: absolute;
+  right: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0; /* Esconde o ícone padrão */
+  cursor: pointer;
+}
+
+/* Estilos para o calendário nativo (WebKit) */
+.meu-datepicker::-webkit-datetime-edit {
+  padding: 0;
+}
+.meu-datepicker::-webkit-datetime-edit-fields-wrapper {
+  background: transparent;
+}
+.meu-datepicker::-webkit-datetime-edit-text {
+  color: #4b5563;
+  padding: 0 2px;
+}
+
+/* Firefox: Remove a seta nativa */
+@supports (-moz-appearance: none) {
+  .meu-datepicker {
+    appearance: none;
+    -moz-appearance: textfield;
+  }
+}
+
+.idade-calculada{
+  font-size: 1.5em;
+  color: #0057a3;
+  font-weight: bold;
+
 }

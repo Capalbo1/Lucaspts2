@@ -21,7 +21,5 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Atualiza o conteúdo da div
     divIdade.textContent = `${idade} anos`;
-    divIdade.style.fontWeight = 'bold';
-    divIdade.style.color = '#1e88e5';
   });
 });

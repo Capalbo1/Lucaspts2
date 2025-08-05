@@ -242,273 +242,7 @@ function atualizarEstadoAVP() {
   atualizarBlocoEnfermagem();
 }
 
-// ========== FUNÇÃO PARA ATUALIZAR BLOCO ENFERMAGEM ==========
-function atualizarBlocoEnfermagem() {
-  const resposta = localStorage.getItem('resposta-avp');
-  const dificuldade = localStorage.getItem('dificuldade-avp');
-  const blocoEnfermagem = document.getElementById('bloco-enfermagem');
-  const liEnfermagem = document.getElementById('li-enfermagem');
-  
-  // Mostrar bloco se resposta for "sim" e dificuldade for média ou difícil
-  if (resposta === 'sim' && (dificuldade === 'medio' || dificuldade === 'dificil')) {
-    if (blocoEnfermagem) blocoEnfermagem.style.display = 'block';
-    if (liEnfermagem) liEnfermagem.style.display = 'list-item';
-    
-    // Ativar aba de enfermagem
-    if (typeof ativarAba === 'function') {
-      ativarAba('enfermagem');
-    }
-  } else {
-    // Ocultar se não atender aos critérios
-    if (blocoEnfermagem) blocoEnfermagem.style.display = 'none';
-    if (liEnfermagem) liEnfermagem.style.display = 'none';
-  }
-}
 
-// Inicializar estado ao carregar a página
-document.addEventListener('DOMContentLoaded', function() {
-  atualizarEstadoAVP();
-});
-
-
-
-// ========== FUNÇÕES PARA PSICOLOGIA ==========
-
-// Salvar resposta principal
-function salvarRespostaPsicologico(resposta) {
-  try {
-    localStorage.setItem('resposta-psicologico', resposta);
-    console.log("Resposta psicológico salva:", resposta);
-    atualizarEstadoPsicologico();
-  } catch (e) {
-    console.error("Erro ao salvar resposta psicológico:", e);
-  }
-}
-
-// Salvar frequência
-function salvarFrequenciaPsicologico(frequencia) {
-  try {
-    localStorage.setItem('frequencia-psicologico', frequencia);
-    console.log("Frequência psicológico salva:", frequencia);
-  } catch (e) {
-    console.error("Erro ao salvar frequência psicológico:", e);
-  }
-}
-
-// Salvar motivo
-function salvarMotivoPsicologico(motivo) {
-  try {
-    localStorage.setItem('motivo-psicologico', motivo);
-    console.log("Motivo psicológico salvo:", motivo);
-    atualizarEstadoPsicologico();
-  } catch (e) {
-    console.error("Erro ao salvar motivo psicológico:", e);
-  }
-}
-
-// Salvar outros motivos
-function salvarOutrosMotivosPsicologico(outros) {
-  try {
-    localStorage.setItem('outros-motivos-psicologico', outros);
-    console.log("Outros motivos psicológico salvos:", outros);
-  } catch (e) {
-    console.error("Erro ao salvar outros motivos psicológico:", e);
-  }
-}
-
-// Mostrar/ocultar detalhes do acompanhamento psicológico
-function toggleAcompanhamentoPsicologico(temAcompanhamento) {
-  document.getElementById('psicologico-sim-details').style.display = temAcompanhamento ? 'block' : 'none';
-  document.getElementById('psicologico-nao-details').style.display = temAcompanhamento ? 'none' : 'block';
-  
-  // Limpa os campos quando escondidos
-  if (!temAcompanhamento) {
-    document.getElementById('psicologico-sim-details').querySelectorAll('input').forEach(input => {
-      input.checked = false;
-    });
-    localStorage.removeItem('frequencia-psicologico');
-  } else {
-    document.getElementById('psicologico-nao-details').querySelectorAll('input').forEach(input => {
-      if (input.type !== 'radio') {
-        input.value = '';
-      } else {
-        input.checked = false;
-      }
-    });
-    document.getElementById('outros-motivos-psicologico').style.display = 'none';
-    localStorage.removeItem('motivo-psicologico');
-    localStorage.removeItem('outros-motivos-psicologico');
-  }
-  
-  // Atualiza o estado
-  atualizarEstadoPsicologico();
-}
-
-// Mostrar/ocultar campo de outros motivos
-function toggleOutrosMotivosPsicologico(mostrar) {
-  const outrosMotivos = document.getElementById('outros-motivos-psicologico');
-  outrosMotivos.style.display = mostrar ? 'block' : 'none';
-  if (!mostrar) {
-    document.querySelector('input[name="outros_motivos_psicologico"]').value = '';
-    localStorage.removeItem('outros-motivos-psicologico');
-  }
-}
-
-// Atualizar estado do formulário
-function atualizarEstadoPsicologico() {
-  const resposta = localStorage.getItem('resposta-psicologico');
-  
-  // Atualiza a exibição das subseções
-  if (resposta) {
-    toggleAcompanhamentoPsicologico(resposta === 'sim');
-  }
-  
-  // Atualiza o bloco de psicologia
-  atualizarBlocoPsicologia();
-}
-
-// ========== FUNÇÃO PARA ATUALIZAR BLOCO PSICOLOGIA ==========
-// ========== FUNÇÕES PARA PSICOLOGIA ==========
-
-// Salvar resposta principal
-function salvarRespostaPsicologico(resposta) {
-  try {
-    localStorage.setItem('resposta-psicologico', resposta);
-    console.log("Resposta psicológico salva:", resposta);
-    toggleAcompanhamentoPsicologico(resposta === 'sim');
-  } catch (e) {
-    console.error("Erro ao salvar resposta psicológico:", e);
-  }
-}
-
-// ... demais funções de salvar permanecem iguais ...
-
-// Função principal para mostrar/ocultar detalhes
-function toggleAcompanhamentoPsicologico(temAcompanhamento) {
-  // Elementos das seções
-  const secaoSim = document.getElementById('psicologico-sim-details');
-  const secaoNao = document.getElementById('psicologico-nao-details');
-  
-  if (!secaoSim || !secaoNao) return;
-  
-  // Mostrar/ocultar seções
-  secaoSim.style.display = temAcompanhamento ? 'block' : 'none';
-  secaoNao.style.display = temAcompanhamento ? 'none' : 'block';
-  
-  // Limpar campos quando escondidos
-  if (!temAcompanhamento) {
-    limparCamposPsicologicoSim();
-  } else {
-    limparCamposPsicologicoNao();
-  }
-  
-  // Atualizar estado (assincronamente para evitar recursão)
-  setTimeout(() => atualizarEstadoPsicologico(), 0);
-}
-
-// Funções auxiliares para limpar campos
-function limparCamposPsicologicoSim() {
-  const inputs = document.querySelectorAll('#psicologico-sim-details input');
-  inputs.forEach(input => {
-    if (input.type === 'radio') input.checked = false;
-  });
-  localStorage.removeItem('frequencia-psicologico');
-}
-
-function limparCamposPsicologicoNao() {
-  const inputs = document.querySelectorAll('#psicologico-nao-details input');
-  inputs.forEach(input => {
-    if (input.type === 'radio') {
-      input.checked = false;
-    } else {
-      input.value = '';
-    }
-  });
-  document.getElementById('outros-motivos-psicologico').style.display = 'none';
-  localStorage.removeItem('motivo-psicologico');
-  localStorage.removeItem('outros-motivos-psicologico');
-}
-
-// Mostrar/ocultar campo de outros motivos
-function toggleOutrosMotivosPsicologico(mostrar) {
-  const outrosMotivos = document.getElementById('outros-motivos-psicologico');
-  if (outrosMotivos) {
-    outrosMotivos.style.display = mostrar ? 'block' : 'none';
-    if (!mostrar) {
-      document.querySelector('input[name="outros_motivos_psicologico"]').value = '';
-      localStorage.removeItem('outros-motivos-psicologico');
-    }
-  }
-}
-
-// Atualizar estado do formulário
-function atualizarEstadoPsicologico() {
-  // Atualiza apenas o bloco de psicologia
-  atualizarBlocoPsicologia();
-}
-
-// ========== FUNÇÃO PARA ATUALIZAR BLOCO PSICOLOGIA ==========
-function atualizarBlocoPsicologia() {
-  const resposta = localStorage.getItem('resposta-psicologico');
-  const motivo = localStorage.getItem('motivo-psicologico');
-  const outrosMotivos = localStorage.getItem('outros-motivos-psicologico');
-  const blocoPsicologia = document.getElementById('bloco-psicologico');
-  const liPsicologo = document.getElementById('li-psicologo');
-  
-  // Determinar se deve mostrar o bloco
-  let mostrarBloco = false;
-  let titulo = 'Necessita de Suporte psicológico';
-  
-  if (resposta === 'sim') {
-    mostrarBloco = true;
-  } else if (resposta === 'nao' && motivo !== 'nao_necessita') {
-    mostrarBloco = true;
-    
-    // Adicionar motivo ao título
-    switch (motivo) {
-      case 'rede_sobrecarregada':
-        titulo += ' (Rede sobrecarregada)';
-        break;
-      case 'nao_procurou':
-        titulo += ' (Não procurou atendimento)';
-        break;
-      case 'outros':
-        titulo += outrosMotivos ? ` (${outrosMotivos})` : ' (Outros motivos)';
-        break;
-    }
-  }
-  
-  // Atualizar elementos da interface
-  if (blocoPsicologia) {
-    if (mostrarBloco) {
-      blocoPsicologia.style.display = 'block';
-      
-      // Atualizar título
-      const tituloElement = blocoPsicologia.querySelector('h2');
-      if (tituloElement) tituloElement.textContent = titulo;
-    } else {
-      blocoPsicologia.style.display = 'none';
-    }
-  }
-  
-  if (liPsicologo) {
-    liPsicologo.style.display = mostrarBloco ? 'list-item' : 'none';
-  }
-  
-  // Ativar aba se necessário
-  if (mostrarBloco && typeof ativarAba === 'function') {
-    ativarAba('psicologia');
-  }
-}
-
-// Inicializar estado ao carregar a página
-document.addEventListener('DOMContentLoaded', function() {
-  const resposta = localStorage.getItem('resposta-psicologico');
-  if (resposta) {
-    toggleAcompanhamentoPsicologico(resposta === 'sim');
-  }
-  atualizarBlocoPsicologia();
-});
 
   function toggleCuidadosRespiratorios(show) {
     const detalhes = document.getElementById("cuidados-respiratorios-details");
@@ -676,4 +410,126 @@ document.addEventListener('DOMContentLoaded', function() {
   // Inicialização
   const respostaLesao = document.querySelector('input[name="lesao"]:checked');
   if (respostaLesao) mostrarCamposLesao(respostaLesao.value === 'sim');
+});
+
+// psico
+
+// Salvar resposta principal
+function salvarRespostaPsicologico(resposta) {
+  localStorage.setItem('resposta-psicologico', resposta);
+  console.log("Resposta psicológico salva:", resposta);
+  
+  // Atualizar exibição das subseções
+  toggleAcompanhamentoPsicologico(resposta === 'sim');
+}
+
+// Salvar frequência
+function salvarFrequenciaPsicologico(frequencia) {
+  localStorage.setItem('frequencia-psicologico', frequencia);
+  console.log("Frequência psicológico salva:", frequencia);
+}
+
+// Salvar motivo
+function salvarMotivoPsicologico(motivo) {
+  localStorage.setItem('motivo-psicologico', motivo);
+  console.log("Motivo psicológico salvo:", motivo);
+  
+  // Mostrar campo "Outros" se necessário
+  if (motivo === 'outros') {
+    document.getElementById('outros-motivos-psicologico').style.display = 'block';
+  } else {
+    document.getElementById('outros-motivos-psicologico').style.display = 'none';
+    localStorage.removeItem('outros-motivos-psicologico');
+  }
+}
+
+// Salvar outros motivos
+function salvarOutrosMotivosPsicologico() {
+  const outrosMotivos = document.querySelector('input[name="outros_motivos_psicologico"]').value;
+  localStorage.setItem('outros-motivos-psicologico', outrosMotivos);
+  console.log("Outros motivos salvos:", outrosMotivos);
+}
+
+// Mostrar/ocultar seções
+function toggleAcompanhamentoPsicologico(temAcompanhamento) {
+  document.getElementById('psicologico-sim-details').style.display = 
+    temAcompanhamento ? 'block' : 'none';
+  document.getElementById('psicologico-nao-details').style.display = 
+    temAcompanhamento ? 'none' : 'block';
+  
+  // Limpar campos quando escondidos
+  if (!temAcompanhamento) {
+    document.querySelectorAll('#psicologico-sim-details input').forEach(input => {
+      input.checked = false;
+    });
+    localStorage.removeItem('frequencia-psicologico');
+  } else {
+    document.querySelectorAll('#psicologico-nao-details input').forEach(input => {
+      if (input.type !== 'radio') {
+        input.value = '';
+      } else {
+        input.checked = false;
+      }
+    });
+    document.getElementById('outros-motivos-psicologico').style.display = 'none';
+    localStorage.removeItem('motivo-psicologico');
+    localStorage.removeItem('outros-motivos-psicologico');
+  }
+}
+
+// Mostrar/ocultar campo "Outros"
+function toggleOutrosMotivosPsicologico(mostrar) {
+  document.getElementById('outros-motivos-psicologico').style.display = 
+    mostrar ? 'block' : 'none';
+  
+  if (!mostrar) {
+    document.querySelector('input[name="outros_motivos_psicologico"]').value = '';
+    localStorage.removeItem('outros-motivos-psicologico');
+  }
+}
+
+// Inicialização ao carregar a página
+document.addEventListener('DOMContentLoaded', function() {
+  // Restaurar estado salvo
+  const resposta = localStorage.getItem('resposta-psicologico');
+  if (resposta) {
+    document.querySelector(`input[name="acompanhamento_psicologico"][value="${resposta}"]`).checked = true;
+    toggleAcompanhamentoPsicologico(resposta === 'sim');
+  }
+  
+  const motivo = localStorage.getItem('motivo-psicologico');
+  if (motivo) {
+    document.querySelector(`input[name="motivo_sem_psicologico"][value="${motivo}"]`).checked = true;
+    if (motivo === 'outros') {
+      document.getElementById('outros-motivos-psicologico').style.display = 'block';
+    }
+  }
+  
+  const outrosMotivos = localStorage.getItem('outros-motivos-psicologico');
+  if (outrosMotivos) {
+    document.querySelector('input[name="outros_motivos_psicologico"]').value = outrosMotivos;
+  }
+  
+  const frequencia = localStorage.getItem('frequencia-psicologico');
+  if (frequencia) {
+    document.querySelector(`input[name="frequencia_psicologico"][value="${frequencia}"]`).checked = true;
+  }
+  
+  // Configurar eventos
+  document.querySelectorAll('input[name="acompanhamento_psicologico"]').forEach(radio => {
+    radio.addEventListener('change', () => salvarRespostaPsicologico(radio.value));
+  });
+  
+  document.querySelectorAll('input[name="frequencia_psicologico"]').forEach(radio => {
+    radio.addEventListener('change', () => salvarFrequenciaPsicologico(radio.value));
+  });
+  
+  document.querySelectorAll('input[name="motivo_sem_psicologico"]').forEach(radio => {
+    radio.addEventListener('change', () => {
+      salvarMotivoPsicologico(radio.value);
+      toggleOutrosMotivosPsicologico(radio.value === 'outros');
+    });
+  });
+  
+  document.querySelector('input[name="outros_motivos_psicologico"]')?.addEventListener('input', salvarOutrosMotivosPsicologico);
 });
