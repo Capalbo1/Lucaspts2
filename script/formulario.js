@@ -533,3 +533,76 @@ document.addEventListener('DOMContentLoaded', function() {
   
   document.querySelector('input[name="outros_motivos_psicologico"]')?.addEventListener('input', salvarOutrosMotivosPsicologico);
 });
+
+// Função para salvar resposta principal
+function salvarRedeApoio(resposta) {
+  localStorage.setItem('rede-apoio', resposta);
+  console.log("Resposta rede apoio salva:", resposta);
+  
+  // Mostrar/ocultar detalhes conforme resposta
+  toggleSubquestion('rede-apoio-details', resposta === 'sim');
+  
+  // Se for "Não", já salva automaticamente para ativar o bloco
+  if (resposta === 'nao') {
+    localStorage.setItem('rede-apoio-quantidade', 'nenhuma');
+    localStorage.removeItem('rede-apoio-quem');
+  }
+}
+
+// Função para salvar quantidade de apoio
+function salvarQuantidadeApoio(quantidade) {
+  localStorage.setItem('rede-apoio-quantidade', quantidade);
+  console.log("Quantidade apoio salva:", quantidade);
+  
+  // Mostrar campo para detalhar quem é a rede
+  toggleSubquestion('quem-apoio-container', true);
+}
+
+// Função para salvar detalhes da rede
+function salvarQuemApoio() {
+  const detalhes = document.querySelector('textarea[name="quem_apoio"]').value;
+  localStorage.setItem('rede-apoio-quem', detalhes);
+  console.log("Detalhes rede apoio salvos:", detalhes);
+}
+
+// Função auxiliar para mostrar/ocultar elementos
+function toggleSubquestion(id, mostrar) {
+  const element = document.getElementById(id);
+  if (element) {
+    element.style.display = mostrar ? 'block' : 'none';
+  }
+}
+
+// Inicialização ao carregar a página
+document.addEventListener('DOMContentLoaded', function() {
+  // Restaurar estado salvo
+  const resposta = localStorage.getItem('rede-apoio');
+  if (resposta) {
+    document.querySelector(`input[name="rede_apoio"][value="${resposta}"]`).checked = true;
+    toggleSubquestion('rede-apoio-details', resposta === 'sim');
+  }
+  
+  const quantidade = localStorage.getItem('rede-apoio-quantidade');
+  if (quantidade && quantidade !== 'nenhuma') {
+    document.querySelector(`input[name="quantidade_apoio"][value="${quantidade}"]`).checked = true;
+    toggleSubquestion('quem-apoio-container', true);
+  }
+  
+  const quem = localStorage.getItem('rede-apoio-quem');
+  if (quem) {
+    document.querySelector('textarea[name="quem_apoio"]').value = quem;
+  }
+  
+  // Adicionar eventos
+  document.querySelectorAll('input[name="rede_apoio"]').forEach(radio => {
+    radio.addEventListener('change', () => salvarRedeApoio(radio.value));
+  });
+  
+  document.querySelectorAll('input[name="quantidade_apoio"]').forEach(radio => {
+    radio.addEventListener('change', () => salvarQuantidadeApoio(radio.value));
+  });
+  
+  document.querySelector('textarea[name="quem_apoio"]').addEventListener(
+    'input', salvarQuemApoio
+  );
+});

@@ -331,10 +331,10 @@ function criarArticlesParaLocais() {
           <div class="grupo-grau">
             <label>Grau:</label>
             <select class="select-grau" onchange="atualizarDadosLesao('${local}')">
-              <option value="1">Grau 1</option>
-              <option value="2">Grau 2</option>
-              <option value="3">Grau 3</option>
-              <option value="4">Grau 4</option>
+              <option value="1"> 1    </option>
+              <option value="2"> 2    </option>
+              <option value="3"> 3    </option>
+              <option value="4"> 4    </option>
             </select>
           </div>
         </div>
@@ -479,3 +479,36 @@ document.addEventListener('DOMContentLoaded', () => {
   gerarMetaPsicologia();
   verificarMudancas();
 });
+
+
+function atualizarBlocoRedeApoio() {
+  const bloco = document.getElementById('bloco-rede-apoio');
+  if (!bloco) return;
+  
+  const resposta = localStorage.getItem('rede-apoio');
+  const quantidade = localStorage.getItem('rede-apoio-quantidade');
+  const quem = localStorage.getItem('rede-apoio-quem');
+  
+  // Ativar bloco se resposta for "Não"
+  const mostrarBloco = resposta === 'nao';
+  
+  bloco.style.display = mostrarBloco ? 'block' : 'none';
+  
+  if (mostrarBloco) {
+    // Atualizar título e conteúdo
+    bloco.querySelector('h2').textContent = 'Sem rede de apoio';
+    
+    const observacao = bloco.querySelector('.campo-observacao');
+    if (observacao) {
+      observacao.innerHTML = `
+        <p>Paciente declarou não possuir rede de apoio familiar/social.</p>
+      `;
+    }
+    
+    // Ativar aba se necessário
+    const liAssistente = document.getElementById('li-assistente');
+    if (liAssistente) liAssistente.style.display = 'list-item';
+  }
+}
+
+document.addEventListener('DOMContentLoaded', atualizarBlocoRedeApoio);
