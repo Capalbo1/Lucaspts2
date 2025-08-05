@@ -1324,35 +1324,50 @@ function toggleOutrosEncaminhamento(checkbox) {
 // Função para atualizar o resumo do encaminhamento (substitua a atual)
 function atualizarResumoEncaminhamento() {
   const container = document.getElementById('resumo-encaminhamento');
-  const encaminhamento = document.querySelector('input[name="encaminhamento"]:checked');
+  if (!container) return; // Verifica se o container existe
+
+  const encaminhamentoSim = document.querySelector('input[name="encaminhamento"][value="sim"]:checked');
   
-  if (!encaminhamento || encaminhamento.value === 'nao') {
+  // Limpa o container se não houver encaminhamento
+  if (!encaminhamentoSim) {
     container.innerHTML = '';
     return;
   }
   
-  const especialidades = document.querySelectorAll('input[name="especialidade_encaminhamento[]"]:checked');
-  let texto = 'Necessita encaminhamento para: ';
-  let meta = 'Realizar documentação para ';
+  // Obtém todas as especialidades marcadas - ATENÇÃO ao seletor correto
+  const especialidades = document.querySelectorAll('#encaminhamento-details input[name="especialidade_encaminhamento[]"]:checked');
   
-  const especialidadesSelecionadas = Array.from(especialidades).map(el => {
-    if (el.value === 'outros') {
-      return document.querySelector('input[name="outra_especialidade_encaminhamento"]').value || 'Outros';
-    }
-    return el.value;
-  });
-  
-  if (especialidadesSelecionadas.length > 0) {
-    texto += especialidadesSelecionadas.join(', ');
-    if (especialidadesSelecionadas.length > 1) {
-      meta += ' para múltiplas especialidades';
-    }
-  } else {
-    texto += 'especialidade não especificada';
+  // Se nenhuma especialidade foi selecionada
+  if (especialidades.length === 0) {
+    container.innerHTML = criarItemResumo('Realizar documentação (especialidade não especificada)');
+    return;
   }
   
-  container.innerHTML = criarItemResumo(meta);
+  // Processa cada especialidade selecionada
+  let htmlMetas = '';
+  
+  especialidades.forEach(especialidade => {
+    let nomeEspecialidade;
+    
+    // Verifica se é "Outros" para pegar o texto personalizado
+    if (especialidade.id === 'outros-encaminhamento') {
+      const outrosInput = document.querySelector('#outros-encaminhamento-detalhes input[name="outra_especialidade_encaminhamento"]');
+      nomeEspecialidade = outrosInput ? outrosInput.value.trim() || 'Outros' : 'Outros';
+    } else {
+      nomeEspecialidade = especialidade.value;
+    }
+    
+    // Cria uma meta específica para cada especialidade
+    const meta = `Realizar documentação para ${nomeEspecialidade}`;
+    htmlMetas += criarItemResumo(meta);
+  });
+  
+  // Adiciona todas as metas ao container
+  container.innerHTML = htmlMetas;
 }
+
+
+
 function gerarMetasPadrao() {
   const container = document.getElementById('metas-padrao');
   
@@ -1448,7 +1463,7 @@ function atualizarResumoAcamado() {
 
   // Cria um item para cada meta
   const meta1 = 'Colchão pneumático';
-  const meta2 = 'Realizar mudança de decúbito de 2/2 h';
+  const meta2 = 'Realizar mudança de bito de 2/2 h';
   
   container.innerHTML = `
     ${criarItemResumo(meta1)}
@@ -1477,37 +1492,45 @@ function atualizarResumoDeambulacao() {
   }
   
 }
-
 function atualizarResumoInterconsulta() {
   const container = document.getElementById('resumo-interconsulta');
   const interconsulta = document.querySelector('input[name="interconsulta"]:checked');
   
+  // Limpa o container se não houver interconsulta
   if (!interconsulta || interconsulta.value === 'nao') {
     container.innerHTML = '';
     return;
   }
   
+  // Obtém todas as especialidades marcadas
   const especialidades = document.querySelectorAll('input[name="especialidade_interconsulta"]:checked');
-  let texto = 'Necessita interconsulta com: ';
-  let meta = 'Solicitar interconsulta';
   
-  const especialidadesSelecionadas = Array.from(especialidades).map(el => {
-    if (el.value === 'outros') {
-      return document.querySelector('input[name="outra_especialidade"]').value || 'Outros';
-    }
-    return el.value;
-  });
-  
-  if (especialidadesSelecionadas.length > 0) {
-    texto += especialidadesSelecionadas.join(', ');
-    if (especialidadesSelecionadas.length > 1) {
-      meta += ' para múltiplas especialidades';
-    }
-  } else {
-    texto += 'especialidade não especificada';
+  // Se nenhuma especialidade foi selecionada
+  if (especialidades.length === 0) {
+    container.innerHTML = criarItemResumo('Solicitar interconsulta (especialidade não especificada)');
+    return;
   }
   
-  container.innerHTML = criarItemResumo(meta);
+  // Processa cada especialidade selecionada
+  let htmlMetas = '';
+  
+  Array.from(especialidades).forEach(especialidade => {
+    let nomeEspecialidade;
+    
+    // Verifica se é "Outros" para pegar o texto personalizado
+    if (especialidade.value === 'outros') {
+      nomeEspecialidade = document.querySelector('input[name="outra_especialidade"]').value || 'Outros';
+    } else {
+      nomeEspecialidade = especialidade.value;
+    }
+    
+    // Cria uma meta específica para cada especialidade
+    const meta = `Solicitar interconsulta com ${nomeEspecialidade}`;
+    htmlMetas += criarItemResumo(meta);
+  });
+  
+  // Adiciona todas as metas ao container
+  container.innerHTML = htmlMetas;
 }
 
 function atualizarResumoEncaminhamento() {
