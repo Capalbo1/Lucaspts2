@@ -146,7 +146,19 @@
         <input type="checkbox" name="especialidade_interconsulta" value="Cirurgia geral"> Cirurgia geral
       </label>
       <label class="option-label">
-        <input type="checkbox" name="especialidade_interconsulta" value="Nefro"> Nefro
+        <input type="checkbox" name="especialidade_interconsulta" value="Nefro"> Nefrologia
+      </label>
+      <label class="option-label">
+        <input type="checkbox" name="especialidade_interconsulta" value="Pediatria"> Pediatria
+      </label>
+      <label class="option-label">
+        <input type="checkbox" name="especialidade_interconsulta" value="Ginecologia"> Ginecologia
+      </label>
+      <label class="option-label">
+        <input type="checkbox" name="especialidade_interconsulta" value="Neurologia"> Neurologia
+      </label>
+      <label class="option-label">
+        <input type="checkbox" name="especialidade_interconsulta" value="Cardiologia"> Cardiologia
       </label>
       <label class="option-label">
         <input type="checkbox" name="especialidade_interconsulta" value="outros" id="outros-interconsulta"> Outros
@@ -1311,61 +1323,91 @@ function atualizarResumoMedicacaoSNE() {
   
   container.innerHTML = criarItemResumo(meta);
 }
-// Função para mostrar/ocultar o campo "Outros" no encaminhamento
+// Função para mostrar/ocultar a seção de subquestões
+function toggleSubquestion(id, show) {
+  const element = document.getElementById(id);
+  element.style.display = show ? 'block' : 'none';
+  if (!show) {
+    // Limpa os checkboxes e o campo "Outros" quando "Não" é selecionado
+    document.querySelectorAll(`#${id} input[type="checkbox"]`).forEach(checkbox => {
+      checkbox.checked = false;
+    });
+    document.querySelector('input[name="outra_especialidade_encaminhamento"]').value = '';
+    document.getElementById('outros-encaminhamento-detalhes').style.display = 'none';
+  }
+  atualizarResumoEncaminhamento(); // Atualiza o resumo ao mudar a seleção
+}
+
+// Função para mostrar/ocultar o campo "Outros"
 function toggleOutrosEncaminhamento(checkbox) {
   const outrosDetalhes = document.getElementById('outros-encaminhamento-detalhes');
   outrosDetalhes.style.display = checkbox.checked ? 'block' : 'none';
-  
   if (!checkbox.checked) {
     document.querySelector('input[name="outra_especialidade_encaminhamento"]').value = '';
   }
+  atualizarResumoEncaminhamento(); // Atualiza o resumo ao mudar "Outros"
 }
 
-// Função para atualizar o resumo do encaminhamento (substitua a atual)
+// Função para criar um item de resumo
+function criarItemResumo(texto) {
+  return `<li>${texto}</li>`;
+}
+
+// Função para atualizar o resumo do encaminhamento
 function atualizarResumoEncaminhamento() {
   const container = document.getElementById('resumo-encaminhamento');
-  if (!container) return; // Verifica se o container existe
+  if (!container) return;
 
   const encaminhamentoSim = document.querySelector('input[name="encaminhamento"][value="sim"]:checked');
   
-  // Limpa o container se não houver encaminhamento
+  // Limpa o container se não houver encaminhamento ou se for "Não"
   if (!encaminhamentoSim) {
     container.innerHTML = '';
     return;
   }
   
-  // Obtém todas as especialidades marcadas - ATENÇÃO ao seletor correto
-  const especialidades = document.querySelectorAll('#encaminhamento-details input[name="especialidade_encaminhamento[]"]:checked');
-  
+  // Obtém todas as especialidades marcadas
+  const especialidades = document.querySelectorAll('input[name="especialidade_encaminhamento[]"]:checked');
+  let htmlMetas = '';
+
   // Se nenhuma especialidade foi selecionada
   if (especialidades.length === 0) {
-    container.innerHTML = criarItemResumo('Realizar documentação (especialidade não especificada)');
+    htmlMetas = criarItemResumo('Realizar documentação (especialidade não especificada)');
+    container.innerHTML = htmlMetas;
     return;
   }
   
   // Processa cada especialidade selecionada
-  let htmlMetas = '';
-  
   especialidades.forEach(especialidade => {
     let nomeEspecialidade;
     
     // Verifica se é "Outros" para pegar o texto personalizado
-    if (especialidade.id === 'outros-encaminhamento') {
-      const outrosInput = document.querySelector('#outros-encaminhamento-detalhes input[name="outra_especialidade_encaminhamento"]');
-      nomeEspecialidade = outrosInput ? outrosInput.value.trim() || 'Outros' : 'Outros';
+    if (especialidade.value === 'outros') {
+      const outrosInput = document.querySelector('input[name="outra_especialidade_encaminhamento"]');
+      nomeEspecialidade = outrosInput && outrosInput.value.trim() ? outrosInput.value.trim() : 'especialidade não especificada';
     } else {
       nomeEspecialidade = especialidade.value;
     }
     
-    // Cria uma meta específica para cada especialidade
-    const meta = `Realizar documentação para ${nomeEspecialidade}`;
+    // Cria a meta com a especialidade
+    const meta = `Realizar documentação de encaminhamento para ${nomeEspecialidade}`;
     htmlMetas += criarItemResumo(meta);
   });
   
-  // Adiciona todas as metas ao container
-  container.innerHTML = htmlMetas;
+  // Adiciona as metas ao container
+  container.innerHTML = `<ul>${htmlMetas}</ul>`;
 }
 
+// Adiciona eventos para atualizar o resumo automaticamente
+document.querySelectorAll('input[name="encaminhamento"]').forEach(radio => {
+  radio.addEventListener('change', atualizarResumoEncaminhamento);
+});
+
+document.querySelectorAll('input[name="especialidade_encaminhamento[]"]').forEach(checkbox => {
+  checkbox.addEventListener('change', atualizarResumoEncaminhamento);
+});
+
+document.querySelector('input[name="outra_especialidade_encaminhamento"]').addEventListener('input', atualizarResumoEncaminhamento);
 
 
 function gerarMetasPadrao() {
@@ -1525,7 +1567,7 @@ function atualizarResumoInterconsulta() {
     }
     
     // Cria uma meta específica para cada especialidade
-    const meta = `Solicitar interconsulta com ${nomeEspecialidade}`;
+    const meta = `Solicitar Interconsulta com ${nomeEspecialidade}`;
     htmlMetas += criarItemResumo(meta);
   });
   
@@ -1533,25 +1575,7 @@ function atualizarResumoInterconsulta() {
   container.innerHTML = htmlMetas;
 }
 
-function atualizarResumoEncaminhamento() {
-  const container = document.getElementById('resumo-encaminhamento');
-  const encaminhamento = document.querySelector('input[name="encaminhamento"]:checked');
-  
-  if (!encaminhamento || encaminhamento.value === 'nao') {
-    container.innerHTML = '';
-    return;
-  }
-  
-  const especialidade = document.querySelector('select[name="especialidade_encaminhamento"]');
-  let texto = 'Necessita encaminhamento';
-  let meta = ' Realizar documentação para encaminhamento';
-  
-  if (especialidade && especialidade.value) {
-    texto += ` para ${especialidade.value}`;
-  }
-  
-  container.innerHTML = criarItemResumo(meta);
-}
+
 
 // Função auxiliar para criar os itens de resumo
 function criarItemResumo(texto, meta = '') {
