@@ -1290,8 +1290,44 @@ function atualizarResumoMedicacaoSNE() {
   
   container.innerHTML = criarItemResumo(metasHTML);
 }
-  function atualizarResumoAVP() {
+function toggleSubquestion(id, show) {
+  const element = document.getElementById(id);
+  element.style.display = show ? 'block' : 'none';
+  if (!show) {
+    const select = document.querySelector(`#${id} select[name="dificuldade_avp"]`);
+    if (select) select.value = '';
+    const piccDetails = document.getElementById('picc-details');
+    if (piccDetails) piccDetails.style.display = 'none';
+    const piccRadios = document.querySelectorAll('input[name="considerar_picc"]');
+    piccRadios.forEach(radio => radio.checked = false);
+  }
+}
+
+function toggleSubquestion(id, show) {
+  const element = document.getElementById(id);
+  element.style.display = show ? 'block' : 'none';
+  if (!show) {
+    const select = document.querySelector(`#${id} select[name="dificuldade_avp"]`);
+    if (select) select.value = '';
+    const piccDetails = document.getElementById('picc-details');
+    if (piccDetails) piccDetails.style.display = 'none';
+    const piccRadios = document.querySelectorAll('input[name="considerar_picc"]');
+    piccRadios.forEach(radio => radio.checked = false);
+  }
+}
+
+function criarItemResumo(texto) {
+  return `
+    <div class="resumo-texto">
+      ${texto}
+    </div>
+  `;
+}
+
+function atualizarResumoAVP() {
   const container = document.getElementById('resumo-avp');
+  if (!container) return;
+
   const avp = document.querySelector('input[name="avp"]:checked');
   
   if (!avp || avp.value === 'nao') {
@@ -1300,28 +1336,14 @@ function atualizarResumoMedicacaoSNE() {
   }
   
   const selectDificuldade = document.querySelector('select[name="dificuldade_avp"]');
-  const dificuldade = selectDificuldade.value;
-  let texto = 'Acesso Venoso Periférico: ';
-  let meta = '';
+  const dificuldade = selectDificuldade ? selectDificuldade.value : '';
   
   if (dificuldade === 'facil') {
-    texto += 'Fácil';
-    meta = 'Manter acesso';
-  } 
-  if (dificuldade === 'medio') {
-    texto += 'Médio';
-    meta = 'Meta singular de acesso para enfermagem';
-  } 
-  if (dificuldade === 'dificil') {
-    texto += 'Difícil';
-    meta = 'Meta singular de acesso para enfermagem';
-  } 
- 
-  else {
-    texto += 'Dificuldade não especificada';
+    const meta = 'Manter acesso';
+    container.innerHTML = criarItemResumo(meta);
+  } else {
+    container.innerHTML = '';
   }
-  
-  container.innerHTML = criarItemResumo(meta);
 }
 // Função para mostrar/ocultar a seção de subquestões
 function toggleSubquestion(id, show) {
@@ -1505,7 +1527,7 @@ function atualizarResumoAcamado() {
 
   // Cria um item para cada meta
   const meta1 = 'Colchão pneumático';
-  const meta2 = 'Realizar mudança de bito de 2/2 h';
+  const meta2 = 'Realizar mudança de decúbito de 2/2 h';
   
   container.innerHTML = `
     ${criarItemResumo(meta1)}
