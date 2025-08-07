@@ -1,157 +1,18 @@
 document.addEventListener('DOMContentLoaded', function() {
   const btnPdf = document.getElementById('btnPdf');
 
-  btnPdf.addEventListener('click', async function() {
-    // 1. Coletar dados do formulário
-    const form = document.getElementById('triagemForm');
-    const formData = new FormData(form);
-
-    // 2. Montar perguntas e respostas (com idade calculada detalhada)
-    const perguntasRespostas = [
-      { pergunta: 'Nome completo', resposta: formData.get('nome') || '' },
-      { 
-        pergunta: 'Data de Nascimento', 
-        resposta: formData.get('idade') ? new Date(formData.get('idade')).toLocaleDateString('pt-BR') : '' 
-      },
-      { 
-        pergunta: 'Idade', 
-        resposta: formatarIdadeParaPDF(
-          formData.get('idade_anos'),
-          formData.get('idade_meses'),
-          formData.get('idade_dias')
-        )
-      },
-      { pergunta: 'Sexo', resposta: formData.get('sexo') || '' },
-      { pergunta: 'Paciente é dependente?', resposta: formData.get('dependente') === 'sim' ? 'Sim' : 'Não' },
-      { pergunta: 'Suporte assistencial adequado?', resposta: formData.get('suporte') === 'sim' ? 'Sim' : 'Não' },
-      { pergunta: 'Paciente é acamado?', resposta: formData.get('acamado') === 'sim' ? 'Sim' : 'Não' },
-      { pergunta: 'Faz uso de oxigênio domiciliar?', resposta: formData.get('oxigenio') === 'sim' ? 'Sim' : 'Não' },
-      { pergunta: 'Possui problemas psicológicos?', resposta: formData.get('problema_psicologico') === 'sim' ? 'Sim' : 'Não' },
-      { pergunta: 'Observações', resposta: formData.get('observacoes') || '' }
-    ];
-
-    // 3. Carregar o PDF modelo
-    const existingPdfBytes = await fetch('assets/assets/img/TIMBRADO SCMT.pdf').then(res => res.arrayBuffer());
-    const { PDFDocument, rgb } = window.PDFLib;
-    const pdfDoc = await PDFDocument.load(existingPdfBytes);
-    const helveticaFont = await pdfDoc.embedFont(PDFLib.StandardFonts.Helvetica);
-    const helveticaBold = await pdfDoc.embedFont(PDFLib.StandardFonts.HelveticaBold);
-
-    // 4. Pega a primeira página do modelo
-    let page = pdfDoc.getPages()[0];
-
-    // 5. Configurações de layout
-    let y = 650; // Posição inicial Y
-    const fontSize = 12;
-    const lineHeight = 18;
-    const marginLeft = 80;
-    const respostaOffset = 200; // Posição das respostas
-    const pageBottom = 60; // Margem inferior
-    const maxWidth = 450; // Largura máxima do texto
-
-    // 6. Escrever perguntas e respostas no PDF
-    for (let item of perguntasRespostas) {
-      // Verifica espaço na página
-      if (y < pageBottom) {
-        const newPage = pdfDoc.addPage([page.getWidth(), page.getHeight()]);
-        page = newPage;
-        y = 750; // Reset Y position for new page
-      }
-
-      // Desenha a pergunta (negrito)
-      page.drawText(item.pergunta + ':', {
-        x: marginLeft,
-        y: y,
-        size: fontSize,
-        font: helveticaBold,
-        color: rgb(0.1, 0.1, 0.5)
-      });
-
-      // Processa a resposta (quebra de linha se necessário)
-      const resposta = item.resposta || '';
-      let linhasResposta = [];
-
-      if (resposta.length > 0) {
-        if (item.pergunta === 'Observações' || helveticaFont.widthOfTextAtSize(resposta, fontSize) > maxWidth) {
-          // Quebra texto longo em múltiplas linhas
-          linhasResposta = quebrarTexto(resposta, helveticaFont, fontSize, maxWidth);
-        } else {
-          linhasResposta = [resposta];
-        }
-      } else {
-        linhasResposta = ['-'];
-      }
-
-      // Desenha as linhas da resposta
-      let currentY = y;
-      for (let linha of linhasResposta) {
-        currentY -= lineHeight;
-        
-        // Verifica se precisa de nova página
-        if (currentY < pageBottom) {
-          const newPage = pdfDoc.addPage([page.getWidth(), page.getHeight()]);
-          page = newPage;
-          currentY = 750 - lineHeight;
-        }
-
-        // Destaque especial para a idade
-        if (item.pergunta === 'Idade') {
-          const textWidth = helveticaBold.widthOfTextAtSize(linha, fontSize + 2);
-          
-          // Fundo destacado
-          page.drawRectangle({
-            x: respostaOffset - 5,
-            y: currentY - 2,
-            width: textWidth + 10,
-            height: lineHeight + 2,
-            color: rgb(0.95, 0.95, 1),
-            borderWidth: 0.5,
-            borderColor: rgb(0.7, 0.7, 0.9)
-          });
-          
-          // Texto em negrito e azul
-          page.drawText(linha, {
-            x: respostaOffset,
-            y: currentY,
-            size: fontSize + 2,
-            font: helveticaBold,
-            color: rgb(0.2, 0.3, 0.7)
-          });
-        } else {
-          // Resposta normal
-          page.drawText(linha, {
-            x: respostaOffset,
-            y: currentY,
-            size: fontSize,
-            font: helveticaFont,
-            color: rgb(0, 0, 0)
-          });
-        }
-      }
-
-      y = currentY - lineHeight * 0.5; // Espaço entre itens
-    }
-
-    // 7. Salvar e baixar o PDF
-    const pdfBytes = await pdfDoc.save();
-    downloadPDF(pdfBytes, 'Respostas_Triagem_PTS.pdf');
-  });
-
-  // Funções auxiliares
-  function formatarIdadeParaPDF(anos, meses, dias) {
-    anos = parseInt(anos) || 0;
-    meses = parseInt(meses) || 0;
-    dias = parseInt(dias) || 0;
-
-    const partes = [];
-    if (anos > 0) partes.push(`${anos} ano${anos !== 1 ? 's' : ''}`);
-    if (meses > 0) partes.push(`${meses} mês${meses !== 1 ? 'es' : ''}`);
-    if (dias > 0 || partes.length === 0) partes.push(`${dias} dia${dias !== 1 ? 's' : ''}`);
-    
-    return partes.join(', ');
+  // Função para limpar texto para o PDF (ADICIONE ESTA FUNÇÃO NO INÍCIO)
+  function limparTextoParaPDF(texto) {
+    if (!texto) return '';
+    return texto
+      .replace(/"/g, "'") // Substitui aspas
+      .replace(/\n/g, ' ') // Substitui quebras de linha por espaço
+      .replace(/\s+/g, ' ') // Remove espaços múltiplos
+      .trim();
   }
 
-  function quebrarTexto(texto, font, size, maxWidth) {
+  // Função para quebrar texto longo em múltiplas linhas (MANTENHA ESTA FUNÇÃO)
+  function quebrarTextoParaPDF(texto, font, size, maxWidth) {
     const palavras = texto.split(' ');
     const linhas = [];
     let linhaAtual = '';
@@ -170,6 +31,159 @@ document.addEventListener('DOMContentLoaded', function() {
     return linhas;
   }
 
+  btnPdf.addEventListener('click', async function() {
+    // 1. Coletar dados do formulário
+    const form = document.getElementById('triagemForm');
+    const formData = new FormData(form);
+
+    // Pegar conteúdo da div resultado (MODIFICADO PARA USAR limparTextoParaPDF)
+    const divResultado = document.getElementById('resultado');
+    const conteudoResultado = limparTextoParaPDF(divResultado.textContent || divResultado.innerText) || 'Nenhum resultado disponível';
+
+    // 2. Montar perguntas e respostas (ATUALIZADO COM limparTextoParaPDF)
+    const perguntasRespostas = [
+      { pergunta: 'Nome completo', resposta: limparTextoParaPDF(formData.get('nome')) || '' },
+      { 
+        pergunta: 'Data de Nascimento', 
+        resposta: formData.get('idade') ? new Date(formData.get('idade')).toLocaleDateString('pt-BR') : '' 
+      },
+      { 
+        pergunta: 'Idade', 
+        resposta: formatarIdadeParaPDF(
+          formData.get('idade_anos'),
+          formData.get('idade_meses'),
+          formData.get('idade_dias')
+        )
+      },
+      { pergunta: 'Sexo', resposta: limparTextoParaPDF(formData.get('sexo')) || '' },
+      { pergunta: 'Paciente é dependente?', resposta: formData.get('dependente') === 'sim' ? 'Sim' : 'Não' },
+      { pergunta: 'Suporte assistencial adequado?', resposta: formData.get('suporte') === 'sim' ? 'Sim' : 'Não' },
+      { pergunta: 'Paciente é acamado?', resposta: formData.get('acamado') === 'sim' ? 'Sim' : 'Não' },
+      { pergunta: 'Faz uso de oxigênio domiciliar?', resposta: formData.get('oxigenio') === 'sim' ? 'Sim' : 'Não' },
+      { pergunta: 'Possui problemas psicológicos?', resposta: formData.get('problema_psicologico') === 'sim' ? 'Sim' : 'Não' },
+      { pergunta: 'Observações', resposta: limparTextoParaPDF(formData.get('observacoes')) || '' },
+      { pergunta: 'Resultado da Triagem', resposta: conteudoResultado } // ADICIONADO NO FINAL
+    ];
+
+    // 3. Carregar o PDF modelo
+    const existingPdfBytes = await fetch('assets/assets/img/TIMBRADO SCMT.pdf').then(res => res.arrayBuffer());
+    const { PDFDocument, rgb } = window.PDFLib;
+    const pdfDoc = await PDFDocument.load(existingPdfBytes);
+    const helveticaFont = await pdfDoc.embedFont(PDFLib.StandardFonts.Helvetica);
+    const helveticaBold = await pdfDoc.embedFont(PDFLib.StandardFonts.HelveticaBold);
+
+    // 4. Pega a primeira página do modelo
+    let page = pdfDoc.getPages()[0];
+
+    // 5. Configurações de layout
+    let y = 700;
+    const fontSize = 12;
+    const titleFontSize = 16;
+    const lineHeight = 30;
+    const marginLeft = 80;
+    const respostaOffset = 250;
+    const pageBottom = 60;
+    const maxWidth = 300;
+
+    // 6. Adicionar título ao PDF
+    const titleText = 'Triagem do Paciente';
+    const titleWidth = helveticaBold.widthOfTextAtSize(titleText, titleFontSize);
+    const pageWidth = page.getWidth();
+    const titleX = (pageWidth - titleWidth) / 2;
+    page.drawText(titleText, {
+      x: titleX,
+      y: y,
+      size: titleFontSize,
+      font: helveticaBold,
+      color: rgb(0.1, 0.1, 0.5)
+    });
+    y -= lineHeight * 2;
+
+    // 7. Escrever perguntas e respostas no PDF (ATUALIZADO PARA TRATAR RESULTADO)
+    for (let item of perguntasRespostas) {
+      if (y < pageBottom) {
+        const newPage = pdfDoc.addPage([page.getWidth(), page.getHeight()]);
+        page = newPage;
+        y = 750;
+      }
+
+      const perguntaTexto = item.pergunta + ':';
+      const respostaTexto = item.resposta || '-';
+
+      // Desenha a pergunta (negrito)
+      page.drawText(perguntaTexto, {
+        x: marginLeft,
+        y: y,
+        size: fontSize,
+        font: helveticaBold,
+        color: rgb(0.1, 0.1, 0.5)
+      });
+
+      // Tratamento especial para campos longos
+      if (item.pergunta === 'Observações' || item.pergunta === 'Resultado da Triagem') {
+        y -= lineHeight;
+        const linhas = quebrarTextoParaPDF(respostaTexto, helveticaFont, fontSize, 440);
+        
+        for (let linha of linhas) {
+          if (y < pageBottom) {
+            const newPage = pdfDoc.addPage([page.getWidth(), page.getHeight()]);
+            page = newPage;
+            y = 750;
+          }
+          
+          page.drawText(linha, {
+            x: marginLeft,
+            y: y,
+            size: fontSize,
+            font: helveticaFont,
+            color: rgb(0, 0, 0)
+          });
+          
+          y -= lineHeight;
+        }
+      } else if (item.pergunta === 'Idade') {
+        // Destaque para idade
+        page.drawText(respostaTexto, {
+          x: respostaOffset + 30,
+          y: y,
+          size: fontSize + 2,
+          font: helveticaBold,
+          color: rgb(0.2, 0.3, 0.7)
+        });
+        y -= lineHeight;
+      } else {
+        // Resposta normal
+        page.drawText(respostaTexto, {
+          x: respostaOffset + 30,
+          y: y,
+          size: fontSize,
+          font: helveticaFont,
+          color: rgb(0, 0, 0)
+        });
+        y -= lineHeight;
+      }
+    }
+
+    // 8. Salvar e baixar o PDF
+    const pdfBytes = await pdfDoc.save();
+    downloadPDF(pdfBytes, 'Respostas_Triagem_PTS.pdf');
+  });
+
+  // Função para formatar idade (MANTIDA)
+  function formatarIdadeParaPDF(anos, meses, dias) {
+    anos = parseInt(anos) || 0;
+    meses = parseInt(meses) || 0;
+    dias = parseInt(dias) || 0;
+
+    const partes = [];
+    if (anos > 0) partes.push(`${anos} ano${anos !== 1 ? 's' : ''}`);
+    if (meses > 0) partes.push(`${meses} mês${meses !== 1 ? 'es' : ''}`);
+    if (dias > 0 || partes.length === 0) partes.push(`${dias} dia${dias !== 1 ? 's' : ''}`);
+    
+    return partes.join(', ');
+  }
+
+  // Função para download (MANTIDA)
   function downloadPDF(pdfBytes, fileName) {
     const blob = new Blob([pdfBytes], { type: 'application/pdf' });
     const url = URL.createObjectURL(blob);
