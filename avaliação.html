@@ -1100,8 +1100,28 @@ function atualizarResumoRespiratorio() {
   container.innerHTML = metasUnicas.map(meta => criarItemResumo(meta)).join('');
 }
 
-  function atualizarResumoDietaSNE() {
+ function toggleDietaSNEGTT(show) {
+  const element = document.getElementById('dieta-sne-gtt-sim-details');
+  element.style.display = show ? 'block' : 'none';
+  if (!show) {
+    const altaRadios = document.querySelectorAll('input[name="alta_dieta_sne_gtt"]');
+    altaRadios.forEach(radio => radio.checked = false);
+  }
+  atualizarResumoDietaSNE();
+}
+
+function criarItemResumo(texto) {
+  return `
+    <div class="resumo-texto">
+      ${texto}
+    </div>
+  `;
+}
+
+function atualizarResumoDietaSNE() {
   const container = document.getElementById('resumo-dieta-sne');
+  if (!container) return;
+
   const dietaSNE = document.querySelector('input[name="dieta_sne_gtt"]:checked');
   
   if (!dietaSNE || dietaSNE.value === 'nao') {
@@ -1110,35 +1130,15 @@ function atualizarResumoRespiratorio() {
   }
   
   const altaDieta = document.querySelector('input[name="alta_dieta_sne_gtt"]:checked');
-  let texto = 'Recebe dieta por SNE/GTT';
-  let meta = '';
   
-  if (altaDieta) {
-    texto += ` (Possibilidade de alta: ${altaDieta.value === 'sim' ? 'Sim' : 
-              altaDieta.value === 'nao' ? 'Não' : 'Talvez'})`;
-    
-    if (altaDieta.value === 'sim' || altaDieta.value === 'talvez') {
-      meta = 'Oferecer, por meio da equipe de Nutrição, orientação qualificada aos familiares quanto ao manuseio da dieta enteral.';
-    }
-    else if (altaDieta.value === 'nao') {
-      meta = 'Proporcionar intervenção nutricional adequada';
-    }
+  if (altaDieta && (altaDieta.value === 'sim' || altaDieta.value === 'talvez')) {
+    const meta = 'Oferecer, por meio da equipe de Nutrição, orientação qualificada aos familiares quanto ao manuseio da dieta enteral.';
+    container.innerHTML = criarItemResumo(meta);
+  } else {
+    container.innerHTML = '';
   }
-  
-  container.innerHTML = criarItemResumo(meta);
 }
 
-// Funções auxiliares
-function toggleDietaSNEGTT(mostrar) {
-  const element = document.getElementById('dieta-sne-gtt-sim-details');
-  element.style.display = mostrar ? 'block' : 'none';
-  if (!mostrar) {
-    element.querySelectorAll('input').forEach(input => {
-      input.checked = false;
-    });
-  }
-  atualizarResumoDietaSNE();
-}
 
 function toggleEnsinoNutricao(mostrar) {
   // Esta função pode ser usada para lógicas adicionais se necessário
@@ -1194,8 +1194,28 @@ function toggleDataSolicitacao(mostrar) {
   }
   atualizarResumoNutricional();
 }
-  function atualizarResumoBanhoLeito() {
+  function toggleBanhoLeito(show) {
+  const element = document.getElementById('banho-leito-sim-details');
+  element.style.display = show ? 'block' : 'none';
+  if (!show) {
+    const possibilidadeRadios = document.querySelectorAll('input[name="possibilidade_banho_leito"]');
+    possibilidadeRadios.forEach(radio => radio.checked = false);
+  }
+  atualizarResumoBanhoLeito();
+}
+
+function criarItemResumo(texto) {
+  return `
+    <div class="resumo-texto">
+      ${texto}
+    </div>
+  `;
+}
+
+function atualizarResumoBanhoLeito() {
   const container = document.getElementById('resumo-banho-leito');
+  if (!container) return;
+
   const banhoLeito = document.querySelector('input[name="banho_leito"]:checked');
   
   if (!banhoLeito || banhoLeito.value === 'nao') {
@@ -1204,21 +1224,19 @@ function toggleDataSolicitacao(mostrar) {
   }
   
   const possibilidadeBanho = document.querySelector('input[name="possibilidade_banho_leito"]:checked');
-  let texto = 'Necessita banho no leito';
-  let meta = '';
   
-  if (possibilidadeBanho) {
-    texto += ` (Possibilidade pós alta: ${possibilidadeBanho.value === 'sim' ? 'Sim' : possibilidadeBanho.value === 'nao' ? 'Não' : 'Talvez'})`;
-    
-    if (possibilidadeBanho.value === 'sim' || possibilidadeBanho.value === 'talvez') {
-      meta = 'Oferecer, por meio da equipe de enfermagem, orientação qualificada aos familiares quanto à prática do banho no leito.';
-    }
+  if (possibilidadeBanho && (possibilidadeBanho.value === 'sim' || possibilidadeBanho.value === 'talvez')) {
+    const meta = 'Oferecer, por meio da equipe de enfermagem, orientação qualificada aos familiares quanto à prática do banho no leito.';
+    container.innerHTML = criarItemResumo(meta);
+  } else {
+    container.innerHTML = '';
   }
-  
-  container.innerHTML = criarItemResumo(meta);
 }
+
 function atualizarResumoMedicacaoSNE() {
   const container = document.getElementById('resumo-medicacao-sne');
+  if (!container) return;
+
   const medicacaoSNE = document.querySelector('input[name="medicacao_sne_gtt"]:checked');
   
   if (!medicacaoSNE || medicacaoSNE.value === 'nao') {
@@ -1227,19 +1245,13 @@ function atualizarResumoMedicacaoSNE() {
   }
   
   const altaSNE = document.querySelector('input[name="alta_sne_gtt"]:checked');
-  let texto = 'Recebe medicação por SNE/GTT';
-  let meta = '';
   
-  if (altaSNE) {
-    if (altaSNE.value === 'sim' || altaSNE.value === 'talvez') {
-      meta = 'Oferecer, por meio da equipe de enfermagem, orientação qualificada aos familiares quanto à prática de medicação na sonda.';
-    }
-    
-    // Adiciona a informação sobre a possibilidade de alta
-    texto += ` (Possibilidade de alta: ${altaSNE.value === 'sim' ? 'Sim' : altaSNE.value === 'nao' ? 'Não' : 'Talvez'})`;
+  if (altaSNE && (altaSNE.value === 'sim' || altaSNE.value === 'talvez')) {
+    const meta = 'Oferecer, por meio da equipe de enfermagem, orientação qualificada aos familiares quanto à prática de medicação na sonda.';
+    container.innerHTML = criarItemResumo(meta);
+  } else {
+    container.innerHTML = '';
   }
-  
-  container.innerHTML = criarItemResumo(meta);
 }
   function atualizarResumoDispositivos() {
   const container = document.getElementById('resumo-dispositivos');
