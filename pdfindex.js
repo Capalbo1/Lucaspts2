@@ -56,7 +56,18 @@ document.addEventListener('DOMContentLoaded', function() {
                     formData.get('idade_dias')
                 )
             },
-            { pergunta: 'Sexo', resposta: limparTextoParaPDF(formData.get('sexo')) || '' },
+                      {
+              pergunta: 'Sexo',
+              resposta: (() => {
+                const sexo = limparTextoParaPDF(formData.get('sexo')) || '';
+                const nomeSocial = limparTextoParaPDF(formData.get('nome_social')) || '';
+                
+                if (sexo === 'outros' && nomeSocial) {
+                  return `Não especificado (Nome social: ${nomeSocial})`;
+                }
+                return sexo;
+              })()
+            },
             { pergunta: 'Paciente é dependente?', resposta: formData.get('dependente') === 'sim' ? 'Sim' : 'Não' },
             { pergunta: 'Suporte assistencial adequado?', resposta: formData.get('suporte') === 'sim' ? 'Sim' : 'Não' },
             { pergunta: 'Paciente é acamado?', resposta: formData.get('acamado') === 'sim' ? 'Sim' : 'Não' },

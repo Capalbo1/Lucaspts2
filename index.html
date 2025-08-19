@@ -31,7 +31,6 @@
     </div>
 
      <div class="container">
-        <h1>Data de Nascimento</h1>
         
         <div class="form-row">
             <div class="nascimento">
@@ -55,14 +54,17 @@
     </div>
 
     <div class="form-row">
-      <label class="pergunta" for="sexo">Sexo:</label>
-      <select name="sexo" id="sexo" required>
-        <option value="">Selecione...</option>
-        <option value="masculino">Masculino</option>
-        <option value="feminino">Feminino</option>
-        <option value="outros">Não especificado</option>
-      </select>
-    </div>
+  <label class="pergunta" for="sexo">Sexo:</label>
+  <select name="sexo" id="sexo" required>
+    <option value="">Selecione...</option>
+    <option value="masculino">Masculino</option>
+    <option value="feminino">Feminino</option>
+    <option value="outros">Não especificado</option>
+  </select>
+</div>
+
+<!-- Aqui o campo vai aparecer -->
+<div id="campoNomeSocial"></div>
 
     <div class="form-row">
       <span class="pergunta" id="pergunta_dependente">Paciente é dependente de cuidados?</span>
@@ -130,6 +132,24 @@
   <script src="pdfindex.js"></script>
   <script src="script/script.js"></script>
   <script src="idade.js"></script>
+<script>
+  const selectSexo = document.getElementById("sexo");
+  const campoNomeSocial = document.getElementById("campoNomeSocial");
 
+  selectSexo.addEventListener("change", function () {
+    // Se escolher "outros", cria o input
+    if (this.value === "outros") {
+      campoNomeSocial.innerHTML = `
+        <div class="form-row">
+          <label class="pergunta" for="nome_social">Nome social:</label>
+          <input type="text" id="nome_social" name="nome_social" placeholder="Digite seu nome social">
+        </div>
+      `;
+    } else {
+      // Remove o campo caso mude para outra opção
+      campoNomeSocial.innerHTML = "";
+    }
+  });
+</script>
 </body>
 </html>

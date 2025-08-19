@@ -1,0 +1,90 @@
+   document.addEventListener('DOMContentLoaded', function() {
+            // Elementos do formulário
+            const dataNascimento = document.getElementById('dn');
+            const idadeInput = document.getElementById('idade');
+            const pesoInput = document.getElementById('peso_atual');
+            const alturaInput = document.getElementById('altura');
+            const imcInput = document.getElementById('imc');
+            
+            // Máscara para altura
+            alturaInput.addEventListener('input', function(e) {
+                let value = e.target.value.replace(/\D/g, '');
+                
+                if (value.length > 0) {
+                    // Se o primeiro dígito for 0, não permitir
+                    if (value[0] === '0') {
+                        value = value.substring(1);
+                    }
+                    
+                    // Se tiver mais de 3 dígitos, truncar
+                    if (value.length > 3) {
+                        value = value.substring(0, 3);
+                    }
+                    
+                    // Formatar com ponto decimal
+                    if (value.length === 3) {
+                        value = value.substring(0, 1) + '.' + value.substring(1, 3);
+                    } else if (value.length === 2) {
+                        value = '0.' + value;
+                    } else if (value.length === 1) {
+                        value = '0.0' + value;
+                    }
+                    
+                    e.target.value = value;
+                }
+            });
+            
+            // Função para calcular a idade
+            function calcularIdade(dataNasc) {
+                const hoje = new Date();
+                const nascimento = new Date(dataNasc);
+                let idade = hoje.getFullYear() - nascimento.getFullYear();
+                const mes = hoje.getMonth() - nascimento.getMonth();
+                
+                if (mes < 0 || (mes === 0 && hoje.getDate() < nascimento.getDate())) {
+                    idade--;
+                }
+                
+                return idade;
+            }
+            
+            // Função para calcular o IMC
+            function calcularIMC(peso, altura) {
+                // Converter a altura string para número
+                const alturaNum = parseFloat(altura);
+                if (alturaNum > 0) {
+                    return peso / (alturaNum * alturaNum);
+                }
+                return 0;
+            }
+            
+            // Evento para atualizar a idade quando a data de nascimento for alterada
+            dataNascimento.addEventListener('change', function() {
+                if (dataNascimento.value) {
+                    idadeInput.value = calcularIdade(dataNascimento.value);
+                } else {
+                    idadeInput.value = '';
+                }
+            });
+            
+            // Eventos para atualizar o IMC quando peso ou altura forem alterados
+            function atualizarIMC() {
+                if (pesoInput.value && alturaInput.value) {
+                    // Converter a altura para número
+                    const alturaValue = alturaInput.value;
+                    const imc = calcularIMC(parseFloat(pesoInput.value), parseFloat(alturaValue));
+                    imcInput.value = imc.toFixed(1);
+                } else {
+                    imcInput.value = '';
+                }
+            }
+            
+            pesoInput.addEventListener('input', atualizarIMC);
+            alturaInput.addEventListener('input', atualizarIMC);
+            
+            // Definir data de avaliação como hoje por padrão
+            const dataAvaliacao = document.getElementById('data_avaliacao');
+            const hoje = new Date();
+            const dataFormatada = hoje.toISOString().split('T')[0];
+            dataAvaliacao.value = dataFormatada;
+        });
