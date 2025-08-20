@@ -369,3 +369,29 @@ button:active {
 .final-container {
   text-align: center;
 }
+
+
+
+form input[type="text"], form input[type="number"], form select, form textarea {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 1rem;
+    margin-bottom: 10px;
+}
+
+
+.form-row .pergunta {
+    font-weight: bold;
+    margin-left: 20px;
+    flex: 1;
+    min-width: 200px;
+}
+.pergunta {
+    display: block;
+    font-weight: 600;
+    color: #2c3e50;
+    margin-bottom: 8px;
+    font-size: 16px;
+}

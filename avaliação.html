@@ -30,6 +30,52 @@
     
     <div class="form-container">
     <form id="formulario">
+      <div class="form-row">
+        <label class="pergunta" for="nome">Nome Completo:</label>
+        <input type="text" name="nome" id="nome" required placeholder="Digite o nome completo">
+      </div>
+
+     <div class="container">
+        
+        <div class="form-row">
+            <div class="nascimento">
+                <label class="pergunta" for="idade">Data de Nascimento:</label>
+                <div class="date-container">
+                    <input type="text" class="meu-datepicker" id="idade-texto" 
+                           placeholder="DD/MM/AAAA" maxlength="10"
+                           name="data_nascimento_visivel">
+                </div>
+            </div>
+            
+            <div class="idade-calculada">
+                <div class="idade-resultado" id="idade-resultado"></div>
+                <input type="hidden" id="idade_anos" name="idade_anos" value="">
+                <input type="hidden" id="idade_meses" name="idade_meses" value="">
+                <input type="hidden" id="idade_dias" name="idade_dias" value="">
+                <input type="hidden" id="data_nascimento_formatada" name="data_nascimento_formatada" value="">
+            </div>
+        </div>
+
+
+
+        <div class="form-row">
+           <label class="pergunta" for="pergunta">Diagnóstico Principal da Internação:</label>
+      </div>
+        
+          <div class="answer-options">
+            <select name="diagnostico" class="option-select" onchange="toggleSubquestion(this.value)">
+              <option value="">Selecione...</option>
+              <option value="pneumonia">Pneumonia</option>
+              <option value="itu">Infecção do trato urinário</option>
+              <option value="avc">Acidente vascular cerebral</option>
+              <option value="lra">Lesão renal aguda</option>
+            </select>
+          </div>
+
+    </div>
+
+
+
         <!-- Pergunta 1 Modificada -->
     <!-- Exemplo para a Pergunta 1 (faça o mesmo para as outras) -->
     <div class="question-group">
@@ -2317,6 +2363,7 @@ function toggleOutrosEspecialidade(checkbox) {
 </script>
 
 
+<script src="https://unpkg.com/pdf-lib/dist/pdf-lib.min.js"></script>
 
 <script src="script/formulario.js"></script>
 
