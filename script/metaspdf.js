@@ -29,7 +29,7 @@ document.addEventListener('DOMContentLoaded', function() {
     let page = pdfDoc.getPages()[0];
 
     // 3. Layout inicial
-    let y = 650;
+    let y = 700;
     const fontSize = 12;
     const titleFontSize = 16;
     const lineHeight = 30;
@@ -45,7 +45,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     page.drawText(titleText, {
       x: titleX,
-      y: y+65,
+      y: y+20,
       size: titleFontSize,
       font: helveticaBold,
       color: rgb(0.1, 0.1, 0.5)
@@ -58,7 +58,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const nome = document.getElementById("nome")?.value || "Não informado";
     page.drawText("Nome Completo:", {
       x: marginLeft,
-      y: y+85,
+      y: y+50,
       size: fontSize,
       font: helveticaBold,
       color: rgb(0, 0, 0)
@@ -66,7 +66,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     page.drawText(nome, {
       x: marginLeft + 100,
-      y: y+85,
+      y: y+50,
       size: fontSize,
       font: helveticaFont,
       color: rgb(0.2, 0.2, 0.2)
@@ -79,7 +79,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     page.drawText("Diagnóstico Principal da Internação:", {
       x: marginLeft,
-      y: y+85,
+      y: y+50,
       size: fontSize,
       font: helveticaBold,
       color: rgb(0, 0, 0)
@@ -87,7 +87,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     page.drawText(diagnostico, {
       x: marginLeft + 213,
-      y: y+85,
+      y: y+50,
       size: fontSize,
       font: helveticaFont,
       color: rgb(0.2, 0.2, 0.2)
@@ -119,7 +119,7 @@ document.addEventListener('DOMContentLoaded', function() {
     function desenharCheckbox(page, x, y, marcado = false, tamanho = 10) {
       page.drawRectangle({
         x: x,
-        y: y - tamanho + 8,
+        y: y - tamanho + 29,
         width: tamanho,
         height: tamanho,
         borderColor: rgb(0, 0, 0),
@@ -130,7 +130,7 @@ document.addEventListener('DOMContentLoaded', function() {
       if (marcado) {
         page.drawText("X", {
           x: x + 2,
-          y: y - tamanho + 9,
+          y: y - tamanho + 29,
           size: tamanho,
           font: helveticaBold,
           color: rgb(0, 0, 0)
@@ -178,7 +178,7 @@ document.addEventListener('DOMContentLoaded', function() {
     if (pendentes.length > 0) {
       page.drawText("Metas do Paciente:", {
         x: marginLeft,
-        y: y,
+        y: y+20,
         size: fontSize + 2,
         font: helveticaBold,
         color: rgb(0.7, 0, 0) // Vermelho
@@ -198,7 +198,7 @@ document.addEventListener('DOMContentLoaded', function() {
         linhas.forEach((linha, i) => {
           page.drawText(linha, {
             x: marginLeft + 20,
-            y: y - (i * lineHeight),
+            y: y - (i * lineHeight) +20,
             size: fontSize,
             font: helveticaFont,
             color: rgb(0, 0, 0)
