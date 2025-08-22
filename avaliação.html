@@ -72,6 +72,33 @@
           </select>
 
           </div>
+          <div class="container">
+        <div class="header">
+            <h1>🔍 SIGTAP - Busca</h1>
+            <p>Encontre procedimentos rapidamente</p>
+        </div>
+        
+        <div class="content">
+            <div class="search-container">
+                <input 
+                    type="text" 
+                    id="searchInput" 
+                    class="search-input"
+                    placeholder="Digite o nome ou código do procedimento..."
+                    autocomplete="off"
+                >
+                <div id="sugestoes" class="sugestoes"></div>
+            </div>
+            
+            <div class="stats" id="stats">🔍 Digite para buscar procedimentos...</div>
+            
+            <div class="loading" id="loading">
+                <div>⏳ Buscando...</div>
+            </div>
+            
+            <div id="resultados" class="resultados"></div>
+        </div>
+    </div>
 
     </div>
 
@@ -1293,7 +1320,7 @@ function atualizarResumoMedicacaoSNE() {
     container.innerHTML = '';
   }
 }
-  function atualizarResumoDispositivos() {
+function atualizarResumoDispositivos() {
   const container = document.getElementById('resumo-dispositivos');
   const dispositivos = document.querySelector('input[name="dispositivos"]:checked');
   
@@ -1303,45 +1330,46 @@ function atualizarResumoMedicacaoSNE() {
   }
   
   const tiposDispositivos = document.querySelectorAll('input[name="dispositivos_tipo"]:checked');
-  let texto = 'Dispositivos: ';
-  let metas = []; // Array para armazenar múltiplas metas
+  let metas = [];
   
   const dispositivosSelecionados = Array.from(tiposDispositivos).map(el => el.value);
   
-  if (dispositivosSelecionados.length > 0) {
-    texto += dispositivosSelecionados.join(', ');
-    
-    // Verifica cada dispositivo selecionado e adiciona metas específicas
-    dispositivosSelecionados.forEach(dispositivo => {
-      switch(dispositivo) {
-        case 'SNE/SNG':
-        case 'SVD/SVA':
-          metas.push('Avaliar possibilidade de retirada');
-          break;
-        case 'AVC':
-          metas.push('Avaliar sinais flogísticos e possibilidade de retirada');
-          break;
-        case 'AVP':
-          metas.push('Avaliar sinais flogísticos');
-          break;
-        case 'outros':
-          const outrosDispositivos = document.querySelector('input[name="outros_dispositivos"]').value;
-          if (outrosDispositivos) {
-            metas.push(`Avaliar dispositivo: ${outrosDispositivos}`);
-          }
-          break;
-      }
-    });
-  } else {
-    texto += 'não especificados';
-  }
+  dispositivosSelecionados.forEach(dispositivo => {
+    switch(dispositivo) {
+      case 'SVD/SVA':
+        metas.push('Avaliar possibilidade de retirada da SVD/SVA');
+        break;
+      case 'SNE/SNG':
+        metas.push('Avaliar transição alimentar da SNE/SNG');
+        break;
+      case 'AVC':
+        metas.push('Avaliar sinais flogísticos e possibilidade de retirada da AVC');
+        break;
+      case 'AVP':
+        metas.push('Avaliar sinais flogísticos da AVP');
+        break;
+      case 'outros':
+        const outrosDispositivos = document.querySelector('input[name="outros_dispositivos"]').value;
+        if (outrosDispositivos.trim() !== '') {
+          metas.push(`Avaliar dispositivo: ${outrosDispositivos}`);
+        }
+        break;
+    }
+  });
   
-  // Remove metas duplicadas e cria o HTML
+  // Remove duplicadas
   const metasUnicas = [...new Set(metas)];
-  const metasHTML = metasUnicas.map(meta => `<span class="meta-tag">${meta}</span>`).join('');
   
-  container.innerHTML = criarItemResumo(metasHTML);
+  // Gera um item separado para cada meta
+  if (metasUnicas.length > 0) {
+    container.innerHTML = metasUnicas
+      .map(meta => criarItemResumo(`<span class="meta-tag">${meta}</span>`))
+      .join('');
+  } else {
+    container.innerHTML = '';
+  }
 }
+
 function toggleSubquestion(id, show) {
   const element = document.getElementById(id);
   element.style.display = show ? 'block' : 'none';
@@ -2371,4 +2399,5 @@ function toggleOutrosEspecialidade(checkbox) {
 <script src="script/script2.js"></script>
 <script src="script/generatePDF.js"></script> 
 <script src="script/metaspdf.js"></script> 
+<script src="sigtap.js"></script>
 </html>

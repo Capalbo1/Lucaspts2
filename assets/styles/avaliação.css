@@ -395,3 +395,94 @@ form input[type="text"], form input[type="number"], form select, form textarea {
     margin-bottom: 8px;
     font-size: 16px;
 }
+
+
+ .search-input {
+            width: 100%;
+            padding: 15px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            font-size: 16px;
+            outline: none;
+        }
+
+        .stats {
+            background: #e7f3ff;
+            padding: 12px;
+            border-radius: 6px;
+            text-align: center;
+            margin-bottom: 15px;
+            font-weight: 500;
+        }
+         .resultados {
+            max-height: 400px;
+            overflow-y: auto;
+            border: 1px solid #eee;
+            border-radius: 8px;
+        }
+        
+        .resultado-item {
+            padding: 15px;
+            border-bottom: 1px solid #f0f0f0;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+        
+        .resultado-item:hover {
+            background: #f8f9fa;
+        }
+        
+        .resultado-item:last-child {
+            border-bottom: none;
+        }
+        
+        .resultado-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 8px;
+        }
+        
+        .resultado-codigo {
+            font-weight: bold;
+            color: #007bff;
+        }
+        
+        .resultado-dias {
+            background: #28a745;
+            color: white;
+            padding: 4px 10px;
+            border-radius: 12px;
+            font-size: 12px;
+            font-weight: bold;
+        }
+        
+        .resultado-nome {
+            color: #555;
+            line-height: 1.4;
+        }
+        
+        .detalhe-procedimento {
+            padding: 20px;
+            background: #f8f9fa;
+            border-radius: 8px;
+            text-align: center;
+        }
+        
+        .detalhe-info {
+            margin: 20px 0;
+        }
+        
+        .detalhe-codigo {
+            font-size: 16px;
+            color: #666;
+            margin-bottom: 15px;
+        }
+        
+        .dias-destaque {
+            font-size: 2em;
+            font-weight: bold;
+            color: #007bff;
+            display: block;
+            margin: 10px 0;
+        }
