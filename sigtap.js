@@ -61,7 +61,7 @@ async function buscarProcedimentos(termo) {
     
     try {
         const response = await fetch(
-            `http://127.0.0.1:8000/procedimentos/busca?termo=${encodeURIComponent(termo)}&limite=${CONFIG.limiteResultados}`
+    `https://lucaspts2.onrender.com/procedimentos/busca?termo=${encodeURIComponent(termo)}&limite=${CONFIG.limiteResultados}`
         );
         
         if (!response.ok) {
@@ -173,7 +173,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 async function testarConexao() {
     try {
-        const response = await fetch('http://127.0.0.1:8000/health');
+       const response = await fetch('https://lucaspts2.onrender.com/health');
         const data = await response.json();
         console.log('✅ Servidor conectado:', data);
     } catch (error) {
