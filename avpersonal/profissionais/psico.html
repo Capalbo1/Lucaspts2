@@ -38,7 +38,6 @@
         </ul>
     </nav>
 
-
 <main>
   <article class="bloco-psicologia bloco-dependencia bloco ativo">
     <h2>Acompanhamento Psicológico - Necessário</h2>
@@ -50,6 +49,302 @@
   </article>
 </main>
 
+      <main>
+            <form id="psiquiatrico-form" action="#" method="POST">
+                <!-- Pergunta 1 -->
+                <div class="question-group">
+                    <div class="main-question">
+                        <div class="question-text">1. Realiza Acompanhamento Psiquiátrico?</div>
+                        <div class="answer-options">
+                            <label class="option-label">
+                                <input type="radio" name="acompanhamento_psiquiatrico" value="sim" 
+                                    onclick="toggleAcompanhamentoPsiquiatrico(true)"> Sim
+                            </label>
+                            <label class="option-label">
+                                <input type="radio" name="acompanhamento_psiquiatrico" value="nao" 
+                                    onclick="toggleAcompanhamentoPsiquiatrico(false)"> Não
+                            </label>
+                        </div>
+                    </div>
+                    
+                    <!-- Seção para resposta SIM -->
+                    <div id="psiquiatrico-sim-details" class="subquestion" style="display: none;">
+                        <label>Quantas vezes ao mês:</label>
+                        <div class="option-group">
+                            <label class="option-label">
+                                <input type="radio" name="frequencia_psiquiatrico" value="menos_1"> Menos de 1
+                            </label>
+                            <label class="option-label">
+                                <input type="radio" name="frequencia_psiquiatrico" value="1_a_2"> 1 à 2
+                            </label>
+                            <label class="option-label">
+                                <input type="radio" name="frequencia_psiquiatrico" value="2_a_4"> 2 à 4
+                            </label>
+                            <label class="option-label">
+                                <input type="radio" name="frequencia_psiquiatrico" value="mais_4"> Mais de 4
+                            </label>
+                        </div>
+                        
+                        
+                        <div id="medicacao-details" class="subdetalhe" style="display: none; margin-top: 15px;">
+                            <label>Liste as medicações em uso:</label>
+                            <textarea name="lista_medicacoes" rows="3" placeholder="Nome dos medicamentos e dosagens"></textarea>
+                        </div>
+                    </div>
+                    
+                    <!-- Seção para resposta NÃO -->
+                    <div id="psiquiatrico-nao-details" class="subquestion" style="display: none;">
+                        <label>Motivo:</label>
+                        <div class="option-group">
+                            <label class="option-label">
+                                <input type="radio" name="motivo_sem_psiquiatrico" value="rede_sobrecarregada"> Rede sobrecarregada
+                            </label>
+                            <label class="option-label">
+                                <input type="radio" name="motivo_sem_psiquiatrico" value="nao_procurou"> Não procurou atendimento
+                            </label>
+                            <label class="option-label">
+                                <input type="radio" name="motivo_sem_psiquiatrico" value="nao_necessita"> Não necessita de Acompanhamento
+                            </label>
+                            <label class="option-label">
+                                <input type="radio" name="motivo_sem_psiquiatrico" value="sem_encaminhamento"> Sem encaminhamento
+                            </label>
+                            <label class="option-label">
+                                <input type="radio" name="motivo_sem_psiquiatrico" value="outros" 
+                                    onclick="toggleOutrosMotivosPsiquiatrico(true)"> Outros
+                            </label>
+                        </div>
+                        
+                        <!-- Campo para especificar outros motivos -->
+                        <div id="outros-motivos-psiquiatrico" class="subdetalhe" style="display: none; margin-top: 10px;">
+                            <label>Especifique:</label>
+                            <input type="text" name="outros_motivos_psiquiatrico">
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Pergunta 2 -->
+                <div class="question-group">
+                    <div class="main-question">
+                        <div class="question-text">2. Já recebeu algum diagnóstico psiquiátrico?</div>
+                        <div class="answer-options">
+                            <label class="option-label">
+                                <input type="radio" name="possui_diagnostico" value="sim" 
+                                    onclick="toggleDiagnostico(true)"> Sim
+                            </label>
+                            <label class="option-label">
+                                <input type="radio" name="possui_diagnostico" value="nao" 
+                                    onclick="toggleDiagnostico(false)"> Não
+                            </label>
+                        </div>
+                    </div>
+                    
+                    <div id="diagnostico-details" class="subquestion" style="display: none;">
+                        <label>Qual diagnóstico?</label>
+                        <input type="text" name="qual_diagnostico" placeholder="Ex: depressão, transtorno de ansiedade, etc.">
+                        
+                        <div style="margin-top: 15px;">
+                            <label>Há quanto tempo recebeu este diagnóstico?</label>
+                            <input type="text" name="tempo_diagnostico" placeholder="Ex: 2 anos, 6 meses">
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Pergunta 3 -->
+                <div class="question-group">
+                    <div class="main-question">
+                        <div class="question-text">3. Já foi internado em hospital psiquiátrico?</div>
+                        <div class="answer-options">
+                            <label class="option-label">
+                                <input type="radio" name="internacao_psiquiatrica" value="sim" 
+                                    onclick="toggleInternacao(true)"> Sim
+                            </label>
+                            <label class="option-label">
+                                <input type="radio" name="internacao_psiquiatrica" value="nao" 
+                                    onclick="toggleInternacao(false)"> Não
+                            </label>
+                        </div>
+                    </div>
+                    
+                    <div id="internacao-details" class="subquestion" style="display: none;">
+                        <label>Quantas vezes?</label>
+                        <input type="number" name="vezes_internacao" min="1">
+                        
+                        <div style="margin-top: 15px;">
+                            <label>Quando foi a última internação?</label>
+                            <input type="date" name="data_ultima_internacao">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="question-group">
+                    <div class="main-question">
+                        <div class="question-text">4. Faz uso de medicações psiquiátricas?</div>
+                        <div class="answer-options">
+                            <label class="option-label">
+                                <input type="radio" name="uso_medicacao" value="sim" 
+                                    onclick="toggleUsoMedicacao(true)"> Sim
+                            </label>
+                            <label class="option-label">
+                                <input type="radio" name="uso_medicacao" value="nao" 
+                                    onclick="toggleUsoMedicacao(false)"> Não
+                            </label>
+                        </div>
+                    </div>
+                    
+                    <!-- Seção para resposta SIM -->
+                    <div id="medicacao-sim-details" class="subquestion" style="display: none;">
+                        <label>Liste as medicações em uso:</label>
+                        <textarea name="lista_medicacoes" rows="3" placeholder="Nome dos medicamentos e dosagens"></textarea>
+                        
+                        <div style="margin-top: 15px;">
+                            <label>Possui receita médica para estas medicações?</label>
+                            <div class="answer-options">
+                                <label class="option-label">
+                                    <input type="radio" name="possui_receita" value="sim" 
+                                        onclick="toggleReceitaMedica(true)"> Sim
+                                </label>
+                                <label class="option-label">
+                                    <input type="radio" name="possui_receita" value="nao" 
+                                        onclick="toggleReceitaMedica(false)"> Não
+                                </label>
+                            </div>
+                        </div>
+                        
+                        <div id="receita-details" class="subdetalhe" style="display: none; margin-top: 15px;">
+                            <label>Por que não possui receita?</label>
+                            <div class="option-group">
+                                <label class="option-label">
+                                    <input type="radio" name="motivo_sem_receita" value="medico_nao_passou"> Médico não passou
+                                </label>
+                                <label class="option-label">
+                                    <input type="radio" name="motivo_sem_receita" value="perdeu_receita"> Perdeu a receita
+                                </label>
+                                <label class="option-label">
+                                    <input type="radio" name="motivo_sem_receita" value="outros_motivos" 
+                                        onclick="toggleOutrosMotivosReceita(true)"> Outros
+                                </label>
+                            </div>
+                            
+                            <div id="outros-motivos-receita" class="subdetalhe" style="display: none; margin-top: 10px;">
+                                <label>Especifique:</label>
+                                <input type="text" name="outros_motivos_receita">
+                            </div>
+                        </div>
+                        
+                        <div style="margin-top: 15px;">
+                            <label>Toma a medicação corretamente?</label>
+                            <div class="answer-options">
+                                <label class="option-label">
+                                    <input type="radio" name="toma_corretamente" value="sim" 
+                                        onclick="toggleTomaCorretamente(true)"> Sim
+                                </label>
+                                <label class="option-label">
+                                    <input type="radio" name="toma_corretamente" value="nao" 
+                                        onclick="toggleTomaCorretamente(false)"> Não
+                                </label>
+                            </div>
+                        </div>
+                        
+                        <!-- Seção para quem TOMA corretamente -->
+                        <div id="toma-corretamente-details" class="subdetalhe" style="display: none; margin-top: 15px;">
+                            <label>Apresenta efeitos colaterais?</label>
+                            <div class="answer-options">
+                                <label class="option-label">
+                                    <input type="radio" name="efeitos_colaterais" value="sim" 
+                                        onclick="toggleEfeitosColaterais(true)"> Sim
+                                </label>
+                                <label class="option-label">
+                                    <input type="radio" name="efeitos_colaterais" value="nao" 
+                                        onclick="toggleEfeitosColaterais(false)"> Não
+                                </label>
+                            </div>
+                            
+                            <div id="efeitos-colaterais-details" class="subdetalhe" style="display: none; margin-top: 10px;">
+                                <label>Quais efeitos colaterais?</label>
+                                <textarea name="quais_efeitos_colaterais" rows="2" placeholder="Descreva os efeitos colaterais"></textarea>
+                                
+                                <label style="margin-top: 10px;">Consegue se adaptar aos efeitos colaterais?</label>
+                                <div class="answer-options">
+                                    <label class="option-label">
+                                        <input type="radio" name="adaptacao_efeitos" value="sim"> Sim
+                                    </label>
+                                    <label class="option-label">
+                                        <input type="radio" name="adaptacao_efeitos" value="nao"> Não
+                                    </label>
+                                    <label class="option-label">
+                                        <input type="radio" name="adaptacao_efeitos" value="parcialmente"> Parcialmente
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Seção para quem NÃO TOMA corretamente -->
+                        <div id="nao-toma-corretamente-details" class="subdetalhe" style="display: none; margin-top: 15px;">
+                            <label>Por que não toma a medicação corretamente?</label>
+                            <div class="option-group">
+                                <label class="option-label">
+                                    <input type="radio" name="motivo_nao_toma" value="esquecimento"> Esquecimento
+                                </label>
+                                <label class="option-label">
+                                    <input type="radio" name="motivo_nao_toma" value="dificuldade_cognitiva"> Dificuldade cognitiva
+                                </label>
+                                <label class="option-label">
+                                    <input type="radio" name="motivo_nao_toma" value="problema_financeiro"> Problema financeiro
+                                </label>
+                                <label class="option-label">
+                                    <input type="radio" name="motivo_nao_toma" value="nao_acredita_eficacia"> Não acredita na eficácia
+                                </label>
+                                <label class="option-label">
+                                    <input type="radio" name="motivo_nao_toma" value="efeitos_colaterais_graves"> Efeitos colaterais graves
+                                </label>
+                                <label class="option-label">
+                                    <input type="radio" name="motivo_nao_toma" value="outros_motivos_nao_toma" 
+                                        onclick="toggleOutrosMotivosNaoToma(true)"> Outros
+                                </label>
+                            </div>
+                            
+                            <div id="outros-motivos-nao-toma" class="subdetalhe" style="display: none; margin-top: 10px;">
+                                <label>Especifique:</label>
+                                <input type="text" name="outros_motivos_nao_toma">
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Seção para resposta NÃO -->
+                    <div id="medicacao-nao-details" class="subquestion" style="display: none;">
+                        <label>Por que não faz uso de medicações?</label>
+                        <div class="option-group">
+                            <label class="option-label">
+                                <input type="radio" name="motivo_nao_usa_medicacao" value="medico_nao_receitou"> Médico não receitou
+                            </label>
+                            <label class="option-label">
+                                <input type="radio" name="motivo_nao_usa_medicacao" value="nao_precisa"> Não precisa
+                            </label>
+                            <label class="option-label">
+                                <input type="radio" name="motivo_nao_usa_medicacao" value="medo_efeitos_colaterais"> Medo de efeitos colaterais
+                            </label>
+                            <label class="option-label">
+                                <input type="radio" name="motivo_nao_usa_medicacao" value="problema_financeiro_compra"> Problema financeiro para comprar
+                            </label>
+                            <label class="option-label">
+                                <input type="radio" name="motivo_nao_usa_medicacao" value="outros_motivos_nao_usa" 
+                                    onclick="toggleOutrosMotivosNaoUsa(true)"> Outros
+                            </label>
+                        </div>
+                        
+                        <div id="outros-motivos-nao-usa" class="subdetalhe" style="display: none; margin-top: 10px;">
+                            <label>Especifique:</label>
+                            <input type="text" name="outros_motivos_nao_usa">
+                        </div>
+                    </div>
+                </div>
+                
+                <hr>
+              
+            </form>
+        </main>
+
+
 <main>
   <article class="bloco-obs bloco ativo">
     <h2>Meta Singular Multiprofissional</h2>
@@ -60,6 +355,7 @@
     </div>
   </article>
 </main>
+
 
 <main class="metas-padrao-container">
   <h2>Metas Singulares</h2>
@@ -79,6 +375,7 @@
 <script src="../navcontrol.js"></script>
 <script src="../novaMeta.js"></script>
 <script src="../metassingulares.js"></script>
+<script src="psicosingulartoggle.js"></script>
 
 </body>
 
