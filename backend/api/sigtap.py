@@ -17,8 +17,9 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-# Caminho para sua planilha Excel
-EXCEL_PATH = Path(r"C:\Users\SALETE\Desktop\analise de exames\Lucaspts2\tabela sigtap.xlsx")
+BASE_DIR = Path(__file__).resolve().parent
+EXCEL_PATH = BASE_DIR / "tabela sigtap.xlsx"
+
 
 # Cache dos procedimentos
 PROCEDIMENTOS = []
