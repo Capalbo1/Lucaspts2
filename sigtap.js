@@ -184,3 +184,69 @@ async function testarConexao() {
 
 // Função global para o botão
 window.limparSelecao = limparSelecao;
+
+function selecionarProcedimento(procedimento) {
+    searchInput.value = '';
+    resultadosDiv.innerHTML = '';
+    
+    statsDiv.innerHTML = `✅ Procedimento selecionado`;
+
+    // Gerar meta do procedimento selecionado
+    gerarMetaProcedimento(procedimento);
+
+    const infoHTML = `
+        <div class="detalhe-procedimento">
+            <h3>📋 ${procedimento.nome}</h3>
+            <div class="detalhe-info">
+                <div class="detalhe-codigo">
+                    <strong>Código:</strong> ${procedimento.codigo}
+                </div>
+                <div class="detalhe-dias">
+                    <strong>Dias de Permanência:</strong>
+                    <span class="dias-destaque">${procedimento.dias_permanencia || 'N/A'}</span> dias
+                </div>
+            </div>
+            <button onclick="limparSelecao()" class="btn-limpar">
+                🔍 Nova Busca
+            </button>
+        </div>
+    `;
+    
+    resultadosDiv.innerHTML = infoHTML;
+}
+
+// Função para gerar a meta do procedimento selecionado
+function gerarMetaProcedimento(procedimento) {
+    const container = document.getElementById('metas-padrao');
+
+    // Converte para número e soma 3 dias
+    const dias = Number(procedimento.dias_permanencia || 0) + 3;
+
+    // Verifica se já existe uma meta dinâmica do procedimento
+    let metaExistente = document.getElementById('meta-procedimento');
+    if (metaExistente) {
+        // Atualiza o texto da meta existente
+        metaExistente.querySelector('.resumo-texto').innerHTML = `
+            Internação hospitalar para ${procedimento.nome}, com previsão de permanência por ${dias} dias
+            <span class="meta-tag"></span>
+        `;
+        return;
+    }
+
+    // Cria o elemento da meta, caso não exista
+    const metaElement = document.createElement('div');
+    metaElement.id = 'meta-procedimento'; // define um id único
+    metaElement.className = 'meta-padrao-item';
+    metaElement.innerHTML = `
+        <input type="checkbox" class="resumo-checkbox">
+        <div class="resumo-texto">
+            Internação hospitalar para ${procedimento.nome}, com previsão de permanência por ${dias} dias
+            <span class="meta-tag"></span>
+        </div>
+    `;
+
+    // Adiciona a meta no topo da lista
+    container.prepend(metaElement);
+}
+
+
