@@ -11,6 +11,8 @@
   <title>Formulário Completo de Anamnese</title>
   <link rel="stylesheet" href="../style.css">
   <link rel="stylesheet" href="../stylepersonal.css">
+  <link rel="stylesheet" href="../nutri.css">
+
   <link rel="shortcut icon" href="..../assets/img/favicion.png" type="image/x-icon">
   <!-- Adicione estas bibliotecas -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
@@ -135,11 +137,82 @@
             <div class="actions">
                 <button class="btn-nova-meta">Gerar PDF</button>
             </div>
+
+             <span id="classificacao_imc" class="classificacao-imc"></span>
             
             <p class="info-text">Os campos de Idade e IMC são calculados automaticamente e não precisam ser preenchidos.</p>
         </form>
 
+       
+
 </main>
+
+<main class="triagem-container">
+        <h2>Triagem 1</h2>
+        <form action="" method="post">
+            <div class="grid-perguntas">
+                <div class="pergunta">
+                    <div class="pergunta-titulo">IMC menor que 20,5 kg/m²?</div>
+                    <div class="opcoes">
+                        <div class="opcao">
+                            <input type="radio" name="imc_baixo" id="imc_sim" value="sim">
+                            <label for="imc_sim">Sim</label>
+                        </div>
+                        <div class="opcao">
+                            <input type="radio" name="imc_baixo" id="imc_nao" value="nao">
+                            <label for="imc_nao">Não</label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="pergunta">
+                    <div class="pergunta-titulo">Perdeu peso nos últimos 3 meses?</div>
+                    <div class="opcoes">
+                        <div class="opcao">
+                            <input type="radio" name="perda_peso" id="peso_sim" value="sim">
+                            <label for="peso_sim">Sim</label>
+                        </div>
+                        <div class="opcao">
+                            <input type="radio" name="perda_peso" id="peso_nao" value="nao">
+                            <label for="peso_nao">Não</label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="pergunta">
+                    <div class="pergunta-titulo">Ingestão dietética reduzida na última semana?</div>
+                    <div class="opcoes">
+                        <div class="opcao">
+                            <input type="radio" name="dieta_reduzida" id="dieta_sim" value="sim">
+                            <label for="dieta_sim">Sim</label>
+                        </div>
+                        <div class="opcao">
+                            <input type="radio" name="dieta_reduzida" id="dieta_nao" value="nao">
+                            <label for="dieta_nao">Não</label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="pergunta">
+                    <div class="pergunta-titulo">Paciente gravemente doente?</div>
+                    <div class="opcoes">
+                        <div class="opcao">
+                            <input type="radio" name="gravemente_doente" id="grave_sim" value="sim">
+                            <label for="grave_sim">Sim</label>
+                        </div>
+                        <div class="opcao">
+                            <input type="radio" name="gravemente_doente" id="grave_nao" value="nao">
+                            <label for="grave_nao">Não</label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+
+        <form action="" class="triagem2">
+
+        </form>
+    </main>
 
 <main class="metas-padrao-container">
   <h2>Metas Singulares</h2>
@@ -157,7 +230,7 @@
 <script src="../navcontrol.js"></script>
 <script src="../novaMeta.js"></script>
 <script src="../metassingulares.js"></script>
-<script src="imc"></script>
+<script src="imc.js"></script>
 </body>
 
 
