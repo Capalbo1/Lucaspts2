@@ -209,8 +209,154 @@
             </div>
         </form>
 
-        <form action="" class="triagem2">
+         <form id="form-score">
+            <h2>Triagem 2 - NRS 2002</h2>
+            <!-- SEÇÃO 1: ESTADO NUTRICIONAL -->
+            <div class="secao">
+                <div class="secao-titulo">Estado Nutricional</div>
+                
+                <div class="perguntas">
+                    <div class="pergunta">
+                        <div class="pergunta-texto">Estado nutricional normal?</div>
+                        <div class="pergunta-descricao">Sem perda de peso significativa ou alterações nutricionais</div>
+                        <div class="opcoes">
+                            <div class="opcao">
+                                <input type="radio" name="estado_nutricional" id="en_normal_sim" value="0" data-categoria="nutricional">
+                                <label for="en_normal_sim">Sim (0 pontos)</label>
+                            </div>
+                            <div class="opcao">
+                                <input type="radio" name="estado_nutricional" id="en_normal_nao" value="" data-categoria="nutricional">
+                                <label for="en_normal_nao">Não</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="pergunta">
+                        <div class="pergunta-texto">Perda de peso leve?</div>
+                        <div class="pergunta-descricao">Perda > 5% em 3 meses OU ingestão entre 50-75% das necessidades</div>
+                        <div class="opcoes">
+                            <div class="opcao">
+                                <input type="radio" name="estado_nutricional" id="en_leve_sim" value="1" data-categoria="nutricional">
+                                <label for="en_leve_sim">Sim (1 ponto)</label>
+                            </div>
+                            <div class="opcao">
+                                <input type="radio" name="estado_nutricional" id="en_leve_nao" value="" data-categoria="nutricional">
+                                <label for="en_leve_nao">Não</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="pergunta">
+                        <div class="pergunta-texto">Perda de peso moderada?</div>
+                        <div class="pergunta-descricao">Perda > 5% em 2 meses OU IMC 18,5-20,5 + condição geral prejudicada OU ingestão 25-60%</div>
+                        <div class="opcoes">
+                            <div class="opcao">
+                                <input type="radio" name="estado_nutricional" id="en_moderado_sim" value="2" data-categoria="nutricional">
+                                <label for="en_moderado_sim">Sim (2 pontos)</label>
+                            </div>
+                            <div class="opcao">
+                                <input type="radio" name="estado_nutricional" id="en_moderado_nao" value="" data-categoria="nutricional">
+                                <label for="en_moderado_nao">Não</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="pergunta">
+                        <div class="pergunta-texto">Perda de peso grave?</div>
+                        <div class="pergunta-descricao">Perda > 5% em 1 mês OU IMC < 18,5 + condição geral prejudicada OU ingestão 0-25%</div>
+                        <div class="opcoes">
+                            <div class="opcao">
+                                <input type="radio" name="estado_nutricional" id="en_grave_sim" value="3" data-categoria="nutricional">
+                                <label for="en_grave_sim">Sim (3 pontos)</label>
+                            </div>
+                            <div class="opcao">
+                                <input type="radio" name="estado_nutricional" id="en_grave_nao" value="" data-categoria="nutricional">
+                                <label for="en_grave_nao">Não</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
 
+            <!-- SEÇÃO 2: GRAVIDADE DA DOENÇA -->
+            <div class="secao">
+                <div class="secao-titulo">Gravidade da Doença</div>
+                
+                <div class="perguntas">
+                    <div class="pergunta">
+                        <div class="pergunta-texto">Necessidades nutricionais normais?</div>
+                        <div class="pergunta-descricao">Paciente sem complicações que requer cuidados nutricionais de rotina</div>
+                        <div class="opcoes">
+                            <div class="opcao">
+                                <input type="radio" name="gravidade_doenca" id="gd_normal_sim" value="0" data-categoria="doenca">
+                                <label for="gd_normal_sim">Sim (0 pontos)</label>
+                            </div>
+                            <div class="opcao">
+                                <input type="radio" name="gravidade_doenca" id="gd_normal_nao" value="" data-categoria="doenca">
+                                <label for="gd_normal_nao">Não</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="pergunta">
+                        <div class="pergunta-texto">Doença leve?</div>
+                        <div class="pergunta-descricao">Fratura de quadril, pacientes crônicos com complicações agudas, cirrose, DPOC, hemodiálise, diabetes, oncologia, paciente fraco mas deambula</div>
+                        <div class="opcoes">
+                            <div class="opcao">
+                                <input type="radio" name="gravidade_doenca" id="gd_leve_sim" value="1" data-categoria="doenca">
+                                <label for="gd_leve_sim">Sim (1 ponto)</label>
+                            </div>
+                            <div class="opcao">
+                                <input type="radio" name="gravidade_doenca" id="gd_leve_nao" value="" data-categoria="doenca">
+                                <label for="gd_leve_nao">Não</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="pergunta">
+                        <div class="pergunta-texto">Doença moderada?</div>
+                        <div class="pergunta-descricao">Cirurgia abdominal de grande porte, AVC, pneumonia grave, leucemia, linfoma, paciente confinado ao leito</div>
+                        <div class="opcoes">
+                            <div class="opcao">
+                                <input type="radio" name="gravidade_doenca" id="gd_moderado_sim" value="2" data-categoria="doenca">
+                                <label for="gd_moderado_sim">Sim (2 pontos)</label>
+                            </div>
+                            <div class="opcao">
+                                <input type="radio" name="gravidade_doenca" id="gd_moderado_nao" value="" data-categoria="doenca">
+                                <label for="gd_moderado_nao">Não</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="pergunta">
+                        <div class="pergunta-texto">Doença grave?</div>
+                        <div class="pergunta-descricao">Trauma, transplante de medula óssea, paciente em UTI (APACHE > 10)</div>
+                        <div class="opcoes">
+                            <div class="opcao">
+                                <input type="radio" name="gravidade_doenca" id="gd_grave_sim" value="3" data-categoria="doenca">
+                                <label for="gd_grave_sim">Sim (3 pontos)</label>
+                            </div>
+                            <div class="opcao">
+                                <input type="radio" name="gravidade_doenca" id="gd_grave_nao" value="" data-categoria="doenca">
+                                <label for="gd_grave_nao">Não</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="score-display">
+                <div class="score-numero" id="score-total">0</div>
+                <div class="score-label">Score Total</div>
+                <div class="score-label">• Escore < 3 = Sem risco nutricional → Reavaliar periodicamente</div>
+                <div class="score-label">• Escore ≥ 3 = Risco nutricional → Iniciar plano de cuidado nutricional</div>
+                <div class="score-classificacao" id="classificacao">Baixo Risco</div>
+                <div class="score-detalhes">
+                    <div class="score-item">
+                        Estado Nutricional: <span id="score-nutricional">0</span>
+                    </div>
+                    <div class="score-item">
+                        Gravidade da Doença: <span id="score-doenca">0</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="botao-container">
+                <button type="submit" class="btn-submit">Finalizar Avaliação</button>
+            </div>
         </form>
     </main>
 
