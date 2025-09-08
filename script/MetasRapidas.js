@@ -70,7 +70,7 @@ function toggleOtherField() {
 
 
 function atualizarMetasRapidas() {
-  const container = document.getElementById('metas-padrao');
+  const container = document.getElementById('metas-rapidas');
   const metasRapidasChecked = document.querySelector('input[name="metas_rapidas"]:checked');
   
   // Limpa se metas rápidas não estiver marcada
