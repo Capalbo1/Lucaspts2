@@ -102,6 +102,142 @@
 
     </div>
 
+    <div class="question-group">
+    <div class="main-question">
+      <div class="question-text">Metas rápidas?</div>
+      <div class="answer-options">
+        <label class="option-label">
+          <input type="checkbox" name="metas_rapidas" value="sim" onclick="toggleSubquestion('metas-rapidas-details', this.checked)"> Sim
+        </label>
+      </div>
+    </div>
+    
+    <div id="metas-rapidas-details" class="subquestion" style="display: none;">
+      <label>Selecione as metas rápidas:</label>
+      <div class="option-group">
+        <div class="rapidas">
+          <!-- Antibioticoterapia com campo de dias -->
+          <div class="meta-item">
+            <label class="option-label">
+              <input type="checkbox" name="tipo_meta_rapida" value="Antibioticoterapia" id="antibiotico" onchange="toggleDaysField()"> Antibioticoterapia
+            </label>
+            <div id="antibiotico-dias" style="display: none; margin-left: 20px; margin-top: 5px;">
+              <label>Por quantos dias:</label>
+              <input type="number" name="antibiotico_dias" min="1" max="30" style="width: 60px; margin-left: 10px;">
+            </div>
+          </div>
+
+          <label class="option-label">
+            <input type="checkbox" name="tipo_meta_rapida" value="Suporte clínico"> Suporte clínico
+          </label>
+          
+          <label class="option-label">
+            <input type="checkbox" name="tipo_meta_rapida" value="Suporte Intensivo"> Suporte Intensivo
+          </label>
+
+          <!-- Vigilâncias sem frequência -->
+          <label class="option-label">
+            <input type="checkbox" name="tipo_meta_rapida" value="Vigilância neurológica"> Vigilância neurológica
+          </label>
+
+          <label class="option-label">
+            <input type="checkbox" name="tipo_meta_rapida" value="Vigilância hematimétrica"> Vigilância hematimétrica
+          </label>
+
+          <label class="option-label">
+            <input type="checkbox" name="tipo_meta_rapida" value="Vigilância hemodinâmica"> Vigilância hemodinâmica
+          </label>
+
+          <!-- Controles com frequência -->
+          <div class="meta-item">
+            <label class="option-label">
+              <input type="checkbox" name="tipo_meta_rapida" value="Controle hídrico" id="ctrl-hidrico" onchange="toggleFrequencyField('ctrl-hidrico-freq', this.checked)"> Controle hídrico
+            </label>
+            <div id="ctrl-hidrico-freq" style="display: none; margin-left: 20px; margin-top: 5px;">
+              <select name="ctrl_hidrico_freq" style="margin-left: 10px;">
+                <option value="">Selecione frequência</option>
+                  <option value="2/2h">2/2h</option>
+                <option value="4/4h">4/4h</option>
+                <option value="6/6h">6/6h</option>
+                <option value="8/8h">8/8h</option>
+                <option value="12/12h">12/12h</option>
+                <option value="24h">24h</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="meta-item">
+            <label class="option-label">
+              <input type="checkbox" name="tipo_meta_rapida" value="Controle glicêmico" id="ctrl-glicemico" onchange="toggleFrequencyField('ctrl-glicemico-freq', this.checked)"> Controle glicêmico
+            </label>
+            <div id="ctrl-glicemico-freq" style="display: none; margin-left: 20px; margin-top: 5px;">
+              <select name="ctrl_glicemico_freq" style="margin-left: 10px;">
+                <option value="">Selecione frequência</option>
+                  <option value="2/2h">2/2h</option>
+                <option value="4/4h">4/4h</option>
+                <option value="6/6h">6/6h</option>
+                <option value="8/8h">8/8h</option>
+                <option value="12/12h">12/12h</option>
+                <option value="24h">24h</option>
+              </select>
+            </div>
+          </div>
+
+          <!-- Sinais vitais com frequência -->
+          <div class="meta-item">
+            <label class="option-label">
+              <input type="checkbox" name="tipo_meta_rapida" value="Sinais vitais" id="sinais-vitais" onchange="toggleFrequencyField('sinais-vitais-freq', this.checked)"> Sinais vitais
+            </label>
+            <div id="sinais-vitais-freq" style="display: none; margin-left: 20px; margin-top: 5px;">
+              <select name="sinais_vitais_freq" style="margin-left: 10px;">
+                <option value="">Selecione frequência</option>
+                <option value="2/2h">2/2h</option>
+                <option value="4/4h">4/4h</option>
+                <option value="6/6h">6/6h</option>
+                <option value="8/8h">8/8h</option>
+                <option value="12/12h">12/12h</option>
+              </select>
+            </div>
+          </div>
+
+          <!-- Outras opções sem frequência -->
+          <label class="option-label">
+            <input type="checkbox" name="tipo_meta_rapida" value="Cabeceira elevada"> Cabeceira elevada
+          </label>
+          
+          <label class="option-label">
+            <input type="checkbox" name="tipo_meta_rapida" value="Risco de queda"> Risco de queda
+          </label>
+          
+          <label class="option-label">
+            <input type="checkbox" name="tipo_meta_rapida" value="Oxigenoterapia"> Oxigenoterapia
+          </label>
+          
+          <label class="option-label">
+            <input type="checkbox" name="tipo_meta_rapida" value="Manter as vias aereas perveas"> Manter as vias aereas perveas
+          </label>
+          
+          <label class="option-label">
+            <input type="checkbox" name="tipo_meta_rapida" value="Controle da dor"> Controle da dor
+          </label>
+          
+          <label class="option-label">
+            <input type="checkbox" name="tipo_meta_rapida" value="Estabilização hemodinâmica"> Estabilização hemodinâmica
+          </label>
+          
+          <label class="option-label">
+            <input type="checkbox" name="tipo_meta_rapida" value="outros" id="outros-metas" onchange="toggleOtherField()"> Outros
+          </label>
+        </div>
+      </div>
+      
+      <!-- Campo para especificar quando selecionar "Outros" -->
+      <div id="outros-metas-detalhes" style="display: none; margin-top: 10px;">
+        <label>Especifique:</label>
+        <input type="text" name="outra_meta_rapida">
+      </div>
+    </div>
+</div>
 
 
         <!-- Pergunta 1 Modificada -->
@@ -701,7 +837,7 @@
 <!-- Pergunta 16 se sim gerar meta -->
 <div class="question-group">
   <div class="main-question">
-    <div class="question-text">16. Necessita do SAD?</div>
+    <div class="question-text">16. Necessita do PAD?</div>
     <div class="answer-options">
       <label class="option-label">
         <input type="radio" name="sad" value="sim" onclick="toggleSubquestion('sad-details', true)"> Sim
@@ -751,7 +887,7 @@
        <!-- Pergunta 18 se não meta -->
 <div class="question-group">
   <div class="main-question">
-    <div class="question-text">18. Possuí Lar/residência?</div>
+    <div class="question-text">18. Possuí Moradia?</div>
     <div class="answer-options">
       <label class="option-label">
         <input type="radio" name="residencia" value="sim" onclick="toggleResidenciaDetails(true)"> Sim
@@ -832,7 +968,7 @@
   <!-- Pergunta 19: Auxílio do Governo -->
 <div class="question-group">
   <div class="main-question">
-    <div class="question-text">19. Recebe benefício do governo?</div>
+    <div class="question-text">19.Possuí renda fixa?</div>
     <div class="answer-options">
       <label class="option-label">
         <input type="radio" name="beneficio" value="sim" 
@@ -847,7 +983,7 @@
   
   <!-- Seção para resposta SIM -->
   <div id="beneficio-sim-details" class="subquestion" style="display: none;">
-    <label>Tipo de benefício:</label>
+    <label>Tipo de renda:</label>
     <div class="option-group">
       <label class="option-label">
         <input type="radio" name="tipo_beneficio" value="bolsa_familia" onchange="salvarTipoBeneficio('bolsa_familia')"> Bolsa Família
@@ -915,7 +1051,10 @@
         <input type="checkbox" name="servicos_saude" value="SAD"> SAD
       </label>
       <label class="option-label">
-        <input type="checkbox" name="servicos_saude" value="CASA JAU"> CASA JAÚ
+        <input type="checkbox" name="servicos_saude" value="CASA JAU"> CASA JAÚ (Nucleo de apoio)
+      </label>
+      <label class="option-label">
+        <input type="checkbox" name="servicos_saude" value="Cemen"> CEMEM (Centro de especialidades médicas)
       </label>
       <label class="option-label">
         <input type="checkbox" name="servicos_saude" value="CASA JAU"> OUTROS
@@ -1520,8 +1659,6 @@ function gerarMetasPadrao() {
   
   // Lista de metas padrões
   const metasPadrao = [
-    " Antibioticoterapia",
-    " Suporte clínico e cuidados de enfermaria"
   ];
   
   // Limpa o container antes de adicionar as metas
@@ -2402,4 +2539,5 @@ function toggleOutrosEspecialidade(checkbox) {
 <script src="script/generatePDF.js"></script> 
 <script src="script/metaspdf.js"></script> 
 <script src="sigtap.js"></script>
+<script src="script/MetasRapidas.js"></script>
 </html>
