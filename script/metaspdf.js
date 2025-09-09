@@ -1,4 +1,4 @@
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function() { 
   const botaoPDF = document.getElementById('gerar-pdf-metas');
   if (botaoPDF) {
     botaoPDF.addEventListener('click', gerarPDFMetas);
@@ -12,7 +12,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     todasMetas.forEach(meta => {
       const checkbox = meta.querySelector('.resumo-checkbox');
-      const texto = meta.querySelector('.resumo-texto').innerText.trim();
+      const texto = meta.querySelector('.resumo-texto')?.innerText.trim() || '';
       if (checkbox && checkbox.checked) {
         realizadas.push(texto);
       } else {
@@ -28,184 +28,239 @@ document.addEventListener('DOMContentLoaded', function() {
     const helveticaBold = await pdfDoc.embedFont(PDFLib.StandardFonts.HelveticaBold);
     let page = pdfDoc.getPages()[0];
 
-    // 3. Layout inicial
-    let y = 700;
-    const fontSize = 12;
+    // 3. Layout inicial - CONFIGURAÇÕES AJUSTADAS
+    const pageWidth = page.getWidth();
+    const pageHeight = page.getHeight();
+
+    // Margens e posições (ajuste se necessário)
+    const topMargin = 140; // distância do topo da página (em pontos)
+    const bottomMargin = 100; // margem inferior (em pontos)
+    const startY = pageHeight - topMargin; // posição inicial Y
+    let currentY = startY;
+
+    const fontSize = 10; // Fonte das metas
     const titleFontSize = 16;
-    const lineHeight = 30;
+    // lineHeight baseado em fontSize para ser consistente
+    const lineHeight = Math.round(fontSize * 1.8); // por exemplo: 10 * 1.8 = 18
+    const metaSpacing = 20; // Espaço fixo entre metas (padrão maior para evitar sobreposição)
     const marginLeft = 80;
-    const pageBottom = 60;
-    const maxWidth = 440;
+    const maxWidth = pageWidth - marginLeft - 80; // largura útil do texto (ajusta margem direita)
+    const checkboxSize = 10;
+    const textIndent = checkboxSize + 10; // indentação do texto após checkbox
+    const extraPad = 6; // folga extra por meta para garantir não sobrepor
 
     // 4. Título
     const titleText = 'PROJETO TERAPÊUTICO SINGULAR';
     const titleWidth = helveticaBold.widthOfTextAtSize(titleText, titleFontSize);
-    const pageWidth = page.getWidth();
     const titleX = (pageWidth - titleWidth) / 2;
 
     page.drawText(titleText, {
       x: titleX,
-      y: y+20,
+      y: currentY + 20,
       size: titleFontSize,
       font: helveticaBold,
       color: rgb(0.1, 0.1, 0.5)
     });
 
-    y -= lineHeight * 2;
+    currentY -= 50;
 
-
-     // 🔹 Nome completo
+    // 🔹 Nome completo
     const nome = document.getElementById("nome")?.value || "Não informado";
     page.drawText("Nome Completo:", {
       x: marginLeft,
-      y: y+50,
-      size: fontSize,
+      y: currentY,
+      size: fontSize + 1,
       font: helveticaBold,
       color: rgb(0, 0, 0)
     });
 
     page.drawText(nome, {
-      x: marginLeft + 100,
-      y: y+50,
-      size: fontSize,
+      x: marginLeft + 110,
+      y: currentY,
+      size: fontSize + 1,
       font: helveticaFont,
       color: rgb(0.2, 0.2, 0.2)
     });
 
-    y -= lineHeight;
+    currentY -= 25;
 
     // 🔹 Diagnóstico Principal
     const diagnostico = document.getElementById("diagnostico")?.value || "Não informado";
-
     page.drawText("Diagnóstico Principal da Internação:", {
       x: marginLeft,
-      y: y+50,
-      size: fontSize,
+      y: currentY,
+      size: fontSize + 1,
       font: helveticaBold,
       color: rgb(0, 0, 0)
     });
 
     page.drawText(diagnostico, {
-      x: marginLeft + 213,
-      y: y+50,
-      size: fontSize,
+      x: marginLeft + 220,
+      y: currentY,
+      size: fontSize + 1,
       font: helveticaFont,
       color: rgb(0.2, 0.2, 0.2)
     });
 
-    y -= lineHeight * 2;
+    currentY -= 40;
 
-    // Função para quebrar texto longo
-    function quebrarTextoParaPDF(texto) {
-      const palavras = texto.split(' ');
+    // FUNÇÃO DE QUEBRA DE TEXTO (mesma ideia, mas garantindo que largura seja em "points")
+    function quebrarTexto(texto, font, tamanhoFonte, larguraMaxima) {
+      if (!texto || texto.trim() === '') return [''];
+      const palavras = texto.trim().split(/\s+/);
       const linhas = [];
       let linhaAtual = '';
 
-      palavras.forEach(palavra => {
-        const testeLinha = linhaAtual ? `${linhaAtual} ${palavra}` : palavra;
-        if (helveticaFont.widthOfTextAtSize(testeLinha, fontSize) <= maxWidth) {
-          linhaAtual = testeLinha;
+      for (let i = 0; i < palavras.length; i++) {
+        const palavra = palavras[i];
+        const testeComPalavra = linhaAtual ? `${linhaAtual} ${palavra}` : palavra;
+        const larguraTeste = font.widthOfTextAtSize(testeComPalavra, tamanhoFonte);
+
+        if (larguraTeste <= larguraMaxima) {
+          linhaAtual = testeComPalavra;
         } else {
-          if (linhaAtual) linhas.push(linhaAtual);
-          linhaAtual = palavra;
+          if (linhaAtual) {
+            linhas.push(linhaAtual);
+            linhaAtual = palavra;
+          } else {
+            // palavra maior que larguraMaxima -> quebra forçada
+            // dividimos a palavra em pedaços aproximados
+            let fragment = palavra;
+            while (font.widthOfTextAtSize(fragment, tamanhoFonte) > larguraMaxima) {
+              // estimativa: corte um caractere até caber (simples e seguro)
+              fragment = fragment.slice(0, -1);
+              if (!fragment) break;
+            }
+            if (fragment) {
+              linhas.push(fragment);
+              const resto = palavra.slice(fragment.length);
+              if (resto) {
+                linhaAtual = resto;
+              } else {
+                linhaAtual = '';
+              }
+            } else {
+              // fallback: guarda a palavra inteira
+              linhas.push(palavra);
+              linhaAtual = '';
+            }
+          }
         }
-      });
+      }
 
       if (linhaAtual) linhas.push(linhaAtual);
-      return linhas;
+
+      return linhas.length > 0 ? linhas : [''];
     }
 
-    // Função para desenhar checkbox
-    function desenharCheckbox(page, x, y, marcado = false, tamanho = 10) {
-      page.drawRectangle({
+    // FUNÇÃO PARA DESENHAR CHECKBOX
+    function desenharCheckbox(pageRef, x, y, marcado = false) {
+      // Desenha o quadrado (y refere-se ao baseline do texto; ajustamos para desenhar centrado verticalmente na linha)
+      const squareY = y - (checkboxSize / 2);
+      pageRef.drawRectangle({
         x: x,
-        y: y - tamanho + 29,
-        width: tamanho,
-        height: tamanho,
+        y: squareY,
+        width: checkboxSize,
+        height: checkboxSize,
         borderColor: rgb(0, 0, 0),
-        borderWidth: 1,
-        color: rgb(1, 1, 1) // fundo branco
+        borderWidth: 1.2,
+        color: rgb(1, 1, 1)
       });
 
       if (marcado) {
-        page.drawText("X", {
-          x: x + 2,
-          y: y - tamanho + 29,
-          size: tamanho,
+        // desenha um check simples centralizado
+        const checkX = x + 1.6;
+        const checkY = squareY + 1.2;
+        pageRef.drawText("✓", {
+          x: checkX,
+          y: checkY,
+          size: checkboxSize - 3,
           font: helveticaBold,
-          color: rgb(0, 0, 0)
+          color: rgb(0, 0.6, 0)
         });
       }
     }
 
-    // 5. Seção Metas Realizadas
-    if (realizadas.length > 0) {
-      page.drawText("Metas Realizadas:", {
-        x: marginLeft,
-        y: y+10,
-        size: fontSize + 2,
-        font: helveticaBold,
-        color: rgb(0, 0.5, 0) // Verde
-      });
-      y -= lineHeight;
-
-      realizadas.forEach(meta => {
-        if (y < pageBottom) {
-          page = pdfDoc.addPage([page.getWidth(), page.getHeight()]);
-          y = 750;
-        }
-        const linhas = quebrarTextoParaPDF(meta);
-
-        // checkbox marcado
-        desenharCheckbox(page, marginLeft, y, true);
-
-        linhas.forEach((linha, i) => {
-          page.drawText(linha, {
-            x: marginLeft + 20,
-            y: y - (i * lineHeight),
-            size: fontSize,
-            font: helveticaFont,
-            color: rgb(0, 0, 0)
-          });
-        });
-
-        y -= lineHeight;
-      });
-      y -= 10;
+    // FUNÇÃO PARA VERIFICAR E CRIAR NOVA PÁGINA
+    function verificarECriarNovaPagina(alturaNecessaria) {
+      // altitudeNecessaria já considera o espaço que vamos usar (linhas + spacing)
+      if (currentY - alturaNecessaria < bottomMargin) {
+        page = pdfDoc.addPage([pageWidth, pageHeight]);
+        currentY = startY;
+        return true;
+      }
+      return false;
     }
 
-    // 6. Seção Metas Pendentes
+    // FUNÇÃO PARA DESENHAR UMA META COMPLETA
+    function desenharMeta(texto, marcada = false) {
+      const linhas = quebrarTexto(texto, helveticaFont, fontSize, maxWidth - textIndent);
+      const alturaLinhas = linhas.length * lineHeight;
+      const alturaTotal = alturaLinhas + metaSpacing + extraPad;
+
+      // Verifica se precisa de nova página e cria se necessário
+      verificarECriarNovaPagina(alturaTotal);
+
+      // Desenha checkbox próximo ao baseline da primeira linha
+      const checkboxY = currentY;
+      desenharCheckbox(page, marginLeft, checkboxY, marcada);
+
+      // Desenha cada linha do texto
+      linhas.forEach((linha, index) => {
+        const yPosicao = currentY - (index * lineHeight);
+        page.drawText(linha, {
+          x: marginLeft + textIndent,
+          y: yPosicao,
+          size: fontSize,
+          font: helveticaFont,
+          color: rgb(0, 0, 0),
+          maxWidth: maxWidth - textIndent
+        });
+      });
+
+      // Atualiza posição Y para próxima meta (leva em conta todas as linhas + espaçamento)
+      currentY -= alturaTotal;
+    }
+
+    // 5. DESENHAR METAS REALIZADAS
+    if (realizadas.length > 0) {
+      // Verifica espaço para título
+      verificarECriarNovaPagina(40);
+      
+      page.drawText("Metas Realizadas:", {
+        x: marginLeft,
+        y: currentY,
+        size: fontSize + 3,
+        font: helveticaBold,
+        color: rgb(0, 0.6, 0)
+      });
+      
+      currentY -= 30;
+
+      realizadas.forEach(meta => {
+        if ((meta || '').trim()) desenharMeta(meta, true);
+      });
+
+      currentY -= 20; // Espaço extra entre seções
+    }
+
+    // 6. DESENHAR METAS PENDENTES
     if (pendentes.length > 0) {
+      // Verifica espaço para título
+      verificarECriarNovaPagina(40);
+
       page.drawText("Metas do Paciente:", {
         x: marginLeft,
-        y: y+20,
-        size: fontSize + 2,
+        y: currentY,
+        size: fontSize + 3,
         font: helveticaBold,
-        color: rgb(0.7, 0, 0) // Vermelho
+        color: rgb(0.8, 0, 0)
       });
-      y -= lineHeight;
+      
+      currentY -= 30;
 
       pendentes.forEach(meta => {
-        if (y < pageBottom) {
-          page = pdfDoc.addPage([page.getWidth(), page.getHeight()]);
-          y = 450;
-        }
-        const linhas = quebrarTextoParaPDF(meta);
-
-        // checkbox vazio
-        desenharCheckbox(page, marginLeft, y, false);
-
-        linhas.forEach((linha, i) => {
-          page.drawText(linha, {
-            x: marginLeft + 20,
-            y: y - (i * lineHeight) +20,
-            size: fontSize,
-            font: helveticaFont,
-            color: rgb(0, 0, 0)
-          });
-        });
-
-        y -= lineHeight;
+        if ((meta || '').trim()) desenharMeta(meta, false);
       });
     }
 
